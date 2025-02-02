@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Event name -->
+
     <TextView
         style="?textAppearanceHeadlineSmall"
         android:id="@+id/text_view_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="CopenhagenBuzz"
+        android:text="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Event name -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_field_event_name"
         android:layout_width="0dp"
@@ -24,8 +25,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:hint="Event name"
-        app:startIconDrawable="@drawable/baseline_festival_24"
+        android:hint="@string/event_name"
+        app:startIconDrawable="@drawable/outline_house_24"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,8 +48,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Event location"
-        app:startIconDrawable="@drawable/baseline_add_location_alt_24"
+        android:hint="@string/event_location"
+        app:startIconDrawable="@drawable/outline_add_location_alt_24"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,18 +71,23 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Event date"
-        app:startIconDrawable="@drawable/baseline_add_location_alt_24"
+        app:startIconDrawable="@drawable/outline_calendar_month_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_field_event_location">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_date"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true"/>
+            android:hint="@string/event_date">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_date_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,8 +99,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Event type"
-        app:startIconDrawable="@drawable/baseline_add_location_alt_24"
+        android:hint="@string/event_type"
+        app:startIconDrawable="@drawable/outline_celebration_24"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +122,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Event description"
-        app:startIconDrawable="@drawable/baseline_add_location_alt_24"
+        android:hint="@string/event_description"
+
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

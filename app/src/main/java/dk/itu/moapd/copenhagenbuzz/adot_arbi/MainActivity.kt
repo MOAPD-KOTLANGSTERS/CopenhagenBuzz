@@ -17,20 +17,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val editTextDate = findViewById<TextInputEditText>(R.id.edit_text_date)
+        val editTextDateRange = findViewById<TextInputEditText>(R.id.edit_text_date_range)
 
-        editTextDate.setOnClickListener {
+        editTextDateRange.setOnClickListener {
             val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                editTextDate.setText(selectedDate)
-            }, year, month, day)
+            // First, pick the start date
+            val startDatePicker = DatePickerDialog(this, { _, startYear, startMonth, startDay ->
+                val startDate = "$startDay/${startMonth + 1}/$startYear"
 
-            datePickerDialog.show()
+                // Then, pick the end date
+                val endDatePicker = DatePickerDialog(this, { _, endYear, endMonth, endDay ->
+                    val endDate = "$endDay/${endMonth + 1}/$endYear"
+                    editTextDateRange.setText("$startDate - $endDate")
+                }, startYear, startMonth, startDay)
+
+                endDatePicker.show()
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+
+            // TODO: add safety for not picking a date before first date
+
+            startDatePicker.show()
         }
+
     }
 }
