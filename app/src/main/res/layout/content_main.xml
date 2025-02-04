@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -72,14 +73,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:startIconDrawable="@drawable/outline_calendar_month_24"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_field_event_location">
+        app:layout_constraintTop_toBottomOf="@id/text_field_event_location"
+        android:hint="@string/event_date">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/event_date">
+
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_date_range"
@@ -87,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:clickable="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,10 +133,23 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_event_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="168dp"
+            android:gravity="top|start"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_event"
+        android:layout_width="61dp"
+        android:layout_height="58dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/outline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp" />
+
     <!-- Implement the other UI components here. -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
