@@ -5,4 +5,5 @@
     <string name="event_date">Event date</string>
     <string name="event_type">Event type</string>
     <string name="event_description">Event description</string>
+    <string name="fab_description">Create an event</string>
 </resources>
