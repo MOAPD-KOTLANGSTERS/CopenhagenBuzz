@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
      * Includes date range selection and event creation.
      */
     private fun setupListeners() {
-        val editTextDateRange = findViewById<TextInputEditText>(R.id.edit_text_date_range)
+        val editTextDateRange = mainBinding.contentMain.editTextDateRange
 
         // Listener for date range selection.
         editTextDateRange.setOnClickListener {
