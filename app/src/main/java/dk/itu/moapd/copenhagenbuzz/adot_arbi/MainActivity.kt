@@ -1,9 +1,11 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -34,14 +36,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainBinding.root)
 
         // Initialize listeners for user interactions.
-        setupListeners()
+        setupUserInput()
+        setupLogout()
+    }
+
+    private fun setupLogout() {
+        val button = mainBinding.contentMain.materialButtonLogout
+        // Change the buttons depending on verified login
+        if (intent.getBooleanExtra("isLoggedIn", false)) {
+            button.setImageResource(R.drawable.outline_account_circle_24)
+        } else {
+            button.setImageResource(R.drawable.outline_arrow_back_24)
+        }
+
+        button.setOnClickListener{
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 
     /**
      * Sets up event listeners for UI elements.
      * Includes date range selection and event creation.
      */
-    private fun setupListeners() {
+    private fun setupUserInput() {
         val editTextDateRange = mainBinding.contentMain.editTextDateRange
 
         // Listener for date range selection.
