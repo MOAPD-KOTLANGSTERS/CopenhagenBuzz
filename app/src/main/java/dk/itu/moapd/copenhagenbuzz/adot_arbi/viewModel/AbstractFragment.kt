@@ -37,16 +37,18 @@ abstract class AbstractFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with (binding.toolbarTop.materialButtonLogout){
-            if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
-                setImageResource(R.drawable.outline_account_circle_24)
-            } else {
-                setImageResource(R.drawable.outline_arrow_back_24)
-            }
+        binding?.toolbarTop?.materialButtonLogout?.let { button ->
+            with (button){
+                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
+                    setImageResource(R.drawable.outline_account_circle_24)
+                } else {
+                    setImageResource(R.drawable.outline_arrow_back_24)
+                }
 
-            setOnClickListener {
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
-                requireActivity().finish()
+                setOnClickListener {
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
+                }
             }
         }
     }
