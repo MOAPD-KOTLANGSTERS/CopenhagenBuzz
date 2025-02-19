@@ -1,13 +1,14 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageButton
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.NavHostFragment
 
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
-import java.util.Calendar
 
 /**
  * MainActivity serves as the entry point of the application.

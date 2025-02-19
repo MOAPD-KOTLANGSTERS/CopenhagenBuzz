@@ -6,7 +6,7 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.MainFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main"/>
 </navigation>

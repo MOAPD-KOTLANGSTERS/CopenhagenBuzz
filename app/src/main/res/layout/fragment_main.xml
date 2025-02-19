@@ -5,33 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment">
+    tools:context=".viewModel.MainFragment">
 
-
-    <TextView
-        style="?textAppearanceHeadlineSmall"
-        android:id="@+id/text_view_app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageButton
-        android:id="@+id/material_button_logout"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:contentDescription="TODO"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/baseline_circle_24"
-        android:src="@drawable/outline_arrow_back_24"
-        />
+    <include
+        android:id="@+id/toolbar_top"
+        layout="@layout/toolbar_shared" />
 
     <!-- Event name -->
     <com.google.android.material.textfield.TextInputLayout
@@ -46,7 +24,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_app_name">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_top">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_event_name"
@@ -179,8 +157,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp" />
-
-
 
     <!-- Implement the other UI components here. -->
 
