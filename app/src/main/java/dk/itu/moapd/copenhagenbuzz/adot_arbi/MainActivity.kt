@@ -6,6 +6,7 @@ import android.widget.ImageButton
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
@@ -18,6 +19,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController : NavController
+
 
     /**
      * Called when the activity is first created.
@@ -31,11 +34,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(
-                R.id.fragment_container_view
-            ) as NavHostFragment
-        val navController = navHostFragment.navController
+        // Set up NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        navController = navHostFragment.navController
+
     }
 
 

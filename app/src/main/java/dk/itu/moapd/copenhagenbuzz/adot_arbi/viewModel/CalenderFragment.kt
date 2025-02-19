@@ -2,41 +2,29 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentCalenderBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CalenderFragment : BaseFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AbstractFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-abstract class AbstractFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-
-
-    protected var _binding : FragmentMainBinding? = null
-    protected val binding get() = _binding!!
+    private var _binding : FragmentCalenderBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentMainBinding.inflate(inflater, container, false).also {
+    ): View = FragmentCalenderBinding.inflate(inflater, container, false).also {
         _binding = it
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding?.toolbarTop?.materialButtonLogout?.let { button ->
             with (button){
                 if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
@@ -50,7 +38,18 @@ abstract class AbstractFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
+            setupBottomNav(
+                binding.bottomNavBar.bottomNavBar,
+                findNavController(),
+                R.id.action_calenderFragment_to_timeLineFragment,
+                R.id.action_calenderFragment_to_bookmarksFragment,
+                R.id.action_calenderFragment_self
+            )
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/toolbar_top"
-        layout="@layout/toolbar_shared" />
+        layout="@layout/toolbar_top_shared" />
 
     <!-- Event name -->
     <com.google.android.material.textfield.TextInputLayout
@@ -143,21 +143,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
     <!-- Add event -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_event"
-        android:layout_width="61dp"
-        android:layout_height="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:contentDescription="@string/fab_description"
         app:srcCompat="@drawable/outline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp" />
 
+        android:layout_marginBottom="92dp"
+        android:layout_marginEnd="16dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/bottom_nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <include
+        android:id="@+id/bottom_nav_bar"
+        layout="@layout/toolbar_bottom_shared"/>
     <!-- Implement the other UI components here. -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

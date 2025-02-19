@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,9 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ToolbarTopSharedBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
 import java.util.Calendar
+
 
 
 /**
@@ -18,31 +24,47 @@ import java.util.Calendar
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : AbstractFragment() {
+class MainFragment : BaseFragment() {
 
+    private var _binding : FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = FragmentMainBinding.inflate(inflater, container, false).also {
+        _binding = it
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.toolbarTop?.materialButtonLogout?.let { button ->
+            with (button){
+                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
+                    setImageResource(R.drawable.outline_account_circle_24)
+                } else {
+                    setImageResource(R.drawable.outline_arrow_back_24)
+                }
+
+                setOnClickListener {
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
+        }
+
         setupUserInput()
+
+        setupBottomNav(
+            binding.bottomNavBar.bottomNavBar,
+            findNavController(),
+            R.id.action_mainFragment_to_timeLineFragment3,
+            R.id.action_mainFragment_to_bookmarksFragment3,
+            R.id.action_mainFragment_to_calenderFragment2
+        )
     }
 
-    /*
-    private fun setupLogout() {
-        val button = binding.materialButtonLogout
-        // Change the buttons depending on verified login
-        if (intent.getBooleanExtra("isLoggedIn", false)) {
-            button.setImageResource(R.drawable.outline_account_circle_24)
-        } else {
-            button.setImageResource(R.drawable.outline_arrow_back_24)
-        }
-
-        button.setOnClickListener{
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-    }
-    * */
 
     /**
      * Sets up event listeners for UI elements.
@@ -140,5 +162,4 @@ class MainFragment : AbstractFragment() {
         super.onDestroy()
         _binding = null
     }
-
 }
