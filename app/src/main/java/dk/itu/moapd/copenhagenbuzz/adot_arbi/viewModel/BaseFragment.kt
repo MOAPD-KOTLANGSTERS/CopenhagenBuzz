@@ -13,6 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 
 
@@ -22,7 +23,10 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
  * create an instance of this fragment.
  */
 abstract class BaseFragment<VB : ViewBinding>(
-    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
+    private var timelineAction: Int,
+    private var bookmarkAction: Int,
+    private var calenderAction: Int
 ) : Fragment() {
 
     private var _binding: VB? = null
@@ -51,27 +55,27 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
+        setupBottomNav(timelineAction, bookmarkAction, calenderAction)
     }
 
     /**
      * EVERY SUBCLASS MUST USE THIS!!
      * //TODO Fix this Docu
      */
-    protected fun setupBottomNav(
-        bottomNavView: BottomNavigationView,
-        navController: NavController,
+    private fun setupBottomNav(
         timelineAction: Int,
         bookmarkAction: Int,
         calenderAction: Int
     ) {
-        bottomNavView.setOnItemSelectedListener { menuItem ->
+        _binding?.root?.findViewById<BottomNavigationView>(R.id.shared_bottom_nav_bar)?.setOnItemSelectedListener { menuItem ->
             val destination = when (menuItem.itemId) {
                 R.id.timeline -> timelineAction
                 R.id.bookmarks -> bookmarkAction
                 R.id.calender -> calenderAction
                 else -> return@setOnItemSelectedListener false
             }
-            navController.navigate(destination)
+            val activity = requireActivity() as MainActivity
+            activity.navController.navigate(destination)
             true
         }
     }

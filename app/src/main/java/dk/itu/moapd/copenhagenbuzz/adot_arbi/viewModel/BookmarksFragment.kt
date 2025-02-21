@@ -12,17 +12,16 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBindin
  * Use the [BookmarksFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(FragmentBookmarksBinding::inflate) {
+class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
+    FragmentBookmarksBinding::inflate,
+    R.id.action_bookmarksFragment_to_timeLineFragment2,
+    R.id.action_bookmarksFragment_self,
+    R.id.action_bookmarksFragment_to_calenderFragment2
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBottomNav(
-            binding.bottomNavBar.bottomNavBar,
-            findNavController(),
-            R.id.action_bookmarksFragment_to_timeLineFragment2,
-            R.id.action_bookmarksFragment_self,
-            R.id.action_bookmarksFragment_to_calenderFragment2
-        )
+
     }
 
 }

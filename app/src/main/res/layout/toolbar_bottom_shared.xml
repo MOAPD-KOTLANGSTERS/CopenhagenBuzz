@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_bar"
+        android:id="@+id/shared_bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         app:layout_constraintBottom_toBottomOf="parent"

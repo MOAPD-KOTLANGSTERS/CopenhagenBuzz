@@ -19,8 +19,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController : NavController
-
+    lateinit var navController : NavController
 
     /**
      * Called when the activity is first created.

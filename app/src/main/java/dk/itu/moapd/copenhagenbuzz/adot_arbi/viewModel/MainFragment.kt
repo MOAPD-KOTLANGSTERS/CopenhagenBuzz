@@ -19,18 +19,16 @@ import java.util.Calendar
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
+class MainFragment : BaseFragment<FragmentMainBinding>(
+    FragmentMainBinding::inflate,
+    R.id.action_mainFragment_to_timeLineFragment3,
+    R.id.action_mainFragment_to_bookmarksFragment3,
+    R.id.action_mainFragment_to_calenderFragment2
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUserInput()
-        setupBottomNav(
-            binding.bottomNavBar.bottomNavBar,
-            findNavController(),
-            R.id.action_mainFragment_to_timeLineFragment3,
-            R.id.action_mainFragment_to_bookmarksFragment3,
-            R.id.action_mainFragment_to_calenderFragment2
-        )
     }
 
 
