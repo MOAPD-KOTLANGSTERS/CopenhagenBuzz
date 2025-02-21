@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
 
 
 /**
@@ -19,13 +21,41 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
  * Use the [BaseFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<VB : ViewBinding>(
+    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+) : Fragment() {
 
-    abstract override fun onCreateView(
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View
+    ): View {
+        _binding = bindingInflater(inflater, container, false)
+        return _binding!!.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout).let { button ->
+            with (button!!){
+                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
+                    setImageResource(R.drawable.outline_account_circle_24)
+                } else {
+                    setImageResource(R.drawable.outline_arrow_back_24)
+                }
+
+                setOnClickListener {
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
+        }
+
+
+    }
 
     /**
      * EVERY SUBCLASS MUST USE THIS!!
@@ -48,5 +78,10 @@ abstract class BaseFragment : Fragment() {
             navController.navigate(destination)
             true
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Prevent memory leaks
     }
 }

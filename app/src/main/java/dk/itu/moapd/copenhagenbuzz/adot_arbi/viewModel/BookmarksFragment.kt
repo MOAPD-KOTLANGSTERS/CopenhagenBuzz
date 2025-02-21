@@ -16,33 +16,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBindin
  * Use the [BookmarksFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BookmarksFragment : BaseFragment() {
-    private var _binding : FragmentBookmarksBinding? = null
-    private val binding get() = _binding!!
+class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(FragmentBookmarksBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragmentBookmarksBinding.inflate(inflater, container, false).also {
-        _binding = it
-    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.toolbarTop?.materialButtonLogout?.let { button ->
-            with (button){
-                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
-                    setImageResource(R.drawable.outline_account_circle_24)
-                } else {
-                    setImageResource(R.drawable.outline_arrow_back_24)
-                }
 
-                setOnClickListener {
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                    requireActivity().finish()
-                }
-            }
-        }
 
         setupBottomNav(
             binding.bottomNavBar.bottomNavBar,
@@ -53,8 +32,4 @@ class BookmarksFragment : BaseFragment() {
         )
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 }

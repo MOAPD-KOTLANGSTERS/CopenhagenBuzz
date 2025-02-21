@@ -9,7 +9,7 @@
 
 
     <ImageButton
-        android:id="@+id/material_button_logout"
+        android:id="@+id/image_button_logout"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:contentDescription="TODO"

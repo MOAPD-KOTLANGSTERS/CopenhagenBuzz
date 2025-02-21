@@ -1,19 +1,14 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ToolbarTopSharedBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
 import java.util.Calendar
 
@@ -24,35 +19,10 @@ import java.util.Calendar
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : BaseFragment() {
-
-    private var _binding : FragmentMainBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragmentMainBinding.inflate(inflater, container, false).also {
-        _binding = it
-    }.root
+class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding?.toolbarTop?.materialButtonLogout?.let { button ->
-            with (button){
-                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
-                    setImageResource(R.drawable.outline_account_circle_24)
-                } else {
-                    setImageResource(R.drawable.outline_arrow_back_24)
-                }
-
-                setOnClickListener {
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                    requireActivity().finish()
-                }
-            }
-        }
 
         setupUserInput()
 
@@ -156,10 +126,5 @@ class MainFragment : BaseFragment() {
                 .setDuration(500) // Animation lasts 1 second
                 .withEndAction { log.visibility = View.INVISIBLE } // Remove from layout
         }, 1000)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
