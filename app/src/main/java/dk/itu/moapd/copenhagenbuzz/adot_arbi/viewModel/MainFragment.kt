@@ -23,9 +23,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupUserInput()
-
         setupBottomNav(
             binding.bottomNavBar.bottomNavBar,
             findNavController(),

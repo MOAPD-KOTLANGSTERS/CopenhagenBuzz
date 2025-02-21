@@ -38,7 +38,6 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout).let { button ->
             with (button!!){
                 if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
@@ -46,15 +45,12 @@ abstract class BaseFragment<VB : ViewBinding>(
                 } else {
                     setImageResource(R.drawable.outline_arrow_back_24)
                 }
-
                 setOnClickListener {
                     startActivity(Intent(requireContext(), LoginActivity::class.java))
                     requireActivity().finish()
                 }
             }
         }
-
-
     }
 
     /**

@@ -18,7 +18,6 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(FragmentTimeLineB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setupBottomNav(
             binding.bottomNavBar.bottomNavBar,
             findNavController(),
