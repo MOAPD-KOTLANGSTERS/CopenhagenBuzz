@@ -3,7 +3,6 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
 

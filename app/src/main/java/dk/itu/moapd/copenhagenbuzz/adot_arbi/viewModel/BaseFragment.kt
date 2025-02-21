@@ -7,20 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.button.MaterialButton
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [BaseFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * An abstract base fragment for initializing both the top and bottom bar.
  */
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
@@ -32,6 +27,9 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
+    /**
+     * Entry point for the abstract class
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +38,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         return _binding!!.root
     }
 
+    /**
+     * Method for after the view has been created will setup the top and bottom nav bar
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout).let { button ->
@@ -59,8 +60,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     /**
-     * EVERY SUBCLASS MUST USE THIS!!
-     * //TODO Fix this Docu
+     * Function to navigate to the different fragments on the screen,
+     * if more fragments are added, they should be added in the switch case.
+     * @param timelineAction R.id for timeline action
+     * @param bookmarkAction R.id for bookmark action
+     * @param calenderAction R.id for calender action
      */
     private fun setupBottomNav(
         timelineAction: Int,
