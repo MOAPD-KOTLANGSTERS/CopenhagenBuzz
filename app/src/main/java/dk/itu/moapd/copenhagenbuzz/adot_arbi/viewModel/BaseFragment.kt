@@ -43,8 +43,8 @@ abstract class BaseFragment<VB : ViewBinding>(
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout).let { button ->
-            with (button!!){
+        _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout)?.let { button ->
+            with (button){
                 if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
                     setImageResource(R.drawable.outline_account_circle_24)
                 } else {
