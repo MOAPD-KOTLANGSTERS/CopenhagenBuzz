@@ -16,7 +16,8 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     FragmentTimeLineBinding::inflate,
     R.id.action_timeLineFragment_self,
     R.id.action_timeLineFragment_to_bookmarksFragment,
-    R.id.action_timeLineFragment_to_calenderFragment
+    R.id.action_timeLineFragment_to_calenderFragment,
+    R.id.action_timeLineFragment_to_mapsFragment
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

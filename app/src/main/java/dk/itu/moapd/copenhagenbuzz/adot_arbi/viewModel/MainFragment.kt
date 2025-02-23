@@ -22,7 +22,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::inflate,
     R.id.action_mainFragment_to_timeLineFragment3,
     R.id.action_mainFragment_to_bookmarksFragment3,
-    R.id.action_mainFragment_to_calenderFragment2
+    R.id.action_mainFragment_to_calenderFragment2,
+    R.id.action_mainFragment_to_mapsFragment
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

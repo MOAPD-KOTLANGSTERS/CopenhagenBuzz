@@ -9,7 +9,8 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     FragmentCalenderBinding::inflate,
     R.id.action_calenderFragment_to_timeLineFragment,
     R.id.action_calenderFragment_to_bookmarksFragment,
-    R.id.action_calenderFragment_self
+    R.id.action_calenderFragment_self,
+    R.id.action_calenderFragment_to_mapsFragment
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

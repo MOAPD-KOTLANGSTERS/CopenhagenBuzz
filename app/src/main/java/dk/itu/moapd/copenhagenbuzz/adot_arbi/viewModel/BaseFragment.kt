@@ -21,7 +21,8 @@ abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private var timelineAction: Int,
     private var bookmarkAction: Int,
-    private var calenderAction: Int
+    private var calenderAction: Int,
+    private var mapsAction: Int
 ) : Fragment() {
 
     private var _binding: VB? = null
@@ -56,7 +57,7 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
-        setupBottomNav(timelineAction, bookmarkAction, calenderAction)
+        setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
     }
 
     /**
@@ -65,17 +66,22 @@ abstract class BaseFragment<VB : ViewBinding>(
      * @param timelineAction R.id for timeline action
      * @param bookmarkAction R.id for bookmark action
      * @param calenderAction R.id for calender action
+     *  @param mapsAction R.id for maps action
+     *
      */
     private fun setupBottomNav(
         timelineAction: Int,
         bookmarkAction: Int,
-        calenderAction: Int
+        calenderAction: Int,
+        mapsAction: Int
     ) {
         _binding?.root?.findViewById<BottomNavigationView>(R.id.shared_bottom_nav_bar)?.setOnItemSelectedListener { menuItem ->
             val destination = when (menuItem.itemId) {
                 R.id.timeline -> timelineAction
                 R.id.bookmarks -> bookmarkAction
                 R.id.calender -> calenderAction
+                R.id.maps ->  mapsAction
+
                 else -> return@setOnItemSelectedListener false
             }
             val activity = requireActivity() as MainActivity

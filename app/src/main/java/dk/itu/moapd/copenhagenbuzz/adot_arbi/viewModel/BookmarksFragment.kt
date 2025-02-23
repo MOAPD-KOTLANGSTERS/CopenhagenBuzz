@@ -15,7 +15,8 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     FragmentBookmarksBinding::inflate,
     R.id.action_bookmarksFragment_to_timeLineFragment2,
     R.id.action_bookmarksFragment_self,
-    R.id.action_bookmarksFragment_to_calenderFragment2
+    R.id.action_bookmarksFragment_to_calenderFragment2,
+    R.id.action_bookmarksFragment_to_mapsFragment
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

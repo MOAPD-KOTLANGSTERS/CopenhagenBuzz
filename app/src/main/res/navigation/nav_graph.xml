@@ -21,6 +21,12 @@
         <action
             android:id="@+id/action_mainFragment_self2"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mapsFragment2"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
@@ -39,6 +45,9 @@
         <action
             android:id="@+id/action_bookmarksFragment_self"
             app:destination="@id/bookmarksFragment" />
+        <action
+            android:id="@+id/action_bookmarksFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/calenderFragment"
@@ -57,6 +66,9 @@
         <action
             android:id="@+id/action_calenderFragment_self"
             app:destination="@id/calenderFragment" />
+        <action
+            android:id="@+id/action_calenderFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/timeLineFragment"
@@ -75,6 +87,33 @@
         <action
             android:id="@+id/action_timeLineFragment_self"
             app:destination="@id/timeLineFragment" />
+        <action
+            android:id="@+id/action_timeLineFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_timeLineFragment_to_mapsFragment2"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_self"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_calenderFragment"
+            app:destination="@id/calenderFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_timeLineFragment"
+            app:destination="@id/timeLineFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_bookmarksFragment"
+            app:destination="@id/bookmarksFragment" />
     </fragment>
 
 

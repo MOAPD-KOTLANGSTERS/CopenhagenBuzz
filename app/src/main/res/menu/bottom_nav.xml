@@ -10,6 +10,10 @@
         android:id="@+id/bookmarks"
         android:icon="@drawable/baseline_bookmarks_24"/>
     <item
+        android:title="@string/map"
+        android:id="@+id/maps"
+        android:icon="@drawable/maps_icon"/>
+    <item
         android:title="@string/calender"
         android:id="@+id/calender"
         android:icon="@drawable/baseline_calendar_month_24"/>
