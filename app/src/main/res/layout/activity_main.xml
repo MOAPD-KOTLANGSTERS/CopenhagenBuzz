@@ -7,9 +7,10 @@
     tools:context=".MainActivity"
     android:id="@+id/nav_graph">
 
-    <Toolbar android:layout_width="match_parent"
+    <Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:id="@+id/toolbar_top"
         app:layout_constraintTop_toTopOf="parent"
         android:title="@string/app_name">
@@ -23,7 +24,6 @@
             android:layout_gravity="end|top"
             android:background="@drawable/baseline_circle_24"
             android:src="@drawable/outline_arrow_back_24" />
-
     </Toolbar>
 
     <include
@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

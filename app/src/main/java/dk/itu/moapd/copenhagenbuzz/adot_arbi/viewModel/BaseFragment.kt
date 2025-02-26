@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         return _binding!!.root
     }
 
+    companion object {
+        private const val TAG = "BaseFragment"
+    }
+
     /**
      * Method for after the view has been created will setup the top and bottom nav bar
      */
@@ -67,7 +72,6 @@ abstract class BaseFragment<VB : ViewBinding>(
      * @param bookmarkAction R.id for bookmark action
      * @param calenderAction R.id for calender action
      *  @param mapsAction R.id for maps action
-     *
      */
     private fun setupBottomNav(
         timelineAction: Int,
@@ -75,6 +79,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         calenderAction: Int,
         mapsAction: Int
     ) {
+
         _binding?.root?.findViewById<BottomNavigationView>(R.id.shared_bottom_nav_bar)?.setOnItemSelectedListener { menuItem ->
             val destination = when (menuItem.itemId) {
                 R.id.timeline -> timelineAction
@@ -84,8 +89,8 @@ abstract class BaseFragment<VB : ViewBinding>(
 
                 else -> return@setOnItemSelectedListener false
             }
-            val activity = requireActivity() as MainActivity
-            activity.navController.navigate(destination)
+            val activity = requireActivity() as? MainActivity
+            activity?.navController?.navigate(destination)
             true
         }
     }
