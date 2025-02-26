@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".viewModel.MainFragment">
 
-    <include
-        android:id="@+id/toolbar_top"
-        layout="@layout/toolbar_top_shared" />
+
 
     <!-- Event name -->
     <com.google.android.material.textfield.TextInputLayout
@@ -24,7 +22,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_top">
+        app:layout_constraintTop_toBottomOf="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_event_name"
@@ -155,12 +153,9 @@
         android:layout_marginBottom="92dp"
         android:layout_marginEnd="16dp"
 
-        app:layout_constraintBottom_toBottomOf="@id/bottom_nav_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <include
-        android:id="@+id/bottom_nav_bar"
-        layout="@layout/toolbar_bottom_shared"/>
     <!-- Implement the other UI components here. -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

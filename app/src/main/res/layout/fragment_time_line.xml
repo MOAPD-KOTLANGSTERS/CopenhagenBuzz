@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".viewModel.TimeLineFragment">
 
-    <include
-        android:id="@+id/toolbar_top"
-        layout="@layout/toolbar_top_shared" />
 
     <TextView
         android:layout_width="match_parent"
@@ -18,10 +15,7 @@
         android:text="Timeline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_top" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
-    <include
-        android:id="@+id/bottom_nav_bar"
-        layout="@layout/toolbar_bottom_shared"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
