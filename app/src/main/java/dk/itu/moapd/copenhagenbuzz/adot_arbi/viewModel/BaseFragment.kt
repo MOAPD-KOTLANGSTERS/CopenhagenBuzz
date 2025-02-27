@@ -26,6 +26,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var mapsAction: Int
 ) : Fragment() {
 
+    private lateinit var activity : MainActivity
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
@@ -37,6 +38,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         savedInstanceState: Bundle?
     ): View {
         _binding = bindingInflater(inflater, container, false)
+        activity = requireActivity() as MainActivity
         return _binding!!.root
     }
 
@@ -49,7 +51,8 @@ abstract class BaseFragment<VB : ViewBinding>(
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding?.root?.findViewById<ImageButton>(R.id.image_button_logout)?.let { button ->
+
+        activity.binding.imageButtonLogout.let { button ->
             with (button){
                 if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
                     setImageResource(R.drawable.outline_account_circle_24)
@@ -79,8 +82,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         calenderAction: Int,
         mapsAction: Int
     ) {
-
-        _binding?.root?.findViewById<BottomNavigationView>(R.id.shared_bottom_nav_bar)?.setOnItemSelectedListener { menuItem ->
+        activity.binding.sharedBottomNavBar.setOnItemSelectedListener { menuItem ->
             val destination = when (menuItem.itemId) {
                 R.id.timeline -> timelineAction
                 R.id.bookmarks -> bookmarkAction
@@ -89,8 +91,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
                 else -> return@setOnItemSelectedListener false
             }
-            val activity = requireActivity() as? MainActivity
-            activity?.navController?.navigate(destination)
+            activity.navController.navigate(destination)
             true
         }
     }

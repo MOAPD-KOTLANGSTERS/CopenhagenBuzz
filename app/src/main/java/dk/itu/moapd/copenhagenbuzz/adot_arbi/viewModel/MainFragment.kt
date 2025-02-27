@@ -11,8 +11,6 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
 import java.util.Calendar
 
-
-
 /**
  * A simple [Fragment] subclass.
  * Use the [MainFragment.newInstance] factory method to

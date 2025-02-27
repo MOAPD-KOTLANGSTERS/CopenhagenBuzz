@@ -18,7 +18,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     lateinit var navController : NavController
 
     /**
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
-
         // Inflate the layout using View Binding and set the content view.
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -37,9 +36,6 @@ class MainActivity : AppCompatActivity() {
         // Set up NavHostFragment
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            Log.d("Navigation", "Navigated to ${destination.label}")
-        }
     }
 
 
