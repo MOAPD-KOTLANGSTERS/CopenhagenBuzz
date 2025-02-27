@@ -1,18 +1,15 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
-import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.view.View
+import android.widget.ImageButton
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.google.android.material.textfield.TextInputEditText
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
-import java.util.Calendar
 
 /**
  * MainActivity serves as the entry point of the application.
@@ -21,7 +18,8 @@ import java.util.Calendar
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainBinding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+    lateinit var navController : NavController
 
     /**
      * Called when the activity is first created.
@@ -32,106 +30,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Inflate the layout using View Binding and set the content view.
-        mainBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mainBinding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Initialize listeners for user interactions.
-        setupUserInput()
-        setupLogout()
+        // Set up NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        navController = navHostFragment.navController
     }
 
-    private fun setupLogout() {
-        val button = mainBinding.contentMain.materialButtonLogout
-        // Change the buttons depending on verified login
-        if (intent.getBooleanExtra("isLoggedIn", false)) {
-            button.setImageResource(R.drawable.outline_account_circle_24)
-        } else {
-            button.setImageResource(R.drawable.outline_arrow_back_24)
-        }
 
-        button.setOnClickListener{
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-    }
 
-    /**
-     * Sets up event listeners for UI elements.
-     * Includes date range selection and event creation.
-     */
-    private fun setupUserInput() {
-        val editTextDateRange = mainBinding.contentMain.editTextDateRange
 
-        // Listener for date range selection.
-        editTextDateRange.setOnClickListener {
-            val calendar = Calendar.getInstance()
-
-            // Opens the start date picker dialog.
-            val startDatePicker = DatePickerDialog(this, { _, startYear, startMonth, startDay ->
-                val startDate = "$startDay/${startMonth + 1}/$startYear"
-
-                // Opens the end date picker dialog after selecting the start date.
-                val endDatePicker = DatePickerDialog(this, { _, endYear, endMonth, endDay ->
-                    val endDateCalendar = Calendar.getInstance()
-                    endDateCalendar.set(endYear, endMonth, endDay)
-
-                    val startDateCalendar = Calendar.getInstance()
-                    startDateCalendar.set(startYear, startMonth, startDay)
-
-                    // Ensures the end date is not before the start date.
-                    if (endDateCalendar.before(startDateCalendar)) {
-                        // If invalid, set both dates to the start date.
-                        editTextDateRange.setText("$startDate - $startDate")
-                    } else {
-                        val endDate = "$endDay/${endMonth + 1}/$endYear"
-                        editTextDateRange.setText("$startDate - $endDate")
-                    }
-                }, startYear, startMonth, startDay)
-
-                endDatePicker.show()
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-
-            startDatePicker.show()
-        }
-
-        // Listener for the "Add Event" button to create a new event.
-        mainBinding.contentMain.fabAddEvent.setOnClickListener {
-            var message = ""
-            try {
-                val e = Event(
-                    eventName = mainBinding.contentMain.editTextEventName.text.toString(),
-                    eventLocation = mainBinding.contentMain.editTextEventLocation.text.toString(),
-                    eventDate = mainBinding.contentMain.editTextDateRange.text.toString(),
-                    eventType = mainBinding.contentMain.editTextEventType.text.toString(),
-                    eventDescription = mainBinding.contentMain.editTextEventDescription.text.toString()
-                )
-                message = e.toString()
-            }  catch (e: IllegalArgumentException) {
-                message = "Error: ${e.message.toString()}"
-            } finally {
-                showMessage(message)
-            }
-        }
-    }
-
-    /**
-     *  Displays a message in the log of the device.
-     *
-     *  @param s String message
-     */
-    private fun showMessage(s: String){
-        val log = mainBinding.contentMain.log
-        log.text = s
-
-        log.visibility = View.VISIBLE
-        log.alpha = 1f
-
-        // Delay for 2 seconds (2000 milliseconds), then fade out
-        Handler(Looper.getMainLooper()).postDelayed({
-            log.animate()
-                .alpha(0f)  // Fade to invisible
-                .setDuration(500) // Animation lasts 1 second
-                .withEndAction { log.visibility = View.INVISIBLE } // Remove from layout
-        }, 1000)
-    }
 }

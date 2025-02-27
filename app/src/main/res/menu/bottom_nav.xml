@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/timeline"
+        android:id="@+id/timeline"
+        android:icon="@drawable/baseline_calendar_view_month_24"/>
+    <item
+        android:title="@string/bookmarks"
+        android:id="@+id/bookmarks"
+        android:icon="@drawable/baseline_bookmarks_24"/>
+    <item
+        android:title="@string/map"
+        android:id="@+id/maps"
+        android:icon="@drawable/maps_icon"/>
+    <item
+        android:title="@string/calender"
+        android:id="@+id/calender"
+        android:icon="@drawable/baseline_calendar_month_24"/>
+</menu>

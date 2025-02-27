@@ -19,11 +19,10 @@ data class Event(var eventName: String,
      * Initial requirements for initialising an Event Class
      */
     init {
-        require(eventName.isNotEmpty()
-                && eventLocation.isNotEmpty()
-                && eventDate.isNotEmpty()
-                && eventDescription.isNotEmpty()
-        )
+        require(eventName.isNotEmpty()) { "Missing Event Name" }
+        require(eventLocation.isNotEmpty()) { "Missing Event Location" }
+        require(eventDate.isNotEmpty()) { "Missing Event Date" }
+        require(eventDescription.isNotEmpty()) { "Missing Event Description" }
     }
 
     /**
