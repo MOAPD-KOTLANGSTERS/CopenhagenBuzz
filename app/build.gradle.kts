@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

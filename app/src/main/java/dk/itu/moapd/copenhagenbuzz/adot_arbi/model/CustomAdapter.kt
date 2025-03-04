@@ -19,7 +19,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
  */
 class CustomAdapter(private val context: Context, private var resource: Int,
                     data: List<DummyModel>) :
-    ArrayAdapter<DummyModel>(context, R.layout.row_item, data) {
+    ArrayAdapter<DummyModel>(context, R.layout.item_row, data) {
 
     /**
      * A set of private constants used in this class.
