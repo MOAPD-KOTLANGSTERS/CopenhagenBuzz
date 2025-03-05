@@ -79,21 +79,21 @@ class CustomAdapter(private val context: Context, private var resource: Int,
         with(viewHolder) {
             // Fill out the Material Design card.
             Picasso.get().load(dummy.url).into(imageViewPhoto)
-            textViewTitle.text = dummy.cityName
+            textViewTitle.text = dummy.eventName
             textViewSubtitle.text = context.getString(
-                R.string.secondary_text, dummy.country, dummy.zipCode
+                R.string.secondary_text, dummy.type, dummy.eventDate
             )
             textViewDescription.text = dummy.description
 
             // Set the button click listeners using method references.
             buttonThumbUp.setOnClickListener {
-                showSnackBar("Thumb up: ${dummy.cityName}", it)
+                showSnackBar("Thumb up: ${dummy.eventName}", it)
             }
             buttonFavorite.setOnClickListener {
-                showSnackBar("Favorite: ${dummy.cityName}", it)
+                showSnackBar("Favorite: ${dummy.eventName}", it)
             }
             buttonShare.setOnClickListener {
-                showSnackBar("Share: ${dummy.cityName}", it)
+                showSnackBar("Share: ${dummy.eventName}", it)
             }
         }
     }
