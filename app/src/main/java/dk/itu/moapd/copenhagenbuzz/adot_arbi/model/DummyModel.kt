@@ -5,7 +5,6 @@ import java.util.Date
 /**
  * An model class with all parameters to represent a dummy object in the Live View application.
  */
-
 data class DummyModel(
     var eventName: String,
     var type: String,
