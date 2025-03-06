@@ -23,12 +23,12 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     R.id.action_timeLineFragment_self,
     R.id.action_timeLineFragment_to_bookmarksFragment,
     R.id.action_timeLineFragment_to_calenderFragment,
-    R.id.action_timeLineFragment_to_mapsFragment
+    R.id.action_timeLineFragment_to_mapsFragment,
+    R.id.action_timeLineFragment_to_addEventFragment,
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val faker = Faker(Random(42))
 
         binding.apply {

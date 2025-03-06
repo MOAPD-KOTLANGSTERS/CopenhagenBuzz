@@ -12,13 +12,16 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBindin
  */
 class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     FragmentBookmarksBinding::inflate,
-    R.id.action_bookmarksFragment_to_timeLineFragment2,
+    R.id.action_bookmarksFragment_to_timeLineFragment,
     R.id.action_bookmarksFragment_self,
-    R.id.action_bookmarksFragment_to_calenderFragment2,
-    R.id.action_bookmarksFragment_to_mapsFragment
-) {
+    R.id.action_bookmarksFragment_to_calenderFragment,
+    R.id.action_bookmarksFragment_to_mapsFragment,
+    R.id.action_bookmarksFragment_to_addEventFragment,
+    ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         // TODO : implement bookmarks
     }
 }

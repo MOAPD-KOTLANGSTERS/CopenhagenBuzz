@@ -10,11 +10,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     R.id.action_mapsFragment_to_timeLineFragment,
     R.id.action_mapsFragment_to_bookmarksFragment,
     R.id.action_mapsFragment_to_calenderFragment,
-    R.id.action_mapsFragment_self
+    R.id.action_mapsFragment_self,
+    R.id.action_mapsFragment_to_addEventFragment,
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // TODO : implement bookmarks
 
     }
 

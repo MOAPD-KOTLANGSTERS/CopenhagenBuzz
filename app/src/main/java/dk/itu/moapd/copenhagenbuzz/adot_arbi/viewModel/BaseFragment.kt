@@ -26,10 +26,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var timelineAction: Int,
     private var bookmarkAction: Int,
     private var calenderAction: Int,
-    private var mapsAction: Int
+    private var mapsAction: Int,
+    private var addEventAction: Int,
 ) : Fragment() {
 
-    private lateinit var activity : MainActivity
+    protected lateinit var activity : MainActivity
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
@@ -67,6 +68,15 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
+
+        // TODO : Do we keep this? it doesn't work
+        if (addEventAction != 1000016)
+            with (activity.binding.imageButtonAddEvent) {
+                visibility = View.VISIBLE
+                setOnClickListener { activity.navController.navigate(addEventAction) }
+            }
+
+
         setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
     }
 
@@ -76,7 +86,7 @@ abstract class BaseFragment<VB : ViewBinding>(
      * @param timelineAction R.id for timeline action
      * @param bookmarkAction R.id for bookmark action
      * @param calenderAction R.id for calender action
-     *  @param mapsAction R.id for maps action
+     * @param mapsAction R.id for maps action
      */
     private fun setupBottomNav(
         timelineAction: Int,
@@ -97,6 +107,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             true
         }
     }
+
 
     /**
      * A method for destroying the fragment, ending its lifecycle and prevent memory issues

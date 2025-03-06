@@ -14,7 +14,8 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     R.id.action_calenderFragment_to_timeLineFragment,
     R.id.action_calenderFragment_to_bookmarksFragment,
     R.id.action_calenderFragment_self,
-    R.id.action_calenderFragment_to_mapsFragment
+    R.id.action_calenderFragment_to_mapsFragment,
+    R.id.action_calenderFragment_to_addEventFragment,
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,30 +24,31 @@ class LoginActivity : AppCompatActivity() {
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
 
-        loginBinding.buttonLogin.setOnClickListener{
-            startExplicitIntent(
-                MainActivity::class.java,
-                listOf { it.putExtra("isLoggedIn", true) }
-            )}
-        loginBinding.buttonGuest.setOnClickListener{
-            startExplicitIntent(
-                MainActivity::class.java,
-                listOf { it.putExtra("isLoggedIn", false) }
-            )}
+        startExplicitIntent(
+            loginBinding.buttonLogin,
+            MainActivity::class.java,
+            listOf { it.putExtra("isLoggedIn", true)})
+
+        startExplicitIntent(
+            loginBinding.buttonGuest,
+            MainActivity::class.java,
+            listOf { it.putExtra("isLoggedIn", false)})
     }
 
     /**
-     * A method for giving an explicit intent when starting a new activity
+     * A method for adding an event listener to start a new activity with explicit intent
+     * @param v view element to attach event listener on
+     * @param c the activity to navigate to
+     * @param options a list of higher-order function to apply with the intent
      */
-    private fun startExplicitIntent(
-        c : Class<*>,
-        options : List<(Intent) -> Unit>
-    ) {
-        loginBinding.buttonGuest.setOnClickListener {
-            startActivity(Intent(this, c).apply {
-                options.forEach { it(this) }
-            })
-            finish()
+    private fun startExplicitIntent(v : View ,c : Class<*>, options : List<(Intent) -> Unit>?) {
+        options?.let { lst ->
+            v.setOnClickListener {
+                startActivity(Intent(this, c).apply {
+                    lst.forEach { extra -> extra(this) }
+                })
+                finish()
+            }
         }
     }
 }
