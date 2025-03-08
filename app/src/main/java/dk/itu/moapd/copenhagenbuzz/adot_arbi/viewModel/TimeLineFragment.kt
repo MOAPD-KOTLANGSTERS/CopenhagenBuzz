@@ -14,9 +14,8 @@ import java.util.concurrent.TimeUnit
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [TimeLineFragment.newInstance] factory method to
- * create an instance of this fragment.
+ *  A subclass of the [BaseFragment],
+ *  with purposes of managing a list of all events in ListView with dummy data
  */
 class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     FragmentTimeLineBinding::inflate,
