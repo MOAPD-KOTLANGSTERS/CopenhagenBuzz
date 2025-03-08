@@ -70,7 +70,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
 
         // TODO : Do we keep this? it doesn't work
-        if (addEventAction != 1000016)
+        if (activity.intent.getBooleanExtra("isLoggedIn", false))
             with (activity.binding.imageButtonAddEvent) {
                 visibility = View.VISIBLE
                 setOnClickListener { activity.navController.navigate(addEventAction) }
