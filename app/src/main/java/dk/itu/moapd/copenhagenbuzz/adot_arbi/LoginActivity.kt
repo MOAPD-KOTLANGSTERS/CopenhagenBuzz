@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * A method for adding an event listener to start a new activity with explicit intent
+     * A method for attaching an event listener to start a new activity with explicit intent
      * @param v view element to attach event listener on
      * @param c the activity to navigate to
      * @param options a list of higher-order function to apply with the intent
