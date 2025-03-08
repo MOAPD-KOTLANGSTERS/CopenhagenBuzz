@@ -17,6 +17,13 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
  * A class to customize an adapter with a `ViewHolder` to populate a list of dummy objects in a
  * `ListView`.
  */
+
+/*
+ * This code is adapted from moapd2025
+ * Original author: Fabricio Batista Narcizo
+ * License: MIT
+ * Source: https://github.com/fabricionarcizo/moapd2025/blob/main/lecture04/04-4_ListView/app/src/main/java/dk/itu/moapd/listview/CustomAdapter.kt
+ */
 class CustomAdapter(
     private val context: Context,
     private var resource: Int,
