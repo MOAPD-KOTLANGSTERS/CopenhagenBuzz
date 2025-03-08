@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 
 /**

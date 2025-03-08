@@ -17,9 +17,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
  * A class to customize an adapter with a `ViewHolder` to populate a list of dummy objects in a
  * `ListView`.
  */
-class CustomAdapter(private val context: Context, private var resource: Int,
-                    data: List<DummyModel>) :
-    ArrayAdapter<DummyModel>(context, R.layout.item_row, data) {
+class CustomAdapter(
+    private val context: Context,
+    private var resource: Int,
+    data: List<DummyModel>,
+    private val isLoggedIn: Boolean
+) : ArrayAdapter<DummyModel>(context, R.layout.item_row, data) {
 
     /**
      * A set of private constants used in this class.
@@ -32,14 +35,22 @@ class CustomAdapter(private val context: Context, private var resource: Int,
      * An internal view holder class used to represent the layout that shows a single `DummyModel`
      * instance in the `ListView`.
      */
-    private class ViewHolder(view: View) {
+    private inner class ViewHolder(view: View) {
         val imageViewPhoto: ImageView = view.findViewById(R.id.image_view_photo)
         val textViewTitle: TextView = view.findViewById(R.id.text_view_title)
         val textViewSubtitle: TextView = view.findViewById(R.id.text_view_subtitle)
         val textViewDescription: TextView = view.findViewById(R.id.text_view_description)
-        val buttonThumbUp: Button = view.findViewById(R.id.button_thumb_up)
         val buttonFavorite: Button = view.findViewById(R.id.button_favorite)
-        val buttonShare: Button = view.findViewById(R.id.button_share)
+        val buttonEdit: Button = view.findViewById(R.id.button_edit)
+
+        init {
+            // Check if the userId is 123, then show buttonEdit, else hide it
+            if (isLoggedIn) {
+                buttonEdit.visibility = View.VISIBLE // Show the button
+            } else {
+                buttonEdit.visibility = View.GONE // Hide the button
+            }
+        }
     }
 
     /**
@@ -86,14 +97,11 @@ class CustomAdapter(private val context: Context, private var resource: Int,
             textViewDescription.text = dummy.description
 
             // Set the button click listeners using method references.
-            buttonThumbUp.setOnClickListener {
-                showSnackBar("Thumb up: ${dummy.eventName}", it)
-            }
             buttonFavorite.setOnClickListener {
                 showSnackBar("Favorite: ${dummy.eventName}", it)
             }
-            buttonShare.setOnClickListener {
-                showSnackBar("Share: ${dummy.eventName}", it)
+            buttonEdit.setOnClickListener {
+                showSnackBar("You want to edit", it)
             }
         }
     }

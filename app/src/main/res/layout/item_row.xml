@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -12,11 +15,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+       >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_standard">
+
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/button_favorite"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_standard"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_small"
+            app:icon="@drawable/baseline_heart_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"  />
+
 
             <ImageView
                 android:id="@+id/image_view_photo"
@@ -26,8 +44,9 @@
                 android:contentDescription="@string/content_description_card"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/button_favorite" />
 
             <TextView
                 android:id="@+id/text_view_title"
@@ -73,40 +92,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_subtitle" />
 
-            <com.google.android.material.button.MaterialButton
-                style="?attr/borderlessButtonStyle"
-                android:id="@+id/button_thumb_up"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                app:icon="@drawable/baseline_thumbs_up_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/button_favorite"
-                app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-                app:layout_constraintTop_toTopOf="@+id/button_favorite"  />
+
 
             <com.google.android.material.button.MaterialButton
-                style="?attr/borderlessButtonStyle"
-                android:id="@+id/button_favorite"
-                android:layout_width="40dp"
+                android:id="@+id/button_edit"
+                android:text="@string/edit_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                app:icon="@drawable/baseline_heart_icon"
-                app:layout_constraintBottom_toBottomOf="@+id/button_share"
-                app:layout_constraintEnd_toStartOf="@+id/button_share"
-                app:layout_constraintTop_toTopOf="@+id/button_share" />
-
-            <com.google.android.material.button.MaterialButton
-                style="?attr/borderlessButtonStyle"
-                android:id="@+id/button_share"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
                 android:layout_marginTop="@dimen/margin_small"
-                app:icon="@drawable/baseline_share_network_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_description"  />
+                app:layout_constraintTop_toBottomOf="@+id/text_view_description"
+                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

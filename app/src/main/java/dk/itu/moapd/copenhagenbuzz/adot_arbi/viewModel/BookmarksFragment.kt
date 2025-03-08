@@ -17,6 +17,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     R.id.action_bookmarksFragment_to_calenderFragment,
     R.id.action_bookmarksFragment_to_mapsFragment,
     R.id.action_bookmarksFragment_to_addEventFragment,
+
     ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

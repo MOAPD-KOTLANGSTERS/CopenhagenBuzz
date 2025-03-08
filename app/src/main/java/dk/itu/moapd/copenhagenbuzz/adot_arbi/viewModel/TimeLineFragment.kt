@@ -51,7 +51,7 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
                     )
                 )
             }
-            val adapter = CustomAdapter(requireContext(), R.layout.item_row, data)
+            val adapter = CustomAdapter(requireContext(), R.layout.item_row, data, activity.intent.getBooleanExtra("isLoggedIn", false))
             binding.timelineListView.adapter = adapter
 
         }
