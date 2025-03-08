@@ -1,8 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageButton
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -17,7 +15,14 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
  */
 class MainActivity : AppCompatActivity() {
 
+    /**
+     *  The [ActivityMainBinding] for the parent XML file
+     */
     lateinit var binding: ActivityMainBinding
+
+    /**
+     * The original instance of [NavController]
+     */
     lateinit var navController : NavController
 
     /**

@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
 import java.util.Calendar
 
@@ -14,8 +14,8 @@ import java.util.Calendar
  * A simple [BaseFragment] subclass for initializing with options for adding
  * a top-bar and bottom-bar
  */
-class AddEventFragment : BaseFragment<FragmentMainBinding>(
-    FragmentMainBinding::inflate,
+class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
+    FragmentAddEventBinding::inflate,
     R.id.action_addEventFragment_to_timeLineFragment,
     R.id.action_addEventFragment_to_bookmarksFragment,
     R.id.action_addEventFragment_to_calenderFragment,
