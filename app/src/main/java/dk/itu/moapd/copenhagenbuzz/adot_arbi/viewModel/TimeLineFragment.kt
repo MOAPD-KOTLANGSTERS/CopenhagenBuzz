@@ -3,10 +3,13 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
 =======
+=======
+>>>>>>> Stashed changes
 import androidx.fragment.app.activityViewModels
 import com.github.javafaker.Faker
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
@@ -39,7 +42,10 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
         super.onViewCreated(view, savedInstanceState)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         dataViewModel.events.observe(viewLifecycleOwner) { events ->
             val adapter = CustomAdapter(
                 requireContext(),

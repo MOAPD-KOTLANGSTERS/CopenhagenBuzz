@@ -24,6 +24,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 ) {
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,6 +37,16 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
+=======
+    ) {
+    private val dataViewModel: DataViewModel by activityViewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
+
+>>>>>>> Stashed changes
 
         val isLoggedin = activity?.intent?.getBooleanExtra("isLoggedIn", false) ?: false
 
@@ -48,6 +59,9 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         else {
             binding.bookmarksRecyclerviewView.visibility = View.GONE
         }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
