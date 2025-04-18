@@ -11,24 +11,17 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.adapter.BookmarkAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DataViewModel
 
 /**
- * A simple [Fragment] subclass.
- * Use the [BookmarksFragment.newInstance] factory method to
- * create an instance of this fragment.
+ *  A subclass of the [BaseFragment],
+ *  with purposes of managing a list of favorite events of the user.
  */
 class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     FragmentBookmarksBinding::inflate,
-    R.id.action_bookmarksFragment_to_timeLineFragment2,
+    R.id.action_bookmarksFragment_to_timeLineFragment,
     R.id.action_bookmarksFragment_self,
-    R.id.action_bookmarksFragment_to_calenderFragment2,
-    R.id.action_bookmarksFragment_to_mapsFragment
-) {
+    R.id.action_bookmarksFragment_to_calenderFragment,
+    R.id.action_bookmarksFragment_to_mapsFragment,
+    R.id.action_bookmarksFragment_to_addEventFragment,
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-=======
     ) {
     private val dataViewModel: DataViewModel by activityViewModels()
 
@@ -37,16 +30,6 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
-=======
-    ) {
-    private val dataViewModel: DataViewModel by activityViewModels()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
-
->>>>>>> Stashed changes
 
         val isLoggedin = activity?.intent?.getBooleanExtra("isLoggedIn", false) ?: false
 
@@ -59,10 +42,5 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         else {
             binding.bookmarksRecyclerviewView.visibility = View.GONE
         }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
-
 }
