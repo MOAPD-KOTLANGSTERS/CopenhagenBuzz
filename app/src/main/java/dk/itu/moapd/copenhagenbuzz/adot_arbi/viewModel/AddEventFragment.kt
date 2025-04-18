@@ -5,23 +5,22 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.fragment.app.Fragment
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMainBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
 import java.util.Calendar
 
 /**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * A simple [BaseFragment] subclass for initializing with options for adding
+ * a top-bar and bottom-bar
  */
-class MainFragment : BaseFragment<FragmentMainBinding>(
-    FragmentMainBinding::inflate,
-    R.id.action_mainFragment_to_timeLineFragment3,
-    R.id.action_mainFragment_to_bookmarksFragment3,
-    R.id.action_mainFragment_to_calenderFragment2,
-    R.id.action_mainFragment_to_mapsFragment
+class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
+    FragmentAddEventBinding::inflate,
+    R.id.action_addEventFragment_to_timeLineFragment,
+    R.id.action_addEventFragment_to_bookmarksFragment,
+    R.id.action_addEventFragment_to_calenderFragment,
+    R.id.action_addEventFragment_to_mapsFragment,
+    R.id.action_addEventFragment_self
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,10 +98,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
                 }
             }
         }
+
     }
 
     /**
-     *  Displays a message in the log of the device.
+     *  Will toast a message for the user.
      *
      *  @param s String message
      */

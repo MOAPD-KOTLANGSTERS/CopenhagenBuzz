@@ -20,6 +20,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // TODO : implement bookmarks
 
 
     }

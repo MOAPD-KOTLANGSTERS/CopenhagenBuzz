@@ -16,34 +16,36 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 
 
 /**
- * An abstract base fragment for initializing both the top and bottom bar.
+ * An abstract [BaseFragment] for initializing boilerplate code,
+ * and with option for building both the top and bottom bar
+ * @param bindingInflater a function reference for the fragments layout inflater.
+ * @param VB the viewbinding of the subclass.
  */
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private var timelineAction: Int,
     private var bookmarkAction: Int,
     private var calenderAction: Int,
-    private var mapsAction: Int
+    private var mapsAction: Int,
+    private var addEventAction: Int,
 ) : Fragment() {
 
-    private lateinit var activity : MainActivity
+    protected lateinit var activity : MainActivity
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
     /**
-     * Entry point for the abstract class
+     * Entry-point for the abstract class for initializing the viewbinding.
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        /*  Since the parent class viewbinding doesn't have an inflate method,
+            we use a function reference instead, from the parameter.  */
         _binding = bindingInflater(inflater, container, false)
         activity = requireActivity() as MainActivity
         return _binding!!.root
-    }
-
-    companion object {
-        private const val TAG = "BaseFragment"
     }
 
     /**
@@ -52,9 +54,10 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // dynamically change the icon in the top-bar based on the intent
         activity.binding.imageButtonLogout.let { button ->
             with (button){
-                if (requireActivity().intent.getBooleanExtra("isLoggedIn", false)) {
+                if (activity.intent.getBooleanExtra("isLoggedIn", false)) {
                     setImageResource(R.drawable.outline_account_circle_24)
                 } else {
                     setImageResource(R.drawable.outline_arrow_back_24)
@@ -65,6 +68,15 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
+
+        // TODO : Do we keep this? it doesn't work
+        if (activity.intent.getBooleanExtra("isLoggedIn", false))
+            with (activity.binding.imageButtonAddEvent) {
+                visibility = View.VISIBLE
+                setOnClickListener { activity.navController.navigate(addEventAction) }
+            }
+
+
         setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
     }
 
@@ -74,7 +86,7 @@ abstract class BaseFragment<VB : ViewBinding>(
      * @param timelineAction R.id for timeline action
      * @param bookmarkAction R.id for bookmark action
      * @param calenderAction R.id for calender action
-     *  @param mapsAction R.id for maps action
+     * @param mapsAction R.id for maps action
      */
     private fun setupBottomNav(
         timelineAction: Int,
@@ -96,6 +108,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
+
+    /**
+     * A method for destroying the fragment, ending its lifecycle and prevent memory issues
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Prevent memory leaks

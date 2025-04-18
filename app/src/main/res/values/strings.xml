@@ -15,4 +15,8 @@
     <string name="calender">Calender</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="secondary_text">%s, %s</string>
+    <!-- item row -->
+    <string name="content_description_card">Card</string>
+    <string name="edit_button">Edit</string>
 </resources>
