@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 
+
 /**
  * MainActivity serves as the entry point of the application.
  * It initializes the UI components, binds views using View Binding,

@@ -15,6 +15,10 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     }
 
