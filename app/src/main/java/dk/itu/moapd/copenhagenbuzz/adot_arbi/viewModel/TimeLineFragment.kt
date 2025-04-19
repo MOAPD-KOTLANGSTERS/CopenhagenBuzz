@@ -2,17 +2,12 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.github.javafaker.Faker
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.CustomAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DataViewModel
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DummyModel
-import java.util.Date
-import java.util.Random
-import java.util.concurrent.TimeUnit
+
 
 
 /**
