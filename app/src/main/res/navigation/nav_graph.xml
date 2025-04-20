@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_addEventFragment_self"
             app:destination="@id/AddEventFragment" />
+        <action
+            android:id="@+id/action_to_addEventFragment"
+            app:destination="@id/AddEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"

@@ -1,11 +1,13 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.os.Bundle
+import android.view.View
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * The original instance of [NavController]
      */
-    lateinit var navController : NavController
+    lateinit var navController: NavController
 
     /**
      * Called when the activity is first created.
@@ -40,12 +42,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Set up NavHostFragment
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Update the logout button dynamically based on authentication status
+        binding.imageButtonLogout.let { button ->
+            val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+            button.setImageResource(
+                if (isLoggedIn) R.drawable.outline_account_circle_24 else R.drawable.outline_arrow_back_24
+            )
+            button.setOnClickListener {
+                if (isLoggedIn) {
+                    FirebaseAuth.getInstance().signOut()
+                    recreate() // Refresh the activity to update UI
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+
+
+        // Update the add event button visibility based on authentication status
+        binding.imageButtonAddEvent.visibility =
+            if (FirebaseAuth.getInstance().currentUser != null) View.VISIBLE else View.GONE
+        binding.imageButtonAddEvent.setOnClickListener {
+            navController.navigate(R.id.action_to_addEventFragment)
+        }
+
+
+
     }
-
-
-
-
 }

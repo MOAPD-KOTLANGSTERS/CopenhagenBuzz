@@ -3,6 +3,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -21,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
         // Google Login Button
         findViewById<View>(R.id.button_google_login).setOnClickListener {
             launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -35,13 +37,15 @@ class LoginActivity : AppCompatActivity() {
         findViewById<View>(R.id.button_guest).setOnClickListener {
             startMainActivity(isLoggedIn = false)
         }
+
     }
+
 
     private fun launchSignInFlow(provider: AuthUI.IdpConfig) {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(listOf(provider))
-            .setIsSmartLockEnabled(false)
+            .setIsSmartLockEnabled(true)
             .build()
         signInLauncher.launch(signInIntent)
     }
@@ -63,5 +67,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(this)
             finish()
         }
+
+
     }
 }

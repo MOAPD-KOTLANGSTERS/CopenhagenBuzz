@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
@@ -54,27 +55,29 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // dynamically change the icon in the top-bar based on the intent
+        // Dynamically change the icon in the top-bar based on the user's authentication state
         activity.binding.imageButtonLogout.let { button ->
-            with (button){
-                if (activity.intent.getBooleanExtra("isLoggedIn", false)) {
-                    setImageResource(R.drawable.outline_account_circle_24)
+            val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
+            // Set the icon based on the user's state
+            button.setImageResource(
+                if (isLoggedIn) R.drawable.outline_account_circle_24 else R.drawable.outline_arrow_back_24
+            )
+
+            // Set the click behavior
+            button.setOnClickListener {
+                if (isLoggedIn) {
+                    // Log out the user and refresh the activity
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
                 } else {
-                    setImageResource(R.drawable.outline_arrow_back_24)
-                }
-                setOnClickListener {
+                    // Navigate back to the LoginActivity for guest users
                     startActivity(Intent(requireContext(), LoginActivity::class.java))
                     requireActivity().finish()
                 }
             }
         }
-
-        // TODO : Do we keep this? it doesn't work
-        if (activity.intent.getBooleanExtra("isLoggedIn", false))
-            with (activity.binding.imageButtonAddEvent) {
-                visibility = View.VISIBLE
-                setOnClickListener { activity.navController.navigate(addEventAction) }
-            }
 
 
         setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
