@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "286881941049",
+    "project_id": "copenhagenbuzz-8fdda",
+    "storage_bucket": "copenhagenbuzz-8fdda.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286881941049:android:e3c3bf5d5cb1dbef942fe8",
+        "android_client_info": {
+          "package_name": "dk.itu.moapd.copenhagenbuzz.adot_arbi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286881941049-im6jidbh522uu97gb6pcsrkbf5e2qetm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dk.itu.moapd.copenhagenbuzz.adot_arbi",
+            "certificate_hash": "14fb1dc02c6184dcdbca5c639c79f362aa4b6377"
+          }
+        },
+        {
+          "client_id": "286881941049-a2bt0gckp25v4ha8a59vudcn2gubh4gt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjLziWlHnfUs2FQ-Kb1ItDLz7_wB7Sh1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286881941049-a2bt0gckp25v4ha8a59vudcn2gubh4gt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

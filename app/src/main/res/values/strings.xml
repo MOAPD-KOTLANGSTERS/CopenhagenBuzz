@@ -19,4 +19,8 @@
     <!-- item row -->
     <string name="content_description_card">Card</string>
     <string name="edit_button">Edit</string>
+
+    <!-- login activity -->
+    <string name="email_login_button">Login with Email</string>
+    <string name="google_login_button">Login with Google</string>
 </resources>

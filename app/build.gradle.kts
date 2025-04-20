@@ -38,10 +38,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation(platform("com.google.firebase:firebase-bom:31.2.3"))
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation(libs.androidx.core.ktx)
@@ -55,4 +57,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.firebaseui:firebase-ui-auth:8.0.0")
 }

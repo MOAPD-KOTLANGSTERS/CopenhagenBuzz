@@ -3,49 +3,64 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.BaseFragment
-import java.io.Serializable
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
 
-/**
- *  An Activity for authenticating a user, before gaining access to the main activity.
- */
 class LoginActivity : AppCompatActivity() {
-    private lateinit var loginBinding: ActivityLoginBinding
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { result ->
+        onSignInResult(result)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setContentView(R.layout.activity_login)
 
-        loginBinding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(loginBinding.root)
+        // Google Login Button
+        findViewById<View>(R.id.button_google_login).setOnClickListener {
+            launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder().build())
+        }
 
-        startExplicitIntent(
-            loginBinding.buttonLogin,
-            MainActivity::class.java,
-            listOf { it.putExtra("isLoggedIn", true)})
+        // Email Login Button
+        findViewById<View>(R.id.button_email_login).setOnClickListener {
+            launchSignInFlow(AuthUI.IdpConfig.EmailBuilder().build())
+        }
 
-        startExplicitIntent(
-            loginBinding.buttonGuest,
-            MainActivity::class.java,
-            listOf { it.putExtra("isLoggedIn", false)})
+        // Guest Login Button
+        findViewById<View>(R.id.button_guest).setOnClickListener {
+            startMainActivity(isLoggedIn = false)
+        }
     }
 
-    /**
-     * A method for attaching an event listener to start a new activity with explicit intent
-     * @param v view element to attach event listener on
-     * @param c the activity to navigate to
-     * @param options a list of higher-order function to apply with the intent
-     */
-    private fun startExplicitIntent(v : View ,c : Class<*>, options : List<(Intent) -> Unit>?) {
-        v.setOnClickListener {
-            startActivity(Intent(this, c).apply {
-                options?.forEach { it(this) }
-            })
+    private fun launchSignInFlow(provider: AuthUI.IdpConfig) {
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(listOf(provider))
+            .setIsSmartLockEnabled(false)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode == RESULT_OK) {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                startMainActivity(isLoggedIn = true)
+            }
+        } else {
+            // TODO Handle sign-in failure
+        }
+    }
+
+    private fun startMainActivity(isLoggedIn: Boolean) {
+        Intent(this, MainActivity::class.java).apply {
+            putExtra("isLoggedIn", isLoggedIn)
+            startActivity(this)
             finish()
         }
     }

@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".LoginActivity">
 
-    <!-- Centered TextView -->
-    <TextView
-        android:id="@+id/app_name_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linear_layout_buttons"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="150dp"
-        android:textSize="25sp"/>
+            <!-- Centered TextView -->
+            <TextView
+                android:id="@+id/app_name_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linear_layout_buttons"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="150dp"
+                android:textSize="25sp"/>
 
-    <!-- LinearLayout containing buttons -->
-    <LinearLayout
-        android:id="@+id/linear_layout_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_name_login">
+            <!-- LinearLayout containing buttons -->
+            <LinearLayout
+                android:id="@+id/linear_layout_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/app_name_login">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_button"
-            app:icon="@drawable/outline_login_24"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            android:layout_marginEnd="20dp" />
+                <!-- Email Login Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_email_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_login_button"
+                    app:icon="@drawable/email_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginBottom="16dp" />
 
+                <!-- Google Login Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_google_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/google_login_button"
+                    app:icon="@drawable/google_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginBottom="16dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_guest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/guest_button"
-            app:icon="@drawable/outline_assignment_ind_24"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            android:layout_marginEnd="20dp" />
+                <!-- Guest Login Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_guest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/guest_button"
+                    app:icon="@drawable/outline_assignment_ind_24"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>

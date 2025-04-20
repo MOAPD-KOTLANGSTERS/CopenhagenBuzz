@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     /**
      *  The [ActivityMainBinding] for the parent XML file
      */
+
     lateinit var binding: ActivityMainBinding
 
     /**
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         // Set up NavHostFragment
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
+
     }
 
 
