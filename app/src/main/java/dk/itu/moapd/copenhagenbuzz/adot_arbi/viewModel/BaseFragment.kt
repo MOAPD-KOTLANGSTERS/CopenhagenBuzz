@@ -67,10 +67,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             // Set the click behavior
             button.setOnClickListener {
                 if (isLoggedIn) {
-                    // Log out the user and refresh the activity
-                    FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                    requireActivity().finish()
+                    activity.binding.drawerLayout.openDrawer(activity.binding.navigationView)
                 } else {
                     // Navigate back to the LoginActivity for guest users
                     startActivity(Intent(requireContext(), LoginActivity::class.java))
@@ -78,6 +75,24 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
+
+        activity.binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_profile -> {
+                    // Navigate to the profile screen or handle profile action
+                    Log.d("BaseFragment", "Profile selected")
+                }
+                R.id.menu_logout -> {
+                    // Log out the user
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
+            activity.binding.drawerLayout.closeDrawer(activity.binding.navigationView)
+            true
+        }
+
 
 
         setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
