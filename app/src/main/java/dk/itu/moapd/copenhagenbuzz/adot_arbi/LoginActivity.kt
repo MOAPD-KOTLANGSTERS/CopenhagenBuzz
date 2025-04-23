@@ -3,7 +3,6 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -22,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
+        
         // Google Login Button
         findViewById<View>(R.id.button_google_login).setOnClickListener {
             launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -57,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 startMainActivity(isLoggedIn = true)
             }
         } else {
-            // TODO Handle sign-in failure
+            startMainActivity(isLoggedIn = false)
         }
     }
 

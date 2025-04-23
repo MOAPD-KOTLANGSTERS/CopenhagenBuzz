@@ -55,9 +55,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
         // Dynamically change the icon in the top-bar based on the user's authentication state
         activity.binding.imageButtonLogout.let { button ->
-            val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
 
             // Set the icon based on the user's state
             button.setImageResource(
@@ -75,6 +77,18 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
+
+       if(isLoggedIn) {
+            activity.binding.imageButtonAddEvent.let { button ->
+                button.setImageResource(R.drawable.outline_add_24)
+                button.setOnClickListener {
+                    activity.navController.navigate(addEventAction)
+                }
+            }
+        } else {
+            activity.binding.imageButtonAddEvent.visibility = View.GONE
+        }
+
 
         activity.binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
