@@ -36,6 +36,8 @@ abstract class BaseFragment<VB : ViewBinding>(
     protected val binding get() = _binding!!
     protected val isLoggedIn = activity.isLoggedIn
 
+
+
     /**
      * Entry-point for the abstract class for initializing the viewbinding.
      */

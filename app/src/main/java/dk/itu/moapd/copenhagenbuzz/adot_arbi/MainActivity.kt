@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
      */
     lateinit var navController: NavController
 
-    val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+    val isLoggedIn: Boolean
+        get() = FirebaseAuth.getInstance().currentUser != null
 
     /**
      * Called when the activity is first created.
@@ -44,8 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Set up NavHostFragment
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
 
         // Update the logout button dynamically based on authentication status
