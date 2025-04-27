@@ -33,7 +33,7 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
                 requireContext(),
                 R.layout.item_row,
                 events,
-                activity?.intent?.getBooleanExtra("isLoggedIn", false) ?: false
+                isLoggedIn
             )
             binding.timelineListView.adapter = adapter
         }

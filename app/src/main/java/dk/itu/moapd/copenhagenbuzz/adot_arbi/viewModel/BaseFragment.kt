@@ -34,6 +34,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     protected lateinit var activity : MainActivity
     private var _binding: VB? = null
     protected val binding get() = _binding!!
+    protected val isLoggedIn = activity.isLoggedIn
 
     /**
      * Entry-point for the abstract class for initializing the viewbinding.
@@ -55,11 +56,8 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
-
         // Dynamically change the icon in the top-bar based on the user's authentication state
         activity.binding.imageButtonLogout.let { button ->
-
 
             // Set the icon based on the user's state
             button.setImageResource(

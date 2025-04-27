@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Guest Login Button
         findViewById<View>(R.id.button_guest).setOnClickListener {
-            startMainActivity(isLoggedIn = false)
+            startMainActivity()
         }
 
     }
@@ -53,16 +53,15 @@ class LoginActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
-                startMainActivity(isLoggedIn = true)
+                startMainActivity()
             }
         } else {
-            startMainActivity(isLoggedIn = false)
+            startMainActivity()
         }
     }
 
-    private fun startMainActivity(isLoggedIn: Boolean) {
+    private fun startMainActivity() {
         Intent(this, MainActivity::class.java).apply {
-            putExtra("isLoggedIn", isLoggedIn)
             startActivity(this)
             finish()
         }

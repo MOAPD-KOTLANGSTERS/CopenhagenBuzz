@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
      */
     lateinit var navController: NavController
 
+    val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
     /**
      * Called when the activity is first created.
      * Initializes the UI, sets up window insets, and attaches event listeners.

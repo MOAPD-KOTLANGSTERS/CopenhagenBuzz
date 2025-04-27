@@ -30,10 +30,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
-
-        val isLoggedin = activity?.intent?.getBooleanExtra("isLoggedIn", false) ?: false
-
-        if (isLoggedin) {
+        if (isLoggedIn) {
             dataViewModel.bookmarks.observe(viewLifecycleOwner) { bookmarks ->
                 val adapter = BookmarkAdapter(bookmarks)
                 binding.bookmarksRecyclerviewView.adapter = adapter
