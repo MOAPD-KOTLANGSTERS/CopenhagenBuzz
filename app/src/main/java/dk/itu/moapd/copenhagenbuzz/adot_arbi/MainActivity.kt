@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         // Update the logout button dynamically based on authentication status
         binding.imageButtonLogout.let { button ->
-            val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
             button.setImageResource(
                 if (isLoggedIn) R.drawable.outline_account_circle_24 else R.drawable.outline_arrow_back_24
             )
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         // Update the add event button visibility based on authentication status
         binding.imageButtonAddEvent.visibility =
-            if (FirebaseAuth.getInstance().currentUser != null) View.VISIBLE else View.GONE
+            if (isLoggedIn) View.VISIBLE else View.GONE
         binding.imageButtonAddEvent.setOnClickListener {
             navController.navigate(R.id.action_to_addEventFragment)
         }

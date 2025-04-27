@@ -8,35 +8,35 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityLoginBinding
+
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) { result ->
-        onSignInResult(result)
-    }
+    ) { result -> onSignInResult(result) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        
+
         // Google Login Button
-        findViewById<View>(R.id.button_google_login).setOnClickListener {
+        binding.buttonGoogleLogin.setOnClickListener {
             launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder().build())
         }
 
         // Email Login Button
-        findViewById<View>(R.id.button_email_login).setOnClickListener {
+        binding.buttonEmailLogin.setOnClickListener {
             launchSignInFlow(AuthUI.IdpConfig.EmailBuilder().build())
         }
 
         // Guest Login Button
-        findViewById<View>(R.id.button_guest).setOnClickListener {
+        binding.buttonGuest.setOnClickListener {
             startMainActivity()
         }
-
     }
 
 
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(listOf(provider))
-            .setIsSmartLockEnabled(true)
+            .setIsSmartLockEnabled(false)
             .build()
         signInLauncher.launch(signInIntent)
     }
