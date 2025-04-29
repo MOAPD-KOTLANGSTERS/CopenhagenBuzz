@@ -2,36 +2,70 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var loginBinding: ActivityLoginBinding
+
+    private lateinit var binding: ActivityLoginBinding
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { result -> onSignInResult(result) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loginBinding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(loginBinding.root)
 
-        loginBinding.buttonLogin.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("isLoggedIn", true)
+        // Google Login Button
+        binding.buttonGoogleLogin.setOnClickListener {
+            launchSignInFlow(AuthUI.IdpConfig.GoogleBuilder().build())
+        }
+
+        // Email Login Button
+        binding.buttonEmailLogin.setOnClickListener {
+            launchSignInFlow(AuthUI.IdpConfig.EmailBuilder().build())
+        }
+
+        // Guest Login Button
+        binding.buttonGuest.setOnClickListener {
+            startMainActivity()
+        }
+    }
+
+
+    private fun launchSignInFlow(provider: AuthUI.IdpConfig) {
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(listOf(provider))
+            .setIsSmartLockEnabled(false)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode == RESULT_OK) {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                startMainActivity()
             }
-            startActivity(intent)
+        } else {
+            startMainActivity()
+        }
+    }
+
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).apply {
+            startActivity(this)
             finish()
         }
 
-        loginBinding.buttonGuest.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("isLoggedIn", false)
-            }
-            startActivity(intent)
-            finish()
-        }
+
     }
 }
