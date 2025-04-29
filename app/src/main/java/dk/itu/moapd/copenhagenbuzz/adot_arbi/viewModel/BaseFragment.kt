@@ -31,10 +31,12 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var addEventAction: Int,
 ) : Fragment() {
 
-    protected lateinit var activity : MainActivity
+    val activity : MainActivity
+        get() = requireActivity() as MainActivity
     private var _binding: VB? = null
     protected val binding get() = _binding!!
-    protected val isLoggedIn = activity.isLoggedIn
+    protected val isLoggedIn: Boolean
+        get() = (requireActivity() as MainActivity).isLoggedIn
 
 
 
@@ -48,7 +50,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         /*  Since the parent class viewbinding doesn't have an inflate method,
             we use a function reference instead, from the parameter.  */
         _binding = bindingInflater(inflater, container, false)
-        activity = requireActivity() as MainActivity
         return _binding!!.root
     }
 

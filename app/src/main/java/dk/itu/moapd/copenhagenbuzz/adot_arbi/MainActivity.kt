@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonLogout.let { button ->
 
             button.setImageResource(
-                if (isLoggedIn) R.drawable.outline_account_circle_24 else R.drawable.outline_arrow_back_24
+                if (isLoggedIn) R.drawable.outline_account_circle_24
+                else R.drawable.outline_arrow_back_24
             )
             button.setOnClickListener {
                 if (isLoggedIn) {
