@@ -2,16 +2,22 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.CustomAdapter
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+
+    companion object {
+        private val TAG = CustomAdapter::class.qualifiedName
+    }
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -65,7 +71,5 @@ class LoginActivity : AppCompatActivity() {
             startActivity(this)
             finish()
         }
-
-
     }
 }

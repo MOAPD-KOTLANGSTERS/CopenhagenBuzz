@@ -1,5 +1,8 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
 
+import java.time.Instant
+import java.util.Date
+
 /**
  *  A representation of a created event
  *  @param eventName Name of the event
@@ -8,11 +11,14 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
  *  @param eventType Type of the event
  *  @param eventDescription A short description of the event
  */
-data class Event(var eventName: String,
-            var eventLocation: String,
-            var eventDate: String,
-            var eventType: String,
-            var eventDescription: String) {
+data class Event(
+    var eventName: String,
+    var eventLocation: String,
+    var eventDate: Long,
+    var eventType: String,
+    var eventDescription: String,
+    var userId: String
+) {
 
     // TODO: change type to enum & date to dateTime
     /**
@@ -21,7 +27,6 @@ data class Event(var eventName: String,
     init {
         require(eventName.isNotEmpty()) { "Missing Event Name" }
         require(eventLocation.isNotEmpty()) { "Missing Event Location" }
-        require(eventDate.isNotEmpty()) { "Missing Event Date" }
         require(eventDescription.isNotEmpty()) { "Missing Event Description" }
     }
 
@@ -29,7 +34,7 @@ data class Event(var eventName: String,
      * Secondary constructor for the Event class with default values
      * @param eventName Name of the event
      */
-    constructor(eventName: String) : this(eventName, "ITU", "now", "other", "") {
+    constructor(eventName: String) : this(eventName, "ITU", Date.from(Instant.now()).time, "other", "", "") {
         this.eventName = eventName
     }
 
@@ -37,6 +42,6 @@ data class Event(var eventName: String,
      * Custom toString method for logging
      */
     override fun toString(): String {
-        return "Event(eventName='$eventName', eventLocation='$eventLocation')"
+        return "Event(eventName='$eventName', eventLocation='$eventLocation', eventDate='$eventDate')"
     }
 }

@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,10 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
  */
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private val TAG = MainActivity::class.qualifiedName
+    }
+
     /**
      *  The [ActivityMainBinding] for the parent XML file
      */
@@ -30,7 +35,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
 
     val isLoggedIn: Boolean
-        get() = FirebaseAuth.getInstance().currentUser != null
+        get() {
+            val user = FirebaseAuth.getInstance().currentUser
+            return user != null && !user.isAnonymous
+        }
 
     /**
      * Called when the activity is first created.
@@ -39,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        Log.d(TAG, isLoggedIn.toString())
 
         // Inflate the layout using View Binding and set the content view.
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -72,8 +82,5 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonAddEvent.setOnClickListener {
             navController.navigate(R.id.action_to_addEventFragment)
         }
-
-
-
     }
 }

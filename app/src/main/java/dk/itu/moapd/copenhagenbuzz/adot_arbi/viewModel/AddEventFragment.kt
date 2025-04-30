@@ -8,7 +8,9 @@ import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
+import java.time.Instant
 import java.util.Calendar
+import java.util.Date
 
 /**
  * A simple [BaseFragment] subclass for initializing with options for adding
@@ -46,27 +48,9 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                 requireContext(),
                 { _, startYear, startMonth, startDay ->
                     val startDate = "$startDay/${startMonth + 1}/$startYear"
-
-                    // Opens the end date picker dialog after selecting the start date.
-                    val endDatePicker =
-                        DatePickerDialog(requireContext(), { _, endYear, endMonth, endDay ->
-                            val endDateCalendar = Calendar.getInstance()
-                            endDateCalendar.set(endYear, endMonth, endDay)
-
-                            val startDateCalendar = Calendar.getInstance()
-                            startDateCalendar.set(startYear, startMonth, startDay)
-
-                            // Ensures the end date is not before the start date.
-                            if (endDateCalendar.before(startDateCalendar)) {
-                                // If invalid, set both dates to the start date.
-                                editTextDateRange.setText("$startDate - $startDate")
-                            } else {
-                                val endDate = "$endDay/${endMonth + 1}/$endYear"
-                                editTextDateRange.setText("$startDate - $endDate")
-                            }
-                        }, startYear, startMonth, startDay)
-
-                    endDatePicker.show()
+                    val startDateCalendar = Calendar.getInstance()
+                    startDateCalendar.set(startYear, startMonth, startDay)
+                   editTextDateRange.setText(startDate) // TODO : fix this so we can extract the date
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -75,7 +59,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
 
             startDatePicker.show()
         }
-
         // Listener for the "Add Event" button to create a new event.
         binding.fabAddEvent.setOnClickListener {
             var message : String? = null
@@ -84,9 +67,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     Event(
                         eventName = editTextEventName.text.toString(),
                         eventLocation = editTextEventLocation.text.toString(),
-                        eventDate = editTextDateRange.text.toString(),
+                        eventDate = editTextDateRange.text.toString().toLong(),
                         eventType = editTextEventType.text.toString(),
-                        eventDescription = editTextEventDescription.text.toString()
+                        eventDescription = editTextEventDescription.text.toString(),
+                        userId = ""
                     )
                 }
                 message = e.toString()
