@@ -1,5 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -31,14 +32,19 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var addEventAction: Int,
 ) : Fragment() {
 
-    val activity : MainActivity
-        get() = requireActivity() as MainActivity
+
     private var _binding: VB? = null
-    protected val binding get() = _binding!!
-    protected val isLoggedIn: Boolean
-        get() = (requireActivity() as MainActivity).isLoggedIn
+    protected val binding
+        get() = _binding!!
 
+    lateinit var activity : MainActivity
+    var isLoggedIn: Boolean = false
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = requireActivity() as MainActivity
+        isLoggedIn = activity.isLoggedIn
+    }
 
     /**
      * Entry-point for the abstract class for initializing the viewbinding.
@@ -107,8 +113,6 @@ abstract class BaseFragment<VB : ViewBinding>(
             activity.binding.drawerLayout.closeDrawer(activity.binding.navigationView)
             true
         }
-
-
 
         setupBottomNav(timelineAction, bookmarkAction, calenderAction, mapsAction)
     }
