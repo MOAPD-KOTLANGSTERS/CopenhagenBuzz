@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     val isLoggedIn: Boolean
         get() {
             val user = FirebaseAuth.getInstance().currentUser
+            // check if there exists a user and not anonymous
             return user != null && !user.isAnonymous
         }
 
@@ -47,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        Log.d(TAG, isLoggedIn.toString())
 
         // Inflate the layout using View Binding and set the content view.
         binding = ActivityMainBinding.inflate(layoutInflater)

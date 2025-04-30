@@ -4,11 +4,19 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import java.time.Instant
+import java.time.LocalDate
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalAccessor
 import java.util.Calendar
 import java.util.Date
 
@@ -24,6 +32,9 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     R.id.action_addEventFragment_to_mapsFragment,
     R.id.action_addEventFragment_self
 ) {
+    companion object {
+        private val TAG = MainActivity::class.qualifiedName
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,10 +58,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
             val startDatePicker = DatePickerDialog(
                 requireContext(),
                 { _, startYear, startMonth, startDay ->
-                    val startDate = "$startDay/${startMonth + 1}/$startYear"
+                    val startDate = CustomDate.of(startDay, startMonth, startYear)
                     val startDateCalendar = Calendar.getInstance()
                     startDateCalendar.set(startYear, startMonth, startDay)
-                   editTextDateRange.setText(startDate) // TODO : fix this so we can extract the date
+                   editTextDateRange.setText(startDate)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -67,10 +78,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     Event(
                         eventName = editTextEventName.text.toString(),
                         eventLocation = editTextEventLocation.text.toString(),
-                        eventDate = editTextDateRange.text.toString().toLong(),
+                        eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
                         eventType = editTextEventType.text.toString(),
                         eventDescription = editTextEventDescription.text.toString(),
-                        userId = ""
+                        userId = FirebaseAuth.getInstance().currentUser!!.uid
                     )
                 }
                 message = e.toString()
@@ -79,6 +90,8 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
             } finally {
                 message?.let {
                     showMessage(it)
+                } ?: run {
+                    showMessage("You are not supposed to see this error! Feature not a bug")
                 }
             }
         }
