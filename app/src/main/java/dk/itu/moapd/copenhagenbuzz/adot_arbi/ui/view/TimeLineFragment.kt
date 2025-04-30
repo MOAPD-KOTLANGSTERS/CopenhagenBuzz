@@ -1,13 +1,12 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.CustomAdapter
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.DataViewModel
-
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
 
 
 /**

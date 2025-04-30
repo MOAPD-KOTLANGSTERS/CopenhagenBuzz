@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.os.Bundle
 import android.view.View

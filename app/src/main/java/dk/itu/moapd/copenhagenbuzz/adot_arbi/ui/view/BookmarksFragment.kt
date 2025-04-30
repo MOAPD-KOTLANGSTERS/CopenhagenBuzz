@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
@@ -6,8 +6,8 @@ import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
 import androidx.recyclerview.widget.LinearLayoutManager
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.BookmarkAdapter
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.DataViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.BookmarkAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
 
 /**
  *  A subclass of the [BaseFragment],

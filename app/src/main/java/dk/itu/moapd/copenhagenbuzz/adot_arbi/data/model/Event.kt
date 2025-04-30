@@ -1,5 +1,6 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model
 
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import java.time.Instant
 import java.util.Date
 
@@ -42,6 +43,6 @@ data class Event(
      * Custom toString method for logging
      */
     override fun toString(): String {
-        return "Event(eventName='$eventName', eventLocation='$eventLocation', eventDate='$eventDate')"
+        return "Event(eventName='$eventName', eventLocation='$eventLocation', eventDate='${CustomDate.getDateFromEpoch(eventDate)}')"
     }
 }

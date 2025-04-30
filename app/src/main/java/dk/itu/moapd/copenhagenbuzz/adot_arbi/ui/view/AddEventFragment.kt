@@ -1,24 +1,17 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
-import java.time.Instant
-import java.time.LocalDate
-import java.time.temporal.Temporal
-import java.time.temporal.TemporalAccessor
 import java.util.Calendar
-import java.util.Date
 
 /**
  * A simple [BaseFragment] subclass for initializing with options for adding

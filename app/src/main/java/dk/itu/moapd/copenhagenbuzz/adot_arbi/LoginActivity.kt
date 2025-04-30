@@ -2,14 +2,13 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.CustomAdapter
 
 class LoginActivity : AppCompatActivity() {
 

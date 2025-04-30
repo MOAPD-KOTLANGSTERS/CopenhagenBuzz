@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model
 
 import java.util.Date
 

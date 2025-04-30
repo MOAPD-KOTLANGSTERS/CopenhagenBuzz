@@ -3,7 +3,8 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi
 import android.app.Application
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.DotEnvManager
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.dotenv
 
@@ -13,13 +14,12 @@ class MyApplication : Application() {
         private val TAG = CustomAdapter::class.qualifiedName
     }
 
+
+    private val DATABASE_URL : String = DotEnvManager.dotenv!!["DATABASE_URL"]
+
     override fun onCreate() {
         super.onCreate()
-        val dotenv : Dotenv = dotenv {
-            directory = "/assets"
-            filename = "env"
-        }
-        val DATABASE_URL: String = dotenv["DATABASE_URL"]
+
         Firebase.database(DATABASE_URL).setPersistenceEnabled(true)
 
     }

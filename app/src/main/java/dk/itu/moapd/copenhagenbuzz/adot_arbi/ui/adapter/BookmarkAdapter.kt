@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.view
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DummyModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
 
 class BookmarkAdapter(private val Bookmarks: List<DummyModel>) :
     RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
