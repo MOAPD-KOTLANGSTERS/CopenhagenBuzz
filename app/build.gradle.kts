@@ -59,4 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.firebase.ui.auth)
     implementation(libs.dotenv.kotlin)
+    implementation(libs.firebase.auth.ktx.v2310)
+    implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.ui.database)
 }

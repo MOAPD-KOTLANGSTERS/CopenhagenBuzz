@@ -1,6 +1,8 @@
 [versions]
 agp = "8.8.0"
 dotenvKotlin = "6.5.1"
+firebaseAuthKtxVersion = "23.1.0"
+firebaseDatabaseKtx = "21.0.0"
 firebaseUiAuth = "8.0.0"
 javafaker = "1.0.2"
 kotlin = "1.9.24"
@@ -22,8 +24,10 @@ firebaseAuthKtx = "23.2.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenvKotlin" }
-firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx" }
+firebase-auth-ktx-v2310 = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebaseAuthKtxVersion" }
+firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
+firebase-ui-database = { module = "com.firebaseui:firebase-ui-database", version.ref = "firebaseUiAuth" }
 javafaker = { module = "com.github.javafaker:javafaker", version.ref = "javafaker" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
