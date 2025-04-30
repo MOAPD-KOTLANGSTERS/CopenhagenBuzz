@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.2.3"))
+    implementation(libs.firebase.database.ktx)
     implementation(libs.picasso)
     implementation(libs.javafaker)
     implementation(libs.androidx.core.ktx)

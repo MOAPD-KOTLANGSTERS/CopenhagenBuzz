@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
+import io.github.cdimascio.dotenv.dotenv
 
 
 /**
