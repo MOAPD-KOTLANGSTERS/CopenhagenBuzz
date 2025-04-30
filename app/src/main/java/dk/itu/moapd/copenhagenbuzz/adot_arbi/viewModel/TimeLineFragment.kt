@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.CustomAdapter
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DataViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.view.DataViewModel
 
 
 

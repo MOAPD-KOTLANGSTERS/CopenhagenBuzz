@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.adapter
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.view
 
 import android.view.LayoutInflater
 import android.view.View

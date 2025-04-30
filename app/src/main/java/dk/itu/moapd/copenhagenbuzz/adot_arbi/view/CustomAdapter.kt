@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.view
 
 import android.content.Context
 import android.util.Log
@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DummyModel
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a list of dummy objects in a

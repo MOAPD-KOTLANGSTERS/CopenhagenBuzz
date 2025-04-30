@@ -1,10 +1,11 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.javafaker.Faker
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.DummyModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
