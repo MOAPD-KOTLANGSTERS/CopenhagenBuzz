@@ -1,14 +1,8 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.DotEnvManager
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
+import kotlinx.coroutines.tasks.await
 
-object UserRepository {
-    private val DATABASE_URL = DotEnvManager.dotenv!!["DATABASE_URL"]
-    private val db = Firebase.database(DATABASE_URL).reference.child("user")
-    init {
-        db.keepSynced(true)
-    }
-
+class UserRepository : BaseRepository<DummyModel>(DummyModel::class.java,"user") {
+    suspend fun getBookmarks(id: String) = db.child(id).child("bookmarks").get().await()
 }

@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event

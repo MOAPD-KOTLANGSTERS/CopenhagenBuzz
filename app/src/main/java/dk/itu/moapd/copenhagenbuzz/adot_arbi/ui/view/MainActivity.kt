@@ -1,7 +1,6 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 
 

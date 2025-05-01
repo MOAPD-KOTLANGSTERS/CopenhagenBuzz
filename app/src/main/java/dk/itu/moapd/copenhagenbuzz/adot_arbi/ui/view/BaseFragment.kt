@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.LoginActivity
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 
 
