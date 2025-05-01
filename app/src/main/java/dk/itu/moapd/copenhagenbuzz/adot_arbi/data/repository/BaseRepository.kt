@@ -21,23 +21,23 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
     }
 
     /**
-     * Add a T
+     * Add a value
      */
-    protected suspend fun add(id: String, value: T) = db.child(id).setValue(value).await()
+    suspend fun add(id: String, value: T) = db.child(id).setValue(value).await()
 
     /**
-     * Delete a T
+     * Delete a value
      */
-    protected suspend fun delete(id: String) = db.child(id).removeValue().await()
+    suspend fun delete(id: String) = db.child(id).removeValue().await()
 
     /**
      * Get a T
      */
-    protected suspend fun getById(id: String) = db.child(id).get().await().getValue(clazz)
+    suspend fun getById(id: String) = db.child(id).get().await().getValue(clazz)
 
     /**
      * Get all T as a list
      */
-    protected suspend fun getAll() = db.get().await().children.mapNotNull { it.getValue(clazz) }
+    suspend fun getAll() = db.get().await().children.mapNotNull { it.getValue(clazz) }
 
 }
