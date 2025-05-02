@@ -1,11 +1,17 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.javafaker.Faker
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
+import getAddressFromCoordinates
+import getCoordinatesFromAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -20,29 +26,35 @@ class DataViewModel : ViewModel() {
     private val _bookmarks = MutableLiveData<List<DummyModel>>()
     val bookmarks: LiveData<List<DummyModel>> get() = _bookmarks
 
-    init {
-        fetchEvents()
-    }
-
-    private fun fetchEvents() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun fetchEvents(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val faker = Faker(Random(42))
             val data = ArrayList<DummyModel>()
 
-            (1..50).forEach {
+            for (i in 1..50) {
                 val eventName = faker.book().title()
                 val type = faker.options().option("Conference", "Meetup", "Workshop", "Webinar")
                 val eventDate: Date = faker.date().future(30, TimeUnit.DAYS)
                 val description = faker.lorem().paragraph()
-                val imageUrl = "https://picsum.photos/seed/$it/400/194"
+                val imageUrl = "https://picsum.photos/seed/$i/400/194"
+                val addressName = faker.address().fullAddress()
 
-                data.add(DummyModel(eventName, type, eventDate, description, imageUrl))
+                val coordinates = getCoordinatesFromAddress(context, addressName)
+
+                val location = coordinates?.let { (lat, lng) ->
+                    val address = getAddressFromCoordinates(context, lat, lng) ?: "Unknown"
+                    data.add(DummyModel(eventName, type, eventDate, description, imageUrl, EventLocation(lat, lng, address)))
+                } ?: data.add(DummyModel(eventName, type, eventDate, description, imageUrl, EventLocation(0.0, 0.0, "Unknown")))
+
+
             }
 
             _events.postValue(data)
             generateRandomFavorites(data)
         }
     }
+
     private fun generateRandomFavorites(events: List<DummyModel>) {
         val listEvents = (events.indices).take(8).sorted()
         val bookmarkedEvents = listEvents.mapNotNull { index -> events.getOrNull(index) }

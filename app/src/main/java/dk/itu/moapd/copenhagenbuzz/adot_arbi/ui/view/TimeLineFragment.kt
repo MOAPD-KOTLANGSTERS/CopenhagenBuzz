@@ -1,11 +1,13 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.CustomAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.EventAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
 
 
@@ -24,11 +26,14 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
 
     private val dataViewModel: DataViewModel by activityViewModels()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataViewModel.fetchEvents(requireContext())
+
         dataViewModel.events.observe(viewLifecycleOwner) { events ->
-            val adapter = CustomAdapter(
+            val adapter = EventAdapter(
                 requireContext(),
                 R.layout.item_row,
                 events,

@@ -1,10 +1,8 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
-import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.CustomAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.DotenvManager
 import kotlinx.coroutines.tasks.await
 

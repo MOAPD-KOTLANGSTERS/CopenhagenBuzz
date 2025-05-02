@@ -10,5 +10,6 @@ data class DummyModel(
     var type: String,
     var eventDate: Date,
     var description: String,
-    var url: String
+    var url: String,
+    var location: EventLocation,
 )

@@ -8,6 +8,6 @@ import kotlinx.coroutines.launch
 
 object Coroutine {
     fun suspendLaunch(callback : suspend () -> Unit) = CoroutineScope(Dispatchers.IO).launch { callback() }
-    fun Launch(callback : () -> Unit) = CoroutineScope(Dispatchers.IO).launch { callback() }
+    fun launch(callback : () -> Unit) = CoroutineScope(Dispatchers.IO).launch { callback() }
     
 }

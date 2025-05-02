@@ -25,7 +25,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
  * License: MIT
  * Source: https://github.com/fabricionarcizo/moapd2025/blob/main/lecture04/04-4_ListView/app/src/main/java/dk/itu/moapd/listview/CustomAdapter.kt
  */
-class CustomAdapter(
+class EventAdapter(
     private val context: Context,
     private var resource: Int,
     data: List<DummyModel>,
@@ -36,7 +36,7 @@ class CustomAdapter(
      * A set of private constants used in this class.
      */
     companion object {
-        private val TAG = CustomAdapter::class.qualifiedName
+        private val TAG = EventAdapter::class.qualifiedName
     }
 
     /**
@@ -103,7 +103,8 @@ class CustomAdapter(
                 R.string.secondary_text, dummy.type, dummy.eventDate
             )
             textViewDescription.text = dummy.description
-
+            // Set the button click listeners using lambda expressions.
+            Log.d("CustomAdapter", "Location: ${dummy.location}")
             // Set the button click listeners using method references.
             buttonFavorite.setOnClickListener {
                 showSnackBar("Favorite: ${dummy.eventName}", it)
