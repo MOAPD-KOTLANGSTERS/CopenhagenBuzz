@@ -15,7 +15,7 @@ import java.util.Date
 data class Event(
     var id: String? = null,
     var eventName: String = "",
-    var eventLocation: String = "",
+    var eventLocation:  EventLocation = EventLocation(),
     var eventDate: Long = 0L,
     var eventType: String = "",
     var eventDescription: String = "",
