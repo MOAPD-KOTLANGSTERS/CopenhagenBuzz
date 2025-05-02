@@ -13,6 +13,7 @@ import java.util.Date
  *  @param eventDescription A short description of the event
  */
 data class Event(
+    var id: String,
     var eventName: String,
     var eventLocation: String,
     var eventDate: Long,
@@ -30,14 +31,6 @@ data class Event(
         require(eventLocation.isNotEmpty()) { "Missing Event Location" }
         require(eventDescription.isNotEmpty()) { "Missing Event Description" }
         require(userId.isNotEmpty()) { "Missing user ID" }
-    }
-
-    /**
-     * Secondary constructor for the Event class with default values
-     * @param eventName Name of the event
-     */
-    constructor(eventName: String) : this(eventName, "ITU", Date.from(Instant.now()).time, "other", "", "") {
-        this.eventName = eventName
     }
 
     /**
