@@ -7,12 +7,13 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices.Companion
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
 
-class EventServices : IEventServices {
+class EventServices(
+    private val db : EventRepository = EventRepository()
+) : IEventServices {
     companion object {
         private val TAG = EventServices::class.qualifiedName
     }
-    private val db : EventRepository = EventRepository()
-    
+
     override suspend fun createEvent(event: Event): Void {
         try {
             return db.add(event)

@@ -8,12 +8,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IUserServices
 
-class UserServices : IUserServices {
+class UserServices(
+    private val db : UserRepository = UserRepository()
+) : IUserServices {
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }
-
-    val db : UserRepository = UserRepository()
     override suspend fun readUser() : User {
         try {
             return db.readUser(FirebaseAuth.getInstance().currentUser?.uid)!!
