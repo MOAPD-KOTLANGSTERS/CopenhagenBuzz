@@ -5,14 +5,22 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import kotlinx.coroutines.tasks.await
 
 class UserRepository : BaseRepository<User>(User::class.java,"user") {
-    suspend fun createUser(user: User) {
-        db.push()
-            .setValue(user.uuid)
-            .await()
+
+    private suspend fun isExists(userId: String): Boolean {
+        val snapshot = db.child(userId).get().await()
+        return snapshot.exists()
     }
 
-    suspend fun readUser(userId: String?) : User? {
-        return db.child(userId ?: throw IllegalStateException())
+    suspend fun createUser(user: User) {
+        if (!isExists(user.uuid)) {
+            db.child(user.uuid)
+                .setValue(user)
+                .await()
+        }
+    }
+
+    suspend fun readUser(userId: String) : User? {
+        return db.child(userId)
             .get()
             .await()
             .getValue(User::class.java)
@@ -29,19 +37,19 @@ class UserRepository : BaseRepository<User>(User::class.java,"user") {
     suspend fun createFavorite(user : User, eventId: String) {
         db.child(user.uuid)
             .child("favorites")
-            .push()
-            .setValue(eventId)
+            .child(eventId)
+            .setValue(true)
             .await()
     }
 
 
-    suspend fun readAllFavorites(user: User): List<Event> {
+    suspend fun readAllFavorites(user: User): List<String> {
         return db.child(user.uuid)
             .child("favorites")
             .get()
             .await()
             .children
-            .mapNotNull { it.getValue(Event::class.java) }
+            .mapNotNull { it.key }
     }
 
     suspend fun removeFavorite(user: User, eventId: String) {

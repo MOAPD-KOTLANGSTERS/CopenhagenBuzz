@@ -2,5 +2,5 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model
 
 data class User(
     val uuid: String = "",
-    val favorites : List<String> = emptyList(),
+    val favorites : Map<String, Boolean> = emptyMap(),
 )

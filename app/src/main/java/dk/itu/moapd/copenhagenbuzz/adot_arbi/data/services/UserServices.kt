@@ -17,9 +17,10 @@ class UserServices(
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }
+
     override suspend fun readUser() : User {
         try {
-            return db.readUser(FirebaseAuth.getInstance().currentUser?.uid)!!
+            return db.readUser(FirebaseAuth.getInstance().currentUser?.uid!!)!!
         } catch (e: Exception) {
             Log.d(TAG, "readUser error :: ${e.message.toString()}")
             throw e
@@ -53,7 +54,7 @@ class UserServices(
         }
     }
 
-    override suspend fun readAllFavoriteEvents(): List<Event> {
+    override suspend fun readAllFavoriteEvents(): List<String> {
         try {
             return db.readAllFavorites(readUser())
         } catch (e : IllegalStateException) {

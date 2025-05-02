@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 
@@ -34,16 +35,9 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
         if (isLoggedIn) {
-            dataViewModel.bookmarks.observe(viewLifecycleOwner) {
-                val options = FirebaseRecyclerOptions.Builder<Event>()
-                    .setQuery(UserRepository().db.child("favorites"), Event::class.java)
-                    .setLifecycleOwner(viewLifecycleOwner)
-                    .build()
-
-                val adapter = BookmarkAdapter(
-                    options
-                )
-
+            dataViewModel.loadFavorites()
+            dataViewModel.bookmarks.observe(viewLifecycleOwner) { events ->
+                val adapter = BookmarkAdapter(events)
                 binding.bookmarksRecyclerviewView.adapter = adapter
             }
         }

@@ -50,4 +50,12 @@ class EventServices (
         }
     }
 
+    override suspend fun readEventsFromId(eventId: String): Event? {
+        try {
+            return db.readEventsFromId(eventId)
+        } catch (e : Exception) {
+            Log.d(TAG, "deleteEvent error :: ${e.message.toString()}")
+            throw e
+        }
+    }
 }

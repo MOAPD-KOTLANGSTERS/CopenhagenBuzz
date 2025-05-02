@@ -8,4 +8,5 @@ interface IEventServices {
     suspend fun readAllEvents() : List<Event>
     suspend fun updateEvent(event: Event) : Unit
     suspend fun deleteEvent(event: Event) : Unit
+    suspend fun readEventsFromId(eventId: String): Event?
 }
