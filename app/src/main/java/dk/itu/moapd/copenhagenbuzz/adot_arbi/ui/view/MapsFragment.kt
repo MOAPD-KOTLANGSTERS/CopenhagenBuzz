@@ -1,7 +1,10 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
+import android.Manifest
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
 
@@ -21,8 +24,24 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // TODO : implement bookmarks
+        requestUserPermissions()
 
 
+    }
+
+    private fun checkPermission() =
+        ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestUserPermissions() {
+        if (!checkPermission())
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
     }
 
 }

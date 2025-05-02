@@ -36,6 +36,10 @@ abstract class BaseFragment<VB : ViewBinding>(
     lateinit var activity : MainActivity
     var isLoggedIn: Boolean = false
 
+    companion object {
+        const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = requireActivity() as MainActivity

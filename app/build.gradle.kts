@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     id("com.google.gms.google-services") // Apply the google-services plugin here
-
 }
 
 android {
@@ -62,4 +61,5 @@ dependencies {
     implementation(libs.firebase.auth.ktx.v2310)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.ui.database)
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }
