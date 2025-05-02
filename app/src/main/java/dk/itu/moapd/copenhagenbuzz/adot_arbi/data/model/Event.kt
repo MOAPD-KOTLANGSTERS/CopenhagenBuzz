@@ -14,24 +14,13 @@ import java.util.Date
  */
 data class Event(
     var id: String? = null,
-    var eventName: String,
-    var eventLocation: String,
-    var eventDate: Long,
-    var eventType: String,
-    var eventDescription: String,
-    var userId: String
+    var eventName: String = "",
+    var eventLocation: String = "",
+    var eventDate: Long = 0L,
+    var eventType: String = "",
+    var eventDescription: String = "",
+    var userId: String = "",
 ) {
-
-    // TODO: change type to enum & date to dateTime
-    /**
-     * Initial requirements for initialising an Event Class
-     */
-    init {
-        require(eventName.isNotEmpty()) { "Missing Event Name" }
-        require(eventLocation.isNotEmpty()) { "Missing Event Location" }
-        require(eventDescription.isNotEmpty()) { "Missing Event Description" }
-        require(userId.isNotEmpty()) { "Missing user ID" }
-    }
 
     /**
      * Custom toString method for logging

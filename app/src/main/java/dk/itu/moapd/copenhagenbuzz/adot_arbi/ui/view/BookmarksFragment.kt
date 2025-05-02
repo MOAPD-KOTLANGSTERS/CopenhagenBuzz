@@ -1,12 +1,17 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
+import BookmarkAdapter
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
 import androidx.recyclerview.widget.LinearLayoutManager
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.BookmarkAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
 
 /**
@@ -31,7 +36,15 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
         if (isLoggedIn) {
             dataViewModel.bookmarks.observe(viewLifecycleOwner) { bookmarks ->
-                val adapter = BookmarkAdapter(bookmarks)
+                val options = FirebaseRecyclerOptions.Builder<Event>()
+                    .setQuery(UserRepository().db.child("favorites"), Event::class.java)
+                    .setLifecycleOwner(viewLifecycleOwner)
+                    .build()
+
+                val adapter = BookmarkAdapter(
+                    options
+                )
+
                 binding.bookmarksRecyclerviewView.adapter = adapter
             }
         }

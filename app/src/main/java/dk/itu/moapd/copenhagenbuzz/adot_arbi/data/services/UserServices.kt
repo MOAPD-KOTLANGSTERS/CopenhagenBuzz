@@ -8,12 +8,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IUserServices
 
-class UserServices : IUserServices {
+class UserServices(
+    private val db : UserRepository = UserRepository()
+) : IUserServices {
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }
-
-    val db : UserRepository = UserRepository()
     override suspend fun readUser() : User {
         try {
             return db.readUser(FirebaseAuth.getInstance().currentUser?.uid)!!
@@ -23,27 +23,27 @@ class UserServices : IUserServices {
         }
     }
 
-    override suspend fun createUser(): Void {
+    override suspend fun createUser() {
         try {
-            return db.createUser(readUser())
+            db.createUser(readUser())
         } catch (e : Exception) {
             Log.d(TAG, "createUser error :: ${e.message.toString()}")
             throw e
         }
     }
 
-    override suspend fun deleteUser(): Void {
+    override suspend fun deleteUser() {
         try {
-            return db.deleteUser(readUser())
+            db.deleteUser(readUser())
         } catch (e : Exception) {
             Log.d(TAG, "deleteUser error :: ${e.message.toString()}")
             throw e
         }
     }
 
-    override suspend fun createFavorite(eventId: String) : Void{
+    override suspend fun createFavorite(eventId: String) {
         try {
-            return db.createFavorite(readUser(), eventId)
+            db.createFavorite(readUser(), eventId)
         } catch (e : IllegalStateException) {
             Log.d(TAG, "createFavorite error :: ${e.message.toString()}")
             throw e
@@ -59,9 +59,9 @@ class UserServices : IUserServices {
         }
     }
 
-    override suspend fun deleteFavoriteEvent(eventId: String) : Void {
+    override suspend fun deleteFavoriteEvent(eventId: String) {
         try {
-            return db.removeFavorite(readUser(), eventId)
+            db.removeFavorite(readUser(), eventId)
         } catch (e : IllegalStateException) {
             Log.d(TAG, "deleteFavoriteEvent error :: ${e.message.toString()}")
             throw e

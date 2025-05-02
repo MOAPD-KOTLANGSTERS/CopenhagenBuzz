@@ -17,7 +17,7 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
     /**
      * Thread-safe lazy singleton implementation
      */
-    protected val db : DatabaseReference by lazy {
+    val db : DatabaseReference by lazy {
         Firebase.database(DotenvManager.DATABASE_URL)
             .reference
             .child("copenhagen_buzz/$child")
@@ -27,21 +27,21 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
     /**
      * Add a value
      */
-    open suspend fun add(value: T) = db.push().setValue(value).await()
+    open suspend fun add(value: T) { db.push().setValue(value).await() }
 
     /**
      * Delete a value
      */
-    suspend fun delete(id: String) = db.child(id).removeValue().await()
+    suspend fun delete(id: String) { db.child(id).removeValue().await() }
 
     /**
      * Get a T
      */
-    suspend fun getById(id: String) = db.child(id).get().await().getValue(clazz)
+    suspend fun getById(id: String) { db.child(id).get().await().getValue(clazz) }
 
     /**
      * Get all T as a list
      */
-    suspend fun getAll() = db.get().await().children.mapNotNull { it.getValue(clazz) }
+    suspend fun getAll() : List<T> { return db.get().await().children.mapNotNull { it.getValue(clazz) } }
 
 }
