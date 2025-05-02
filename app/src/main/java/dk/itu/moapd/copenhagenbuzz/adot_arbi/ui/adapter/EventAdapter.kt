@@ -12,8 +12,8 @@
     import com.firebase.ui.database.FirebaseListOptions
     import com.google.android.material.snackbar.Snackbar
     import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-    import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
     import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+    import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
     import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 
     /**
@@ -31,6 +31,7 @@
         private val context: Context,
         private var resource: Int,
         private val isLoggedIn: Boolean,
+        private val timeLineViewModel: TimeLineViewModel,
         options: FirebaseListOptions<Event>
     ) : FirebaseListAdapter<Event>(options) {
 
@@ -99,10 +100,12 @@
                 )
                 textViewDescription.text = model.eventDescription
                 // Set the button click listeners using lambda expressions.
-                android.util.Log.d("CustomAdapter", "Location: ${model.eventLocation}")
+                Log.d("CustomAdapter", "Location: ${model.eventLocation}")
                 // Set the button click listeners using method references.
                 buttonFavorite.setOnClickListener {
                     showSnackBar("Favorite: ${model.eventName}", it)
+                    Log.d(TAG, model.toString())
+                    timeLineViewModel.addFavorite(model.id!!)
                 }
                 buttonEdit.setOnClickListener {
                     showSnackBar("You want to edit", it)

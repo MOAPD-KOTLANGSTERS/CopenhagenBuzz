@@ -6,11 +6,10 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import com.firebase.ui.database.FirebaseListOptions
-import com.google.firebase.database.FirebaseDatabase
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.EventAdapter
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 
@@ -28,14 +27,11 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     R.id.action_timeLineFragment_to_addEventFragment,
 ) {
 
-    private val dataViewModel: DataViewModel by activityViewModels()
+    private val dataViewModel: TimeLineViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dataViewModel.fetchEvents(requireContext())
-
 
         val options = FirebaseListOptions.Builder<Event>()
             .setQuery(EventRepository().db, Event::class.java)
@@ -43,15 +39,13 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
             .setLifecycleOwner(viewLifecycleOwner)
             .build()
 
-
-        dataViewModel.events.observe(viewLifecycleOwner) { events ->
-            val adapter = EventAdapter(
-                requireContext(),
-                R.layout.item_row,
-                isLoggedIn,
-                options,
-            )
-            binding.timelineListView.adapter = adapter
-        }
+        val adapter = EventAdapter(
+            requireContext(),
+            R.layout.item_row,
+            isLoggedIn,
+            dataViewModel,
+            options,
+        )
+        binding.timelineListView.adapter = adapter
     }
 }

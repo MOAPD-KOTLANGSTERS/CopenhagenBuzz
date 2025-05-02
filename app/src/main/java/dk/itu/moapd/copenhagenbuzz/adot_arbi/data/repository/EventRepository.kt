@@ -11,6 +11,4 @@ class EventRepository : BaseRepository<Event>(Event::class.java,"event") {
         val valueWithId = value.copy(id = id)
         ref.setValue(valueWithId).await()
     }
-
-
 }

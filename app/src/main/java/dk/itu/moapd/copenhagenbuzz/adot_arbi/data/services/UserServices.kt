@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
@@ -23,9 +24,9 @@ class UserServices(
         }
     }
 
-    override suspend fun createUser() {
+    override suspend fun createUser(user : FirebaseUser) {
         try {
-            db.createUser(readUser())
+            db.createUser(User(user.uid))
         } catch (e : Exception) {
             Log.d(TAG, "createUser error :: ${e.message.toString()}")
             throw e

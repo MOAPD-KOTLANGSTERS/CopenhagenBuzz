@@ -9,10 +9,9 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBindin
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 
 /**
  *  A subclass of the [BaseFragment],
@@ -27,7 +26,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     R.id.action_bookmarksFragment_to_addEventFragment,
 
     ) {
-    private val dataViewModel: DataViewModel by activityViewModels()
+    private val dataViewModel: BookmarkViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +34,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
         if (isLoggedIn) {
-            dataViewModel.bookmarks.observe(viewLifecycleOwner) { bookmarks ->
+            dataViewModel.bookmarks.observe(viewLifecycleOwner) {
                 val options = FirebaseRecyclerOptions.Builder<Event>()
                     .setQuery(UserRepository().db.child("favorites"), Event::class.java)
                     .setLifecycleOwner(viewLifecycleOwner)

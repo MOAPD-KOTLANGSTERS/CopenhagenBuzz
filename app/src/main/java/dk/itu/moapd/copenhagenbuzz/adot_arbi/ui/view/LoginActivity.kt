@@ -3,12 +3,16 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.EventAdapter
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class LoginActivity : AppCompatActivity() {
 
@@ -57,8 +61,12 @@ class LoginActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
+
             if (user != null) {
-                startMainActivity()
+                lifecycleScope.launch {
+                    UserServices().createUser(user)
+                    startMainActivity()
+                }
             }
         } else {
             startMainActivity()

@@ -26,6 +26,10 @@ data class Event(
      * Custom toString method for logging
      */
     override fun toString(): String {
-        return "Event(eventName='$eventName', eventLocation='$eventLocation', eventDate='${CustomDate.getDateFromEpoch(eventDate)}')"
+        return "Event:\n" +
+                "$eventName\n" +
+                "$eventLocation\n" +
+                "${CustomDate.getDateFromEpoch(eventDate)}\n" +
+                userId
     }
 }

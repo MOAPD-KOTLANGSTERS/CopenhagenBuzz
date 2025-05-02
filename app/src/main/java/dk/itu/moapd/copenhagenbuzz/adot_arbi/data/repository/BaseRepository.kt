@@ -14,13 +14,15 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
         private val TAG = BaseRepository::class.qualifiedName
     }
 
+    protected val path : String = "copenhagen_buzz/"
+
     /**
      * Thread-safe lazy singleton implementation
      */
     val db : DatabaseReference by lazy {
         Firebase.database(DotenvManager.DATABASE_URL)
             .reference
-            .child("copenhagen_buzz/$child")
+            .child("$path/$child")
             .also { it.keepSynced(true) }
     }
 
