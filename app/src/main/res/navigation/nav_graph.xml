@@ -90,9 +90,6 @@
         <action
             android:id="@+id/action_timeLineFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
-        <action
-            android:id="@+id/action_timeLineFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
