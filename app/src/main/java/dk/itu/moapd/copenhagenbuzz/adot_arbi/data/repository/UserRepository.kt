@@ -6,34 +6,38 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import kotlinx.coroutines.tasks.await
 
 class UserRepository : BaseRepository<DummyModel>(DummyModel::class.java,"user") {
-    suspend fun createUser() =
-        db.push().setValue(
-            FirebaseAuth
-                .getInstance()
-                .currentUser?.uid
-                ?: run { throw IllegalStateException() }
-        )
+    private fun getUid(): String =
+        FirebaseAuth.getInstance().currentUser?.uid ?: throw IllegalStateException("User not logged in")
 
-    suspend fun removeUser() =
-        db.child(
-            FirebaseAuth
-                .getInstance()
-                .currentUser?.uid
-                ?: run { throw IllegalStateException() }
-        ).removeValue()
+    suspend fun createUser(): Void =
+        db.push()
+            .setValue(getUid())
+            .await()
+
+    suspend fun deleteUser() =
+        db.child(getUid())
+            .removeValue()
+            .await()
 
     suspend fun createFavorite(eventId: String) =
-        db.child(
-            FirebaseAuth
-                .getInstance()
-                .currentUser?.uid
-                ?: run { throw IllegalStateException() }
-        ).push().setValue(eventId)
+        db.child(getUid())
+            .child("favorites")
+            .push()
+            .setValue(eventId)
+            .await()
 
-    suspend fun readAllFavorites() = db.child(
-        FirebaseAuth
-            .getInstance()
-            .currentUser?.uid
-            ?: run { throw IllegalStateException() }
-    ).get().await().children.mapNotNull { it.getValue(Event::class.java) }
+    suspend fun readAllFavorites() =
+        db.child(getUid())
+            .child("favorites")
+            .get()
+            .await()
+            .children
+            .mapNotNull { it.getValue(Event::class.java) }
+
+    suspend fun removeFavorite(eventId: String) =
+        db.child(getUid())
+            .child("favorites")
+            .child(eventId)
+            .removeValue()
+            .await()
 }

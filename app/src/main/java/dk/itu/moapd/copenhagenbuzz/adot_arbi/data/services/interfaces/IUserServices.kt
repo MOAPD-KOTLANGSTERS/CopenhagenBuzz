@@ -6,7 +6,7 @@ interface IUserServices {
     fun deleteUser()
 
     // bookmark specific
-    fun createNewFavorite()
+    fun createFavorite(eventId: String)
     fun readAllFavoriteEvents()
-    fun deleteFavoriteEvent()
+    fun deleteFavoriteEvent(eventId: String)
 }
