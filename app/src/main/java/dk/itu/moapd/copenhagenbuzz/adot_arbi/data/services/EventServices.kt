@@ -42,7 +42,7 @@ class EventServices : IEventServices {
 
     override suspend fun deleteEvent(event: Event): Void {
         try {
-            return db.delete(event.id)
+            return db.delete(event.id!!)
         } catch (e : Exception) {
             Log.d(TAG, "deleteEvent error :: ${e.message.toString()}")
             throw e

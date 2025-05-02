@@ -44,10 +44,10 @@ class DataViewModel : ViewModel() {
 
                 val location = coordinates?.let { (lat, lng) ->
                     val address = getAddressFromCoordinates(context, lat, lng) ?: "Unknown"
-                    data.add(DummyModel(eventName, type, eventDate, description, imageUrl, EventLocation(lat, lng, address)))
-                } ?: data.add(DummyModel(eventName, type, eventDate, description, imageUrl, EventLocation(0.0, 0.0, "Unknown")))
+                    EventLocation(lat, lng, address)
+                } ?: EventLocation(0.0, 0.0, "Unknown")
 
-
+                data.add(DummyModel(eventName, type, eventDate, description, imageUrl, location))
             }
 
             _events.postValue(data)

@@ -13,7 +13,7 @@ import java.util.Date
  *  @param eventDescription A short description of the event
  */
 data class Event(
-    var id: String,
+    var id: String? = null,
     var eventName: String,
     var eventLocation: String,
     var eventDate: Long,
