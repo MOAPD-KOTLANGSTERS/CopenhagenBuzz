@@ -14,12 +14,12 @@ class UserRepository : BaseRepository<DummyModel>(DummyModel::class.java,"user")
             .setValue(getUid())
             .await()
 
-    suspend fun deleteUser() =
+    suspend fun deleteUser(): Void =
         db.child(getUid())
             .removeValue()
             .await()
 
-    suspend fun createFavorite(eventId: String) =
+    suspend fun createFavorite(eventId: String): Void =
         db.child(getUid())
             .child("favorites")
             .push()
@@ -34,7 +34,7 @@ class UserRepository : BaseRepository<DummyModel>(DummyModel::class.java,"user")
             .children
             .mapNotNull { it.getValue(Event::class.java) }
 
-    suspend fun removeFavorite(eventId: String) =
+    suspend fun removeFavorite(eventId: String): Void =
         db.child(getUid())
             .child("favorites")
             .child(eventId)

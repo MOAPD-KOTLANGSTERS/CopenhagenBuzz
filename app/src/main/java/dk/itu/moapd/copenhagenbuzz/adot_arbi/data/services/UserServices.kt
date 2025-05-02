@@ -15,7 +15,7 @@ class UserServices : IUserServices {
     override fun createUser() {
         try {
             Coroutine.suspendLaunch { db.createUser() }
-        } catch (e : IllegalStateException) {
+        } catch (e : Exception) {
             Log.d(TAG, "createUser error :: ${e.message.toString()}")
         }
     }
@@ -23,7 +23,7 @@ class UserServices : IUserServices {
     override fun deleteUser() {
         try {
             Coroutine.suspendLaunch { db.deleteUser() }
-        } catch (e : IllegalStateException) {
+        } catch (e : Exception) {
             Log.d(TAG, "deleteUser error :: ${e.message.toString()}")
         }
     }
@@ -40,15 +40,15 @@ class UserServices : IUserServices {
         try {
             Coroutine.suspendLaunch { db.readAllFavorites() }
         } catch (e : IllegalStateException) {
-
+            Log.d(TAG, "readAllFavoriteEvents error :: ${e.message.toString()}")
         }
     }
 
     override fun deleteFavoriteEvent(eventId: String) {
         try {
-
+            Coroutine.suspendLaunch { db.removeFavorite(eventId) }
         } catch (e : IllegalStateException) {
-
+            Log.d(TAG, "deleteFavoriteEvent error :: ${e.message.toString()}")
         }
     }
 }
