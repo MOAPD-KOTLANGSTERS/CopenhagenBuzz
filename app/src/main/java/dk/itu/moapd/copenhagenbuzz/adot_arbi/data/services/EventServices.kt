@@ -7,16 +7,16 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices.Companion
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
 
-class EventServices(
+class EventServices (
     private val db : EventRepository = EventRepository()
 ) : IEventServices {
     companion object {
         private val TAG = EventServices::class.qualifiedName
     }
 
-    override suspend fun createEvent(event: Event): Void {
+    override suspend fun createEvent(event: Event) {
         try {
-            return db.add(event)
+            db.add(event)
         } catch (e : Exception) {
             Log.d(TAG, "readUser error :: ${e.message.toString()}")
             throw e
@@ -32,18 +32,18 @@ class EventServices(
         }
     }
 
-    override suspend fun updateEvent(event: Event): Void {
+    override suspend fun updateEvent(event: Event) {
         try {
-            return db.add(event)
+            db.add(event)
         } catch (e : Exception) {
             Log.d(TAG, "updateEvent error :: ${e.message.toString()}")
             throw e
         }
     }
 
-    override suspend fun deleteEvent(event: Event): Void {
+    override suspend fun deleteEvent(event: Event) {
         try {
-            return db.delete(event.id!!)
+            db.delete(event.id!!)
         } catch (e : Exception) {
             Log.d(TAG, "deleteEvent error :: ${e.message.toString()}")
             throw e

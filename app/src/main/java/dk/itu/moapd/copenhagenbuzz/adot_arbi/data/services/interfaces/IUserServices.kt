@@ -7,12 +7,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 
 interface IUserServices {
     // user specific
-    suspend fun createUser() : Void
+    suspend fun createUser() : Unit
     suspend fun readUser() : User
-    suspend fun deleteUser() : Void
+    suspend fun deleteUser() : Unit
 
     // bookmark specific
-    suspend fun createFavorite(eventId: String) : Void
+    suspend fun createFavorite(eventId: String) : Unit
     suspend fun readAllFavoriteEvents(): List<Event>
-    suspend fun deleteFavoriteEvent(eventId: String): Void
+    suspend fun deleteFavoriteEvent(eventId: String): Unit
 }
