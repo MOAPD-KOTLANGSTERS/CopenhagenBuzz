@@ -12,7 +12,7 @@ object DotenvManager {
     /**
      * Thread-Safe dotenv getter
      */
-    val dotenv : Dotenv by lazy {
+    private val dotenv : Dotenv by lazy {
         dotenv {
             directory = "/assets"
             filename = "env"

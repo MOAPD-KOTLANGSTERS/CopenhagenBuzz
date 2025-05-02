@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     val isLoggedIn: Boolean
         get() {
             val user = FirebaseAuth.getInstance().currentUser
+            Log.d(TAG, (user != null).toString())
             // check if there exists a user and not anonymous
             return user != null && !user.isAnonymous
         }

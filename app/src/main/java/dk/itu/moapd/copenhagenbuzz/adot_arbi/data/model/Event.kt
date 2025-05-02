@@ -29,6 +29,7 @@ data class Event(
         require(eventName.isNotEmpty()) { "Missing Event Name" }
         require(eventLocation.isNotEmpty()) { "Missing Event Location" }
         require(eventDescription.isNotEmpty()) { "Missing Event Description" }
+        require(userId.isNotEmpty()) { "Missing user ID" }
     }
 
     /**

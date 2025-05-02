@@ -9,7 +9,11 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /**
@@ -25,8 +29,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     R.id.action_addEventFragment_self
 ) {
     companion object {
-        private val TAG = MainActivity::class.qualifiedName
+        private val TAG = AddEventFragment::class.qualifiedName
     }
+
+    private val eventRepository = EventRepository()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,14 +73,18 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
             var message : String? = null
             try {
                 val e = with(binding) {
-                    Event(
-                        eventName = editTextEventName.text.toString(),
-                        eventLocation = editTextEventLocation.text.toString(),
-                        eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
-                        eventType = editTextEventType.text.toString(),
-                        eventDescription = editTextEventDescription.text.toString(),
-                        userId = FirebaseAuth.getInstance().currentUser!!.uid
-                    )
+                    CoroutineScope(Dispatchers.IO).launch {
+                        eventRepository.add(
+                            Event(
+                                eventName = editTextEventName.text.toString(),
+                                eventLocation = editTextEventLocation.text.toString(),
+                                eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
+                                eventType = editTextEventType.text.toString(),
+                                eventDescription = editTextEventDescription.text.toString(),
+                                userId = FirebaseAuth.getInstance().currentUser!!.uid
+                            )
+                        )
+                    }
                 }
                 message = e.toString()
             }  catch (e: IllegalArgumentException) {

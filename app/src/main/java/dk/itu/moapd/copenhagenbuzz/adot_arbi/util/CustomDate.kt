@@ -9,7 +9,7 @@ object CustomDate {
     fun getDateFromEpoch(epoch: Long): LocalDate = LocalDate.ofEpochDay(epoch)
 
     // You can read some documentation of date formats here https://www.baeldung.com/kotlin/dates
-    fun getEpochFromString(input: String, dateFormat: String = "dd-MM-yyyy") : Long {
+    fun getEpochFromString(input: String, dateFormat: String = "dd/MM/yyyy") : Long {
         if (input.isEmpty()) throw IllegalArgumentException("Please add a date")
         val lst = input.split(DELIMITER).map { it.toInt() }
         if (lst.size != 3) throw IllegalArgumentException("Date Must consist of dd${DELIMITER}MM${DELIMITER}yyyy")
