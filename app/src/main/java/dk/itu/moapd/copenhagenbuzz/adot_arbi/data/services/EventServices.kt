@@ -18,17 +18,16 @@ class EventServices (
         try {
             db.add(event)
         } catch (e : Exception) {
-            Log.d(TAG, "readUser error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "readUser error :: ${e.message.toString()}")
         }
     }
 
     override suspend fun readAllEvents(): List<Event> {
-        try {
-            return db.getAll()
+        return try {
+            db.getAll()
         } catch (e : Exception) {
-            Log.d(TAG, "readAllEvents error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "readAllEvents error :: ${e.message.toString()}")
+            emptyList()
         }
     }
 
@@ -36,8 +35,7 @@ class EventServices (
         try {
             db.add(event)
         } catch (e : Exception) {
-            Log.d(TAG, "updateEvent error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "updateEvent error :: ${e.message.toString()}")
         }
     }
 
@@ -45,17 +43,16 @@ class EventServices (
         try {
             db.delete(event.id!!)
         } catch (e : Exception) {
-            Log.d(TAG, "deleteEvent error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "deleteEvent error :: ${e.message.toString()}")
         }
     }
 
     override suspend fun readEventsFromId(eventId: String): Event? {
-        try {
-            return db.readEventsFromId(eventId)
+        return try {
+             db.readEventsFromId(eventId)
         } catch (e : Exception) {
-            Log.d(TAG, "deleteEvent error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "deleteEvent error :: ${e.message.toString()}")
+            null
         }
     }
 }
