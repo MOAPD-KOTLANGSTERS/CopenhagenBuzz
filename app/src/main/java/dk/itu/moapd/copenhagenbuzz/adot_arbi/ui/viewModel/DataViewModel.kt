@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Random
 import java.util.concurrent.TimeUnit
+import java.util.Locale
 
 class DataViewModel : ViewModel() {
 
@@ -38,6 +39,8 @@ class DataViewModel : ViewModel() {
                 val eventDate: Date = faker.date().future(30, TimeUnit.DAYS)
                 val description = faker.lorem().paragraph()
                 val imageUrl = "https://picsum.photos/seed/$i/400/194"
+
+                val faker = Faker(Locale("da"))
                 val addressName = faker.address().fullAddress()
 
                 val coordinates = getCoordinatesFromAddress(context, addressName)
