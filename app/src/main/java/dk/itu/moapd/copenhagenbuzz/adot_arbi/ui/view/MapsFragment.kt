@@ -17,7 +17,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
         import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
         import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
         import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.DataViewModel
+        import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
 
 class MapsFragment : BaseFragment<FragmentMapsBinding>(
             FragmentMapsBinding::inflate,
@@ -30,7 +30,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
 
             private lateinit var mapView: MapView
             private lateinit var googleMap: GoogleMap
-            private val dataViewModel: DataViewModel by activityViewModels()
+            private val dataViewModel: MapsViewModel by activityViewModels()
 
             override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
                 super.onViewCreated(view, savedInstanceState)
@@ -48,17 +48,18 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
                 dataViewModel.events.observe(viewLifecycleOwner) { events ->
                     fetchAndDisplayEvents(events)
                 }
+
             }
 
-            private fun fetchAndDisplayEvents(events: List<DummyModel>) {
+            private fun fetchAndDisplayEvents(events: List<Event>) {
                 // Add markers for each event
                 events.forEach { event ->
-                    val location = LatLng(event.location.lat, event.location.long)
+                    val location = LatLng(0.0, 0.0)
                     val marker = googleMap.addMarker(
                         MarkerOptions()
                             .position(location)
                             .title(event.eventName)
-                            .snippet(event.description)
+                            .snippet(event.eventDescription)
                     )
                     marker?.tag = event
                 }
@@ -66,7 +67,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
                 // Focus camera on the first event
                 if (events.isNotEmpty()) {
                     val firstEvent = events[0]
-                    val firstLatLng = LatLng(firstEvent.location.lat, firstEvent.location.long)
+                    val firstLatLng = LatLng(0.0, 0.0)
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLatLng, 10f))
                 }
 

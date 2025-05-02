@@ -12,6 +12,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IUserServi
 class UserServices(
     private val db : UserRepository = UserRepository()
 ) : IUserServices {
+
+
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }

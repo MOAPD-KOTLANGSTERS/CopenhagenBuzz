@@ -14,7 +14,8 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
         private val TAG = BaseRepository::class.qualifiedName
     }
 
-    protected val path : String = "copenhagen_buzz/"
+    protected val path : String
+        get() = "copenhagen_buzz/"
 
     /**
      * Thread-safe lazy singleton implementation
