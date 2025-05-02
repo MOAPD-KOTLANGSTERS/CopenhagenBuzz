@@ -29,7 +29,7 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
     /**
      * Add a value
      */
-    suspend fun add(value: T) = db.push().setValue(value).await()
+    open suspend fun add(value: T) = db.push().setValue(value).await()
 
     /**
      * Delete a value

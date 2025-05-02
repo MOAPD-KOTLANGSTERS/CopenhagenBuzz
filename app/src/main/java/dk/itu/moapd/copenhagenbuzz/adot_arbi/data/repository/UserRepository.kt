@@ -1,8 +1,5 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.getValue
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import kotlinx.coroutines.tasks.await

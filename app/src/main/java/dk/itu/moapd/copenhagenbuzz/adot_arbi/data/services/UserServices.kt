@@ -13,7 +13,7 @@ class UserServices : IUserServices {
         private val TAG = BaseRepository::class.qualifiedName
     }
 
-    private val db : UserRepository = UserRepository()
+    val db : UserRepository = UserRepository()
     override suspend fun readUser() : User {
         try {
             return db.readUser(FirebaseAuth.getInstance().currentUser?.uid)!!

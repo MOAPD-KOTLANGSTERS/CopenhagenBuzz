@@ -2,6 +2,8 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
 
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 
 interface IUserServices {
     // user specific
