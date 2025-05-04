@@ -10,13 +10,14 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MapsViewModel(private val context: Context) : ViewModel() {
+class MapsViewModel(context: Context) : ViewModel() {
     private val _events = MutableLiveData<List<Event>>()
     val events: LiveData<List<Event>> get() = _events
+    private val eventServices = EventServices(context)
 
     fun getAllEvents() {
         viewModelScope.launch(Dispatchers.IO) {
-            _events.postValue(EventServices(context).readAllEvents())
+            _events.postValue(eventServices.readAllEvents())
         }
     }
 }

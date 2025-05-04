@@ -1,7 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
 
 import android.content.Context
-import android.location.Geocoder
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -11,7 +10,6 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
 import getAddressFromCoordinates
 import getCoordinatesFromAddress
-import java.util.Locale
 
 
 class EventServices(
