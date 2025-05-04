@@ -1,5 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,13 +10,13 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MapsViewModel : ViewModel() {
+class MapsViewModel(private val context: Context) : ViewModel() {
     private val _events = MutableLiveData<List<Event>>()
     val events: LiveData<List<Event>> get() = _events
 
     fun getAllEvents() {
         viewModelScope.launch(Dispatchers.IO) {
-            _events.postValue(EventServices().readAllEvents())
+            _events.postValue(EventServices(context).readAllEvents())
         }
     }
 }

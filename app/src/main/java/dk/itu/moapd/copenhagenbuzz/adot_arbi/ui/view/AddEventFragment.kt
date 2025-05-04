@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import kotlinx.coroutines.CoroutineScope
@@ -74,10 +75,11 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
             try {
                 val e = with(binding) {
                     CoroutineScope(Dispatchers.IO).launch {
+                        val address = binding.editTextEventLocation.text.toString()
                         eventRepository.add(
                             Event(
                                 eventName = editTextEventName.text.toString(),
-                                eventLocation = editTextEventLocation.text.toString(),
+                                eventLocation = EventLocation(address = address),
                                 eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
                                 eventType = editTextEventType.text.toString(),
                                 eventDescription = editTextEventDescription.text.toString(),
