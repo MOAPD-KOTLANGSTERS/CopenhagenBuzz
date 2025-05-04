@@ -3,6 +3,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
@@ -45,16 +46,16 @@ class UserServices(
         }
     }
 
-    override suspend fun createFavorite(eventId: String) {
+    override suspend fun createFavorite(bookmarkEvent: BookmarkEvent) {
         try {
-            db.createFavorite(readUser(), eventId)
+            db.createFavorite(readUser(), bookmarkEvent)
         } catch (e : IllegalStateException) {
             Log.d(TAG, "createFavorite error :: ${e.message.toString()}")
             throw e
         }
     }
 
-    override suspend fun readAllFavoriteEvents(): List<String> {
+    override suspend fun readAllFavoriteEvents(): List<BookmarkEvent> {
         try {
             return db.readAllFavorites(readUser())
         } catch (e : IllegalStateException) {

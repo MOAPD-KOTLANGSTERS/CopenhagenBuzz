@@ -8,7 +8,9 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
@@ -25,9 +27,8 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     R.id.action_bookmarksFragment_to_calenderFragment,
     R.id.action_bookmarksFragment_to_mapsFragment,
     R.id.action_bookmarksFragment_to_addEventFragment,
-
-    ) {
-    private val dataViewModel: BookmarkViewModel by activityViewModels()
+) {
+    private var adapter: BookmarkAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,14 +36,23 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
         if (isLoggedIn) {
-            dataViewModel.loadFavorites()
-            dataViewModel.bookmarks.observe(viewLifecycleOwner) { events ->
-                val adapter = BookmarkAdapter(events)
-                binding.bookmarksRecyclerviewView.adapter = adapter
-            }
-        }
-        else {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+            val query = UserRepository().db
+                .child(userId)
+                .child("favorites")
+                .orderByChild("eventDate")
+
+            val options = FirebaseRecyclerOptions.Builder<Event>()
+                .setQuery(query, Event::class.java)
+                .setLifecycleOwner(viewLifecycleOwner)
+                .build()
+
+            adapter = BookmarkAdapter(options)
+            binding.bookmarksRecyclerviewView.adapter = adapter
+        } else {
             binding.bookmarksRecyclerviewView.visibility = View.GONE
         }
     }
 }
+

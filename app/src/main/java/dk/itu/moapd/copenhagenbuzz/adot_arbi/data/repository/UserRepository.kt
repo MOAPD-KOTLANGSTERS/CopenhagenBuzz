@@ -1,5 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
+import com.github.javafaker.Book
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import kotlinx.coroutines.tasks.await
@@ -26,30 +28,27 @@ class UserRepository : BaseRepository<User>(User::class.java,"user") {
             .getValue(User::class.java)
     }
 
-
     suspend fun deleteUser(user: User) {
         db.child(user.uuid)
             .removeValue()
             .await()
     }
 
-
-    suspend fun createFavorite(user : User, eventId: String) {
+    suspend fun createFavorite(user : User, event: BookmarkEvent) {
         db.child(user.uuid)
             .child("favorites")
-            .child(eventId)
-            .setValue(true)
+            .child(event.eventId)
+            .setValue(event)
             .await()
     }
 
-
-    suspend fun readAllFavorites(user: User): List<String> {
+    suspend fun readAllFavorites(user: User): List<BookmarkEvent> {
         return db.child(user.uuid)
             .child("favorites")
             .get()
             .await()
             .children
-            .mapNotNull { it.key }
+            .mapNotNull { it.getValue(BookmarkEvent::class.java) }
     }
 
     suspend fun removeFavorite(user: User, eventId: String) {
@@ -60,4 +59,7 @@ class UserRepository : BaseRepository<User>(User::class.java,"user") {
             .await()
     }
 
+    suspend fun test() {
+
+    }
 }

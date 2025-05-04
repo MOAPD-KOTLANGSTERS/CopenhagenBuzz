@@ -10,13 +10,14 @@ import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 
 class BookmarkAdapter(
-    private val items: List<Event>,
-) :
-    RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
+    options: FirebaseRecyclerOptions<Event>
+) : FirebaseRecyclerAdapter<Event, BookmarkAdapter.ViewHolder>(options) {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.image_view_event_photo)
@@ -30,13 +31,11 @@ class BookmarkAdapter(
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val event = items[position]
-        holder.titleTextView.text = event.eventName
-        holder.typeTextView.text = event.eventType
-        // Picasso.get().load(event.url).into(holder.imageView)
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Event) {
+        holder.titleTextView.text = model.eventName
+        holder.typeTextView.text = model.eventType
 
-    override fun getItemCount(): Int = items.size
+        // Picasso.get().load(model.imageUrl).into(holder.imageView)
+    }
 }
 

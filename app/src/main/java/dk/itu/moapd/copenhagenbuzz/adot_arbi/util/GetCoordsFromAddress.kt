@@ -1,4 +1,4 @@
-// GeoUtils.kt
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.util// GeoUtils.kt
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder

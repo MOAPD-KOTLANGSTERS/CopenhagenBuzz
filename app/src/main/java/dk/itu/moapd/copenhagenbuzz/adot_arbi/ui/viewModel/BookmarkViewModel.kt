@@ -15,13 +15,5 @@ class BookmarkViewModel : ViewModel() {
     private val _bookmarks = MutableLiveData<List<Event>>()
     val bookmarks: LiveData<List<Event>> get() = _bookmarks
 
-    fun loadFavorites() {
-        viewModelScope.launch {
-            val events = UserServices().readAllFavoriteEvents().mapNotNull {
-                EventServices().readEventsFromId(it)
-            }
-            _bookmarks.postValue(events)
-        }
-    }
 
 }

@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
 
 import com.google.firebase.auth.FirebaseUser
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
@@ -13,7 +14,7 @@ interface IUserServices {
     suspend fun deleteUser() : Unit
 
     // bookmark specific
-    suspend fun createFavorite(eventId: String) : Unit
-    suspend fun readAllFavoriteEvents(): List<String>
+    suspend fun createFavorite(bookmarkEvent: BookmarkEvent) : Unit
+    suspend fun readAllFavoriteEvents(): List<BookmarkEvent>
     suspend fun deleteFavoriteEvent(eventId: String): Unit
 }
