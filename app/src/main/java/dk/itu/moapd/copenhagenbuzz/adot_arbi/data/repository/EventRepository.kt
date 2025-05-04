@@ -1,6 +1,5 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
-import android.util.Log
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import kotlinx.coroutines.tasks.await
 

@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     val isLoggedIn: Boolean
         get() {
             val user = FirebaseAuth.getInstance().currentUser
-            Log.d(TAG, (user != null).toString())
             // check if there exists a user and not anonymous
             return user != null && !user.isAnonymous
         }
@@ -83,5 +82,10 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonAddEvent.setOnClickListener {
             navController.navigate(R.id.action_to_addEventFragment)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // TODO("Add a check if there is a user, if not go back to login activity")
     }
 }

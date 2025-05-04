@@ -2,7 +2,6 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import BookmarkAdapter
 import android.os.Bundle
-import androidx.fragment.app.activityViewModels
 import android.view.View
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
@@ -10,11 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 
 /**
  *  A subclass of the [BaseFragment],

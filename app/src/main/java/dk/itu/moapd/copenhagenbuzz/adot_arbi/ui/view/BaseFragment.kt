@@ -101,7 +101,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             when (menuItem.itemId) {
                 R.id.menu_profile -> {
                     // Navigate to the profile screen or handle profile action
-                    Log.d("BaseFragment", "Profile selected")
+
                 }
                 R.id.menu_logout -> {
                     // Log out the user

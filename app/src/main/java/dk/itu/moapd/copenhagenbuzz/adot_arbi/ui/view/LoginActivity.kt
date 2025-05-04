@@ -12,7 +12,6 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.EventAdapter
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 
 class LoginActivity : AppCompatActivity() {
 

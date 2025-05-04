@@ -1,23 +1,23 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
-        import android.Manifest
-        import android.content.pm.PackageManager
-        import android.os.Bundle
-        import android.view.View
-        import android.widget.Toast
-        import androidx.core.app.ActivityCompat
-        import androidx.fragment.app.activityViewModels
-        import com.google.android.gms.maps.CameraUpdateFactory
-        import com.google.android.gms.maps.GoogleMap
-        import com.google.android.gms.maps.MapView
-        import com.google.android.gms.maps.OnMapReadyCallback
-        import com.google.android.gms.maps.model.LatLng
-        import com.google.android.gms.maps.model.MarkerOptions
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
-        import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
 
 class MapsFragment : BaseFragment<FragmentMapsBinding>(
             FragmentMapsBinding::inflate,

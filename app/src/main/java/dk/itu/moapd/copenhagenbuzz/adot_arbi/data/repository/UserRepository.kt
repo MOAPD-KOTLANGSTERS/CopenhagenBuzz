@@ -1,8 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
 
-import com.github.javafaker.Book
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import kotlinx.coroutines.tasks.await
 

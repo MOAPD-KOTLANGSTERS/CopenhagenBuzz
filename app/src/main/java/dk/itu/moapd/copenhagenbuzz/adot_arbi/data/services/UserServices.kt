@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
@@ -13,8 +12,6 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IUserServi
 class UserServices(
     private val db : UserRepository = UserRepository()
 ) : IUserServices {
-
-
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }
@@ -64,6 +61,15 @@ class UserServices(
                 db.createFavorite(user, bookmarkEvent)
         } catch (e : IllegalStateException) {
             Log.d(TAG, "favorite error :: ${e.message.toString()}")
+            throw e
+        }
+    }
+
+    override suspend fun isFavorited(eventId: String): Boolean {
+        try {
+            return db.isFavorited(readUser(), eventId)
+        } catch (e : IllegalStateException) {
+            Log.d(TAG, "isFavorited error :: ${e.message.toString()}")
             throw e
         }
     }

@@ -2,10 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
 
 import com.google.firebase.auth.FirebaseUser
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 
 interface IUserServices {
     // user specific
@@ -15,5 +12,6 @@ interface IUserServices {
 
     // bookmark specific
     suspend fun favorite(bookmarkEvent: BookmarkEvent) : Unit
+    suspend fun isFavorited(eventId: String) : Boolean
     suspend fun readAllFavoriteEvents(): List<BookmarkEvent>
 }
