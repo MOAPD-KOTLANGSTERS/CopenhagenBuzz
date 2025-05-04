@@ -62,6 +62,14 @@ class UserServices(
         }
     }
 
+    override suspend fun removeFavorite(eventId: String) {
+        try {
+            db.removeFavorite(readUser(), eventId)
+        } catch (e : IllegalStateException) {
+            Log.e(TAG, "removeFavorite error :: ${e.message.toString()}")
+        }
+    }
+
     override suspend fun isFavorite(eventId: String): Boolean {
         try {
             return db.isFavorite(readUser(), eventId)

@@ -18,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     companion object {
-        private val TAG = TimeLineAdapter::class.qualifiedName
+        private val TAG = LoginActivity::class.qualifiedName
     }
 
     private val signInLauncher = registerForActivityResult(

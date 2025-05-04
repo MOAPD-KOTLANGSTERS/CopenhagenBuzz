@@ -12,6 +12,7 @@ interface IUserServices {
 
     // bookmark specific
     suspend fun favorite(bookmarkEvent: BookmarkEvent)
+    suspend fun removeFavorite(eventId: String)
     suspend fun isFavorite(eventId: String) : Boolean
     suspend fun readAllFavoriteEvents(): List<BookmarkEvent>
 }

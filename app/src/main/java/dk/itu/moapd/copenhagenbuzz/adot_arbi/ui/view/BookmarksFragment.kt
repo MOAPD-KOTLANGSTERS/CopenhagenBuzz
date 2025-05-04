@@ -3,13 +3,21 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 import BookmarkAdapter
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.AddEventViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
 
 /**
  *  A subclass of the [BaseFragment],
@@ -25,6 +33,18 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 ) {
     private var adapter: BookmarkAdapter? = null
 
+    private val bookmarkViewModel: BookmarkViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(BookmarkViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return BookmarkViewModel(requireContext()) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,12 +58,12 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
                 .child("favorites")
                 .orderByChild("eventDate")
 
-            val options = FirebaseRecyclerOptions.Builder<Event>()
-                .setQuery(query, Event::class.java)
+            val options = FirebaseRecyclerOptions.Builder<BookmarkEvent>()
+                .setQuery(query, BookmarkEvent::class.java)
                 .setLifecycleOwner(viewLifecycleOwner)
                 .build()
 
-            adapter = BookmarkAdapter(options)
+            adapter = BookmarkAdapter(options, bookmarkViewModel)
             binding.bookmarksRecyclerviewView.adapter = adapter
         } else {
             binding.bookmarksRecyclerviewView.visibility = View.GONE

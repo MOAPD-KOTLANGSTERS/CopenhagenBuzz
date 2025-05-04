@@ -1,3 +1,4 @@
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,18 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 
 class BookmarkAdapter(
-    options: FirebaseRecyclerOptions<Event>
-) : FirebaseRecyclerAdapter<Event, BookmarkAdapter.ViewHolder>(options) {
+    options: FirebaseRecyclerOptions<BookmarkEvent>,
+    private val bookmarkViewModel: BookmarkViewModel
+) : FirebaseRecyclerAdapter<BookmarkEvent, BookmarkAdapter.ViewHolder>(options) {
+
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.image_view_event_photo)
@@ -26,7 +34,8 @@ class BookmarkAdapter(
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Event) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: BookmarkEvent) {
+        bookmarkViewModel.exists(model.eventId)
         holder.titleTextView.text = model.eventName
         holder.typeTextView.text = model.eventType
 
