@@ -65,29 +65,24 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         timeLineViewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
-            try {
-                event?.let {
-                    populateUI(it)
-                    setupUserInput(true) { newEvent ->
-                        addEventViewModel.updateEvent(event.copy(
-                            eventName = newEvent.eventName,
-                            eventDate = newEvent.eventDate,
-                            eventDescription = newEvent.eventDescription,
-                            eventType = newEvent.eventType,
-                            eventLocation = newEvent.eventLocation
-                        ))
-                        timeLineViewModel.setEvent()
-                        showSnackBar("Event edited successfully!", binding.root)
-                    }
-                } ?: run { setupUserInput(false) {
+            event?.let {
+                populateUI(it)
+                setupUserInput(true) { newEvent ->
+                    addEventViewModel.updateEvent(event.copy(
+                        eventName = newEvent.eventName,
+                        eventDate = newEvent.eventDate,
+                        eventDescription = newEvent.eventDescription,
+                        eventType = newEvent.eventType,
+                        eventLocation = newEvent.eventLocation
+                    ))
+                    timeLineViewModel.setEvent()
+                    showSnackBar("Event edited successfully!", binding.root)
+                }
+            } ?: run { setupUserInput(false) {
                     addEventViewModel.addEvent(it)
                     showSnackBar("Event added successfully!", binding.root)
-                } }
-
-            } catch (e: Exception) {
-                showSnackBar("Error: ${e.message}, please try again.", binding.root)
+                }
             }
-
         }
 
     }
@@ -132,19 +127,25 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         // Listener for the "Add Event" button to create a new event.
         binding.fabAddEvent.setOnClickListener {
             // Using a callback here to manage it higher up
-            onSuccess(
-                with(binding) {
-                    Event(
-                        eventName = editTextEventName.text.toString(),
-                        eventLocation = EventLocation(address = editTextEventLocation.text.toString()),
-                        eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
-                        eventType = editTextEventType.text.toString(),
-                        eventDescription = editTextEventDescription.text.toString(),
-                        userId = FirebaseAuth.getInstance().currentUser!!.uid
-                    )
-                }
-            )
-            activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+
+            try {
+                onSuccess(
+                    with(binding) {
+                        Event(
+                            eventName = editTextEventName.text.toString(),
+                            eventLocation = EventLocation(address = editTextEventLocation.text.toString()),
+                            eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
+                            eventType = editTextEventType.text.toString(),
+                            eventDescription = editTextEventDescription.text.toString(),
+                            userId = FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                    }
+                )
+                activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+            } catch (e: Exception) {
+                showSnackBar("Error: ${e.message}, please try again.", binding.root)
+            }
+
         }
 
     }
