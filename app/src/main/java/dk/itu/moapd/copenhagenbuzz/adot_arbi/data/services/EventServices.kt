@@ -25,51 +25,38 @@ class EventServices(
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override suspend fun createEvent(event: Event) {
-        val addressName = event.eventLocation.address
-        try {
-            val coordinates = getCoordinatesFromAddress(context, addressName)
 
+        try {
+            val addressName = event.eventLocation.address
+            val coordinates = getCoordinatesFromAddress(context, addressName)
             val updatedLocation = coordinates?.let { (lat, lng) ->
                 val resolvedAddress = getAddressFromCoordinates(context, lat, lng) ?: addressName
                 EventLocation(lat, lng, resolvedAddress)
             } ?: EventLocation(0.0, 0.0, addressName)
-
-            //Adds event and the updated location
             db.add(event.copy(eventLocation = updatedLocation))
 
         } catch (e: Exception) {
-            throw e
+            Log.e(TAG,"createEvent error: ${e.message}")
         }
     }
-
 
     override suspend fun readAllEvents(): List<Event> {
         return try {
             db.getAll()
         } catch (e: Exception) {
-            Log.d(TAG, "readAllEvents error: ${e.message}")
-            throw e
-        }
-    }
-
-    override suspend fun updateEvent(event: Event) {
-        try {
-            db.add(event)
-        } catch (e: Exception) {
-            Log.d(TAG, "updateEvent error: ${e.message}")
-            throw e
+            Log.e(TAG, "readAllEvents error: ${e.message}")
+            emptyList()
         }
     }
 
     override suspend fun deleteEvent(event: Event) {
         try {
-            db.delete(event.id!!)
+            if (exists(event.id!!))
+                db.delete(event.id!!)
         } catch (e: Exception) {
-            Log.d(TAG, "deleteEvent error: ${e.message}")
-            throw e
+            Log.e(TAG, "deleteEvent error: ${e.message}")
         }
     }
-
 
     override suspend fun readEventsFromId(eventId: String): Event? {
         return try {
@@ -77,6 +64,23 @@ class EventServices(
         } catch (e : Exception) {
             Log.e(TAG, "deleteEvent error :: ${e.message.toString()}")
             null
+        }
+    }
+
+    override suspend fun update(event: Event) {
+        try {
+            db.update(event.id!!, event)
+        } catch (e: Exception) {
+            Log.e(TAG, "update error :: ${e.message.toString()}")
+        }
+    }
+
+    override suspend fun exists(eventId: String) : Boolean {
+        return try {
+            db.exists(eventId)
+        } catch (e: Exception) {
+            Log.e(TAG, "verifyEvent error :: ${e.message.toString()}")
+            false
         }
     }
 }

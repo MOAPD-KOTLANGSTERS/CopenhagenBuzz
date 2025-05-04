@@ -1,19 +1,30 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TimeLineViewModel : ViewModel() {
-    fun isFavorited(eventId: String, onResult: (Boolean) -> Unit) {
+
+    private val _selectedEvent = MutableLiveData<Event?>()
+    val selectedEvent: MutableLiveData<Event?>
+        get() { return _selectedEvent }
+
+
+    fun setEvent(event: Event? = null) {
+        _selectedEvent.value = event
+    }
+
+    fun isFavorite(eventId: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = UserServices().isFavorited(eventId)
+            val result = UserServices().isFavorite(eventId)
             withContext(Dispatchers.Main) {
                 onResult(result)
             }
@@ -33,10 +44,11 @@ class TimeLineViewModel : ViewModel() {
                     )
                 )
             }
-            val result = UserServices().isFavorited(eventId)
+            val result = UserServices().isFavorite(eventId)
             withContext(Dispatchers.Main) {
                 onSuccess(result)
             }
         }
     }
+
 }

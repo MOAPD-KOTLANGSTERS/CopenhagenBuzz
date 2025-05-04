@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 object CustomDate {
     private const val DELIMITER = "/"
     fun of(day: Int, month: Int, year: Int) : String = "$day$DELIMITER$month$DELIMITER$year"
-    fun getDateFromEpoch(epoch: Long): LocalDate = LocalDate.ofEpochDay(epoch)
+    fun getDateFromEpoch(epoch: Long): String = LocalDate.ofEpochDay(epoch).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
     // You can read some documentation of date formats here https://www.baeldung.com/kotlin/dates
     fun getEpochFromString(input: String, dateFormat: String = "dd/MM/yyyy") : Long {

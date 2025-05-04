@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.firebase.ui.database.FirebaseListOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.EventAdapter
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.TimeLineAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
@@ -39,11 +39,12 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
             .setLifecycleOwner(viewLifecycleOwner)
             .build()
 
-        val adapter = EventAdapter(
+        val adapter = TimeLineAdapter(
             requireContext(),
             R.layout.item_row,
             isLoggedIn,
             dataViewModel,
+            activity,
             options,
         )
         binding.timelineListView.adapter = adapter

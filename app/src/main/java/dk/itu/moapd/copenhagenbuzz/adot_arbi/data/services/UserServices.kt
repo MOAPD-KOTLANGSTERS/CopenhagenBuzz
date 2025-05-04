@@ -20,7 +20,7 @@ class UserServices(
         try {
             return db.readUser(FirebaseAuth.getInstance().currentUser?.uid!!)!!
         } catch (e: Exception) {
-            Log.d(TAG, "readUser error :: ${e.message.toString()}")
+            Log.e(TAG, "readUser error :: ${e.message.toString()}")
             throw e
         }
     }
@@ -29,8 +29,7 @@ class UserServices(
         try {
             db.createUser(User(user.uid))
         } catch (e : Exception) {
-            Log.d(TAG, "createUser error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "createUser error :: ${e.message.toString()}")
         }
     }
 
@@ -38,38 +37,36 @@ class UserServices(
         try {
             db.deleteUser(readUser())
         } catch (e : Exception) {
-            Log.d(TAG, "deleteUser error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "deleteUser error :: ${e.message.toString()}")
         }
     }
 
     override suspend fun readAllFavoriteEvents(): List<BookmarkEvent> {
-        try {
-            return db.readAllFavorites(readUser())
+        return try {
+            db.readAllFavorites(readUser())
         } catch (e : IllegalStateException) {
-            Log.d(TAG, "readAllFavoriteEvents error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "readAllFavoriteEvents error :: ${e.message.toString()}")
+            emptyList()
         }
     }
 
     override suspend fun favorite(bookmarkEvent: BookmarkEvent) {
         try {
             val user = readUser()
-            if (db.isFavorited(user, bookmarkEvent.eventId))
+            if (db.isFavorite(user, bookmarkEvent.eventId))
                 db.removeFavorite(user, bookmarkEvent.eventId)
             else
                 db.createFavorite(user, bookmarkEvent)
         } catch (e : IllegalStateException) {
-            Log.d(TAG, "favorite error :: ${e.message.toString()}")
-            throw e
+            Log.e(TAG, "favorite error :: ${e.message.toString()}")
         }
     }
 
-    override suspend fun isFavorited(eventId: String): Boolean {
+    override suspend fun isFavorite(eventId: String): Boolean {
         try {
-            return db.isFavorited(readUser(), eventId)
+            return db.isFavorite(readUser(), eventId)
         } catch (e : IllegalStateException) {
-            Log.d(TAG, "isFavorited error :: ${e.message.toString()}")
+            Log.e(TAG, "isFavorite error :: ${e.message.toString()}")
             throw e
         }
     }

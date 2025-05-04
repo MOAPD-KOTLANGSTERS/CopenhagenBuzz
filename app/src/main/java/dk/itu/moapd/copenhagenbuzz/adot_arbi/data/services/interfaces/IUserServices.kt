@@ -6,12 +6,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
 
 interface IUserServices {
     // user specific
-    suspend fun createUser(user : FirebaseUser) : Unit
+    suspend fun createUser(user : FirebaseUser)
     suspend fun readUser() : User
-    suspend fun deleteUser() : Unit
+    suspend fun deleteUser()
 
     // bookmark specific
-    suspend fun favorite(bookmarkEvent: BookmarkEvent) : Unit
-    suspend fun isFavorited(eventId: String) : Boolean
+    suspend fun favorite(bookmarkEvent: BookmarkEvent)
+    suspend fun isFavorite(eventId: String) : Boolean
     suspend fun readAllFavoriteEvents(): List<BookmarkEvent>
 }

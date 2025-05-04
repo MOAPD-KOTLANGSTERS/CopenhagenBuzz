@@ -32,10 +32,16 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
      */
     open suspend fun add(value: T) { db.push().setValue(value).await() }
 
+
     /**
      * Delete a value
      */
     suspend fun delete(id: String) { db.child(id).removeValue().await() }
+
+    /**
+     * Update an id with a new value
+     */
+    suspend fun update(id: String, value: T) { db.child(id).setValue(value).await() }
 
     /**
      * Get a T
@@ -47,4 +53,8 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
      */
     suspend fun getAll() : List<T> { return db.get().await().children.mapNotNull { it.getValue(clazz) } }
 
+    /**
+     * Verify if T exists in db
+     */
+    suspend fun exists(id: String) : Boolean { return db.child(id).get().await().exists() }
 }

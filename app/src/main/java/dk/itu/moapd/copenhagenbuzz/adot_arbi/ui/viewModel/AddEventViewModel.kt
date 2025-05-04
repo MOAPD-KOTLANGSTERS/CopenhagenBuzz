@@ -11,9 +11,15 @@ import kotlinx.coroutines.launch
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 
 
-class AddEventViewModel(private val context: Context) : ViewModel() {
+class AddEventViewModel(context: Context) : ViewModel() {
 
     private val eventServices = EventServices(context)
+
+    fun updateEvent(event: Event) {
+        viewModelScope.launch(Dispatchers.IO) {
+            eventServices.update(event)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun addEvent(event: Event) {

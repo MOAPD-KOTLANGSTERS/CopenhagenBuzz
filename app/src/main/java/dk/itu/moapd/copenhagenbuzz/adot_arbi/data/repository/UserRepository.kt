@@ -57,7 +57,7 @@ class UserRepository : BaseRepository<User>(User::class.java,"user") {
             .await()
     }
 
-    suspend fun isFavorited(user: User, eventId: String) : Boolean {
+    suspend fun isFavorite(user: User, eventId: String) : Boolean {
         return db.child(user.uuid)
             .child("favorites")
             .child(eventId)

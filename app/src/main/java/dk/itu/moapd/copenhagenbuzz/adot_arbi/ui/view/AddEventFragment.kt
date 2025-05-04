@@ -5,8 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
@@ -23,6 +25,9 @@ import java.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
+import io.reactivex.rxjava3.internal.operators.single.SingleDoOnSuccess
 
 
 /**
@@ -41,6 +46,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         private val TAG = AddEventFragment::class.qualifiedName
     }
 
+    private val timeLineViewModel: TimeLineViewModel by activityViewModels()
 
     private val addEventViewModel: AddEventViewModel by viewModels {
         object : ViewModelProvider.Factory {
@@ -57,16 +63,49 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupUserInput()
+
+        timeLineViewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
+            try {
+                event?.let {
+                    populateUI(it)
+                    setupUserInput(true) { newEvent ->
+                        addEventViewModel.updateEvent(event.copy(
+                            eventName = newEvent.eventName,
+                            eventDate = newEvent.eventDate,
+                            eventDescription = newEvent.eventDescription,
+                            eventType = newEvent.eventType,
+                            eventLocation = newEvent.eventLocation
+                        ))
+                        timeLineViewModel.setEvent()
+                        showSnackBar("Event edited successfully!", binding.root)
+                    }
+                } ?: run { setupUserInput(false) {
+                    addEventViewModel.addEvent(it)
+                    showSnackBar("Event added successfully!", binding.root)
+                } }
+
+            } catch (e: Exception) {
+                showSnackBar("Error: ${e.message}, please try again.", binding.root)
+            }
+
+        }
+
     }
 
+    private fun populateUI(event: Event) {
+        binding.editTextEventName.setText(event.eventName)
+        binding.editTextEventLocation.setText(event.eventLocation.address)
+        binding.editTextDateRange.setText(CustomDate.getDateFromEpoch(event.eventDate))
+        binding.editTextEventType.setText(event.eventType)
+        binding.editTextEventDescription.setText(event.eventDescription)
+    }
 
     /**
      * Sets up event listeners for UI elements.
      * Includes date range selection and event creation.
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun setupUserInput() {
+    private fun setupUserInput(isEdit: Boolean, onSuccess: (event : Event) -> Unit = {}) {
 
         val editTextDateRange = binding.editTextDateRange
 
@@ -92,27 +131,21 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
         // Listener for the "Add Event" button to create a new event.
         binding.fabAddEvent.setOnClickListener {
-            val event = with(binding) {
-                Event(
-                    eventName = editTextEventName.text.toString(),
-                    eventLocation = EventLocation(address = editTextEventLocation.text.toString()),
-                    eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
-                    eventType = editTextEventType.text.toString(),
-                    eventDescription = editTextEventDescription.text.toString(),
-                    userId = FirebaseAuth.getInstance().currentUser!!.uid
-                )
-            }
-
-            // Use AddEventViewModel to process the event before saving it to the database
-
-                try {
-                    addEventViewModel.addEvent(event)
-                    showSnackBar("Event added successfully!", binding.root)
-                    activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
-                } catch (e: Exception) {
-                    showSnackBar("Error: ${e.message}, please try again.", binding.root)
+            // Using a callback here to manage it higher up
+            onSuccess(
+                with(binding) {
+                    Event(
+                        eventName = editTextEventName.text.toString(),
+                        eventLocation = EventLocation(address = editTextEventLocation.text.toString()),
+                        eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
+                        eventType = editTextEventType.text.toString(),
+                        eventDescription = editTextEventDescription.text.toString(),
+                        userId = FirebaseAuth.getInstance().currentUser!!.uid
+                    )
                 }
-            }
+            )
+            activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+        }
 
     }
 
