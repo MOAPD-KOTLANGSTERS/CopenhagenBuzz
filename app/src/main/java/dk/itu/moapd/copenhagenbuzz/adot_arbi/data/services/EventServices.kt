@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
 
 import android.content.Context
+import android.location.Geocoder
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -8,8 +9,10 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.getAddressFromCoordinates
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.getCoordinatesFromAddress
+import getAddressFromCoordinates
+import getCoordinatesFromAddress
+import java.util.Locale
+
 
 class EventServices(
     private val context: Context,
@@ -22,21 +25,23 @@ class EventServices(
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override suspend fun createEvent(event: Event) {
+        val addressName = event.eventLocation.address
         try {
-            val addressName = event.eventLocation.address
-
             val coordinates = getCoordinatesFromAddress(context, addressName)
+
             val updatedLocation = coordinates?.let { (lat, lng) ->
                 val resolvedAddress = getAddressFromCoordinates(context, lat, lng) ?: addressName
                 EventLocation(lat, lng, resolvedAddress)
             } ?: EventLocation(0.0, 0.0, addressName)
 
+            //Adds event and the updated location
             db.add(event.copy(eventLocation = updatedLocation))
+
         } catch (e: Exception) {
-            Log.d(TAG, "createEvent error: ${e.message}")
             throw e
         }
     }
+
 
     override suspend fun readAllEvents(): List<Event> {
         return try {

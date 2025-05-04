@@ -1,21 +1,29 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.AddEventViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+
 
 /**
  * A simple [BaseFragment] subclass for initializing with options for adding
@@ -33,8 +41,20 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         private val TAG = AddEventFragment::class.qualifiedName
     }
 
-    private val eventRepository = EventRepository()
 
+    private val addEventViewModel: AddEventViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(AddEventViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return AddEventViewModel(requireContext()) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUserInput()
@@ -45,6 +65,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
      * Sets up event listeners for UI elements.
      * Includes date range selection and event creation.
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setupUserInput() {
 
         val editTextDateRange = binding.editTextDateRange
@@ -60,7 +81,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     val startDate = CustomDate.of(startDay, startMonth, startYear)
                     val startDateCalendar = Calendar.getInstance()
                     startDateCalendar.set(startYear, startMonth, startDay)
-                   editTextDateRange.setText(startDate)
+                    editTextDateRange.setText(startDate)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -71,55 +92,42 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
         // Listener for the "Add Event" button to create a new event.
         binding.fabAddEvent.setOnClickListener {
-            var message : String? = null
-            try {
-                val e = with(binding) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val address = binding.editTextEventLocation.text.toString()
-                        eventRepository.add(
-                            Event(
-                                eventName = editTextEventName.text.toString(),
-                                eventLocation = EventLocation(address = address),
-                                eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
-                                eventType = editTextEventType.text.toString(),
-                                eventDescription = editTextEventDescription.text.toString(),
-                                userId = FirebaseAuth.getInstance().currentUser!!.uid
-                            )
-                        )
-                    }
-                }
-                message = e.toString()
-            }  catch (e: IllegalArgumentException) {
-                message = "Error: ${e.message.toString()}"
-            } finally {
-                message?.let {
-                    showMessage(it)
-                } ?: run {
-                    showMessage("You are not supposed to see this error! Feature not a bug")
+            val event = with(binding) {
+                Event(
+                    eventName = editTextEventName.text.toString(),
+                    eventLocation = EventLocation(address = editTextEventLocation.text.toString()),
+                    eventDate = CustomDate.getEpochFromString(editTextDateRange.text.toString()),
+                    eventType = editTextEventType.text.toString(),
+                    eventDescription = editTextEventDescription.text.toString(),
+                    userId = FirebaseAuth.getInstance().currentUser!!.uid
+                )
+            }
+
+            // Use AddEventViewModel to process the event before saving it to the database
+
+                try {
+                    addEventViewModel.addEvent(event)
+                    showSnackBar("Event added successfully!", binding.root)
+                    activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+                } catch (e: Exception) {
+                    showSnackBar("Error: ${e.message}, please try again.", binding.root)
                 }
             }
-        }
 
     }
 
+
     /**
-     *  Will toast a message for the user.
+     * Displays a SnackBar to show a brief message about the clicked button.
      *
-     *  @param s String message
+     * The SnackBar is created using the clicked button and is shown at the bottom of the screen.
+     *
+     * @param message The message to be displayed in the SnackBar.
+     * @param view The view to find a parent from.
      */
-    private fun showMessage(s: String){
-        val log = binding.log
-        log.text = s
-
-        log.visibility = View.VISIBLE
-        log.alpha = 1f
-
-        // Delay for 2 seconds (2000 milliseconds), then fade out
-        Handler(Looper.getMainLooper()).postDelayed({
-            log.animate()
-                .alpha(0f)  // Fade to invisible
-                .setDuration(500) // Animation lasts 1 second
-                .withEndAction { log.visibility = View.INVISIBLE } // Remove from layout
-        }, 1000)
+    private fun showSnackBar(message: String, view: View) {
+        Snackbar.make(
+            view, message, Snackbar.LENGTH_SHORT
+        ).show()
     }
 }
