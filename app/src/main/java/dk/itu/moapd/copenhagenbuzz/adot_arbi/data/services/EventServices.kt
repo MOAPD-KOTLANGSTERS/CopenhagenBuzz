@@ -8,8 +8,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
-import getCoordinatesFromAddress
-import getAddressFromCoordinates
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.getAddressFromCoordinates
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.getCoordinatesFromAddress
 
 class EventServices(
     private val context: Context,

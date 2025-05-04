@@ -14,7 +14,7 @@ class TimeLineViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val event = EventRepository().readEventsFromId(eventId)
             if (event != null) {
-                UserServices().createFavorite(
+                UserServices().favorite(
                     BookmarkEvent(
                         eventId = eventId,
                         eventType = event.eventType,

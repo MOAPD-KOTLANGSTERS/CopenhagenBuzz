@@ -46,15 +46,6 @@ class UserServices(
         }
     }
 
-    override suspend fun createFavorite(bookmarkEvent: BookmarkEvent) {
-        try {
-            db.createFavorite(readUser(), bookmarkEvent)
-        } catch (e : IllegalStateException) {
-            Log.d(TAG, "createFavorite error :: ${e.message.toString()}")
-            throw e
-        }
-    }
-
     override suspend fun readAllFavoriteEvents(): List<BookmarkEvent> {
         try {
             return db.readAllFavorites(readUser())
@@ -64,11 +55,15 @@ class UserServices(
         }
     }
 
-    override suspend fun deleteFavoriteEvent(eventId: String) {
+    override suspend fun favorite(bookmarkEvent: BookmarkEvent) {
         try {
-            db.removeFavorite(readUser(), eventId)
+            val user = readUser()
+            if (db.isFavorited(user, bookmarkEvent.eventId))
+                db.removeFavorite(user, bookmarkEvent.eventId)
+            else
+                db.createFavorite(user, bookmarkEvent)
         } catch (e : IllegalStateException) {
-            Log.d(TAG, "deleteFavoriteEvent error :: ${e.message.toString()}")
+            Log.d(TAG, "favorite error :: ${e.message.toString()}")
             throw e
         }
     }
