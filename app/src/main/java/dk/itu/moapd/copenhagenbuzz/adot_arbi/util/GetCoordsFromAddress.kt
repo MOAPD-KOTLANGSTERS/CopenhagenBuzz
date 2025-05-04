@@ -1,4 +1,3 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.util// GeoUtils.kt
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
@@ -12,8 +11,7 @@ import kotlin.coroutines.resume
 suspend fun getCoordinatesFromAddress(context: Context, address: String): Pair<Double, Double>? =
     suspendCancellableCoroutine { continuation ->
         val geocoder = Geocoder(context, Locale.getDefault())
-        geocoder.getFromLocationName(address, 1, @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        object : Geocoder.GeocodeListener {
+        val listener = object : Geocoder.GeocodeListener {
             override fun onGeocode(results: MutableList<Address>) {
                 if (results.isNotEmpty()) {
                     val loc = results[0]
@@ -26,15 +24,15 @@ suspend fun getCoordinatesFromAddress(context: Context, address: String): Pair<D
             override fun onError(errorMessage: String?) {
                 continuation.resume(null)
             }
-        })
+        }
+        geocoder.getFromLocationName(address, 1, listener)
     }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 suspend fun getAddressFromCoordinates(context: Context, latitude: Double, longitude: Double): String? =
     suspendCancellableCoroutine { continuation ->
         val geocoder = Geocoder(context, Locale.getDefault())
-        geocoder.getFromLocation(latitude, longitude, 1, @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-        object : Geocoder.GeocodeListener {
+        val listener = object : Geocoder.GeocodeListener {
             override fun onGeocode(results: MutableList<Address>) {
                 if (results.isNotEmpty()) {
                     continuation.resume(results[0].getAddressLine(0))
@@ -46,5 +44,6 @@ suspend fun getAddressFromCoordinates(context: Context, latitude: Double, longit
             override fun onError(errorMessage: String?) {
                 continuation.resume(null)
             }
-        })
+        }
+        geocoder.getFromLocation(latitude, longitude, 1, listener)
     }
