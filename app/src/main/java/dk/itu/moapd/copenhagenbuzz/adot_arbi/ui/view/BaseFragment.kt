@@ -27,7 +27,6 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var addEventAction: Int,
 ) : Fragment() {
 
-
     private var _binding: VB? = null
     protected val binding
         get() = _binding!!

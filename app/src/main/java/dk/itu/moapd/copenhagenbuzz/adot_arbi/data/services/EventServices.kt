@@ -21,9 +21,7 @@ class EventServices(
         private val TAG = EventServices::class.qualifiedName
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override suspend fun createEvent(event: Event) {
-
         try {
             val addressName = event.eventLocation.address
             val coordinates = getCoordinatesFromAddress(context, addressName)

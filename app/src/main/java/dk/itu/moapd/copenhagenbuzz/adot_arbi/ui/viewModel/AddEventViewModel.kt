@@ -21,7 +21,6 @@ class AddEventViewModel(context: Context) : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun addEvent(event: Event) {
         viewModelScope.launch(Dispatchers.IO) {
             try {

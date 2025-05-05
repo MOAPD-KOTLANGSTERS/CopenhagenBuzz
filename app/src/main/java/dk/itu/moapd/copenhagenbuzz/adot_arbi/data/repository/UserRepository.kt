@@ -6,13 +6,15 @@ import kotlinx.coroutines.tasks.await
 
 class UserRepository : BaseRepository<User>(User::class.java,"user") {
 
+    /*
     private suspend fun isExists(userId: String): Boolean {
         val snapshot = db.child(userId).get().await()
         return snapshot.exists()
     }
+     */
 
     suspend fun createUser(user: User) {
-        if (!isExists(user.uuid)) {
+        if (exists(user.uuid)) {
             db.child(user.uuid)
                 .setValue(user)
                 .await()

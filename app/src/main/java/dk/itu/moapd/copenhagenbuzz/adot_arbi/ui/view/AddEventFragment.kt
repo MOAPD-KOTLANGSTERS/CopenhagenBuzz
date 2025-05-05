@@ -3,6 +3,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
@@ -51,14 +52,14 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         timeLineViewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
+            Log.d(TAG, "OBSERVING")
             event?.let {
                 populateUI(it)
-                setupUserInput(true) { newEvent ->
+                setupUserInput { newEvent ->
                     addEventViewModel.updateEvent(event.copy(
                         eventName = newEvent.eventName,
                         eventDate = newEvent.eventDate,
@@ -69,7 +70,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     timeLineViewModel.setEvent()
                     showSnackBar("Event edited successfully!", binding.root)
                 }
-            } ?: run { setupUserInput(false) {
+            } ?: run { setupUserInput  {
                     addEventViewModel.addEvent(it)
                     showSnackBar("Event added successfully!", binding.root)
                 }
@@ -90,8 +91,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
      * Sets up event listeners for UI elements.
      * Includes date range selection and event creation.
      */
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun setupUserInput(isEdit: Boolean, onSuccess: (event : Event) -> Unit = {}) {
+    private fun setupUserInput(onSuccess: (event : Event) -> Unit) {
 
         val editTextDateRange = binding.editTextDateRange
 
