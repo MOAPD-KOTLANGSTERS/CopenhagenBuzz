@@ -1,8 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
@@ -11,9 +10,9 @@ import kotlinx.coroutines.launch
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 
 
-class AddEventViewModel(context: Context) : ViewModel() {
+class AddEventViewModel : ViewModel() {
 
-    private val eventServices = EventServices(context)
+    private val eventServices = EventServices()
 
     fun updateEvent(event: Event) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -21,10 +20,10 @@ class AddEventViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun addEvent(event: Event) {
+    fun addEvent(event: Event, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                eventServices.createEvent(event)
+                eventServices.createEvent(event, context)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

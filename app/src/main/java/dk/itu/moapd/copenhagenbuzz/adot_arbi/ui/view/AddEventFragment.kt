@@ -39,18 +39,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     }
 
     private val timeLineViewModel: TimeLineViewModel by activityViewModels()
-
-    private val addEventViewModel: AddEventViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(AddEventViewModel::class.java)) {
-                    @Suppress("UNCHECKED_CAST")
-                    return AddEventViewModel(requireContext()) as T
-                }
-                throw IllegalArgumentException("Unknown ViewModel class")
-            }
-        }
-    }
+    private val addEventViewModel: AddEventViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +60,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     showSnackBar("Event edited successfully!", binding.root)
                 }
             } ?: run { setupUserInput  {
-                    addEventViewModel.addEvent(it)
+                    addEventViewModel.addEvent(it, requireContext())
                     showSnackBar("Event added successfully!", binding.root)
                 }
             }

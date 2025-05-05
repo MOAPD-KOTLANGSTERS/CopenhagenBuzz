@@ -8,10 +8,10 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class BookmarkViewModel(context: Context) : ViewModel() {
+class BookmarkViewModel : ViewModel() {
 
     private val userServices = UserServices()
-    private val eventServices = EventServices(context)
+    private val eventServices = EventServices()
 
     fun exists(eventId: String){
         viewModelScope.launch(Dispatchers.IO) {

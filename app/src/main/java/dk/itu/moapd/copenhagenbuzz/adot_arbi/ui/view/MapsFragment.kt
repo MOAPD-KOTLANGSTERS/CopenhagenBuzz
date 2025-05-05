@@ -3,7 +3,6 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
@@ -27,7 +27,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     R.id.action_mapsFragment_self,
     R.id.action_mapsFragment_to_addEventFragment,
 ), OnMapReadyCallback {
-
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
@@ -45,16 +44,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         googleMap = map
         setupMap()
 
-
+        // Observe events from DataViewModel
         mapsViewModel.getAllEvents()
         mapsViewModel.events.observe(viewLifecycleOwner) { events ->
-                fetchAndDisplayEvents(events)
-                Log.d("MapsFragment", "Events fetched: ${events.size}")
-            }
+            fetchAndDisplayEvents(events)
         }
 
     }
-
 
     private fun fetchAndDisplayEvents(events: List<Event>) {
         // Add markers for each event
