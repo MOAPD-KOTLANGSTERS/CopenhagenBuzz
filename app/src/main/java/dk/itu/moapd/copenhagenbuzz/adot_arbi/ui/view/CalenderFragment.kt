@@ -11,6 +11,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentCalenderBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.CalenderViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 import java.time.LocalDate
 
 class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
@@ -41,13 +42,20 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
         }
 
         calendarView.setOnDateChangedListener { widget, date, selected ->
-            val eventNames = calenderViewModel.events.value
+            val eventsForSelectedDate = calenderViewModel.events.value
                 ?.filter {
                     val eventDate = LocalDate.ofEpochDay(it.eventDate)
                     eventDate == LocalDate.of(date.year, date.month, date.day)
-                }
-                ?.joinToString(", ") { it.eventName } ?: "No events"
-            Toast.makeText(requireContext(), "Selected: $eventNames on ${date.date}", Toast.LENGTH_SHORT).show()
+                } ?: emptyList()
+
+            if (eventsForSelectedDate.isNotEmpty()) {
+                // Show details for the first event (or handle multiple events as needed)
+                val event = eventsForSelectedDate[0]
+                val showEventDetails = ShowEventDetails(requireContext(), event)
+                showEventDetails.show()
+            } else {
+                Toast.makeText(requireContext(), "No events on this date", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

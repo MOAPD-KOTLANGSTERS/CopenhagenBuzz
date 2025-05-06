@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.DummyModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 
 class MapsFragment : BaseFragment<FragmentMapsBinding>(
     FragmentMapsBinding::inflate,
@@ -76,16 +79,15 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         googleMap.setOnMarkerClickListener { marker ->
             val event = marker.tag as? Event
             event?.let {
-                showEventDetails(it)
+                val showEventDetails = ShowEventDetails(requireContext(), it)
+                showEventDetails.show()
             }
             true
         }
     }
 
-    private fun showEventDetails(event: Event) {
-        val message = "Event: ${event.eventName}\nLocation: ${event.eventLocation.address}\nDescription: ${event.eventDescription}"
-        showMessage(message)
-    }
+
+
 
     private fun setupMap() {
         if (ActivityCompat.checkSelfPermission(
