@@ -16,7 +16,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Firebase.database(DotenvManager.DATABASE_URL).setPersistenceEnabled(true)
+        Firebase.database(DotenvManager.RT_DATABASE_URL).setPersistenceEnabled(true)
 
         // Apply dynamic colors
         DynamicColors.applyToActivitiesIfAvailable(this)

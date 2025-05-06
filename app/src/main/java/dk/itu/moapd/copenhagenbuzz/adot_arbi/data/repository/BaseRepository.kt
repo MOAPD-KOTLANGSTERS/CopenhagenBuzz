@@ -21,7 +21,7 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
      * Thread-safe lazy singleton implementation
      */
     val db : DatabaseReference by lazy {
-        Firebase.database(DotenvManager.DATABASE_URL)
+        Firebase.database(DotenvManager.RT_DATABASE_URL)
             .reference
             .child("$path/$child")
             .also { it.keepSynced(true) }

@@ -1,8 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event

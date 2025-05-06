@@ -5,9 +5,10 @@ import io.github.cdimascio.dotenv.dotenv
 
 object DotenvManager {
     /**
-     * Thread-Safe database url
+     * Thread-Safe database urls
      */
-    val DATABASE_URL : String by lazy { dotenv["DATABASE_URL"] }
+    val RT_DATABASE_URL : String by lazy { dotenv["RT_DATABASE_URL"] }
+    val STORAGE_DATABASE_URL : String by lazy { dotenv["STORAGE_DATABASE_URL"] }
 
     /**
      * Thread-Safe dotenv getter

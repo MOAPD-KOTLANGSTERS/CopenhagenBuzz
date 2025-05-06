@@ -62,4 +62,8 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.ui.database)
     implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    implementation("com.firebaseui:firebase-ui-storage:8.0.0")
+    implementation("com.google.firebase:firebase-storage-ktx")
+
 }
