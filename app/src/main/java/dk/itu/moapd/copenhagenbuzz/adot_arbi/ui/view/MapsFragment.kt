@@ -30,7 +30,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-    private val dataViewModel: MapsViewModel by activityViewModels()
+    private val mapsViewModel: MapsViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +45,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         setupMap()
 
         // Observe events from DataViewModel
-        dataViewModel.events.observe(viewLifecycleOwner) { events ->
+        mapsViewModel.getAllEvents()
+        mapsViewModel.events.observe(viewLifecycleOwner) { events ->
             fetchAndDisplayEvents(events)
         }
 
@@ -54,7 +55,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     private fun fetchAndDisplayEvents(events: List<Event>) {
         // Add markers for each event
         events.forEach { event ->
-            val location = LatLng(0.0, 0.0)
+            val location = LatLng(event.eventLocation.lat, event.eventLocation.long)
             val marker = googleMap.addMarker(
                 MarkerOptions()
                     .position(location)
@@ -67,13 +68,13 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         // Focus camera on the first event
         if (events.isNotEmpty()) {
             val firstEvent = events[0]
-            val firstLatLng = LatLng(0.0, 0.0)
+            val firstLatLng = LatLng(firstEvent.eventLocation.lat, firstEvent.eventLocation.long)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLatLng, 10f))
         }
 
         // Handle marker clicks
         googleMap.setOnMarkerClickListener { marker ->
-            val event = marker.tag as? DummyModel
+            val event = marker.tag as? Event
             event?.let {
                 showEventDetails(it)
             }
@@ -81,8 +82,8 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         }
     }
 
-    private fun showEventDetails(event: DummyModel) {
-        val message = "Event: ${event.eventName}\nLocation: ${event.location.address}\nDescription: ${event.description}"
+    private fun showEventDetails(event: Event) {
+        val message = "Event: ${event.eventName}\nLocation: ${event.eventLocation.address}\nDescription: ${event.eventDescription}"
         showMessage(message)
     }
 

@@ -13,7 +13,6 @@ import getCoordinatesFromAddress
 
 
 class EventServices(
-    private val context: Context,
     private val db: EventRepository = EventRepository()
 ) : IEventServices {
 
@@ -21,8 +20,9 @@ class EventServices(
         private val TAG = EventServices::class.qualifiedName
     }
 
-    override suspend fun createEvent(event: Event) {
+    override suspend fun createEvent(event: Event, context: Context) {
         try {
+
             val addressName = event.eventLocation.address
             val coordinates = getCoordinatesFromAddress(context, addressName)
             val updatedLocation = coordinates?.let { (lat, lng) ->
