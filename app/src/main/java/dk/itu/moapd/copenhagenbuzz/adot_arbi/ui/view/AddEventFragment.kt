@@ -144,11 +144,31 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
 
         binding.eventImage.setOnClickListener {
-            Log.d(TAG, "CLICKED")
-            launchCamera()
+            val permission = android.Manifest.permission.CAMERA
+            when {
+                ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                    launchCamera()
+                }
+                shouldShowRequestPermissionRationale(permission) -> {
+                    showSnackBar("Camera permission is needed to take event photos.", binding.root)
+                    requestCameraPermissionLauncher.launch(permission)
+                }
+                else -> {
+                    requestCameraPermissionLauncher.launch(permission)
+                }
+            }
+        }
+    }
+
+    private val requestCameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                launchCamera()
+            } else {
+                showSnackBar("Camera permission is required to take pictures.", binding.root)
+            }
         }
 
-    }
 
     private fun launchCamera() {
         try {
