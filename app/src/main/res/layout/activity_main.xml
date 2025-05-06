@@ -14,31 +14,40 @@
         android:id="@+id/nav_graph">
 
         <Toolbar
+            android:id="@+id/toolbar_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:id="@+id/toolbar_top"
-            android:titleTextColor="?attr/colorOnPrimary"
-            android:title="@string/app_name">
+            app:layout_anchor="@+id/toolbar_top"
+            app:layout_anchorGravity="top|center">
+
+            <TextView
+                android:id="@+id/app_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:text="@string/app_name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/image_button_logout"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:contentDescription="TODO"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="end|top"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/baseline_circle_24"
+                android:contentDescription="TODO"
                 android:src="@drawable/outline_arrow_back_24" />
 
             <ImageButton
                 android:id="@+id/image_button_add_event"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:contentDescription="TODO"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="end|top"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/baseline_circle_24"
+                android:contentDescription="TODO"
                 android:src="@drawable/outline_add_24"
                 android:visibility="gone" />
 
