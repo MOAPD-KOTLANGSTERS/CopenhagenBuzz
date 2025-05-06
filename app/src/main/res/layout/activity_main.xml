@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:id="@+id/toolbar_top"
+            android:titleTextColor="?attr/colorOnPrimary"
             android:title="@string/app_name">
 
             <ImageButton
@@ -37,7 +38,7 @@
                 android:contentDescription="TODO"
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="end|top"
-                android:background="@android:color/transparent"
+                android:background="@drawable/baseline_circle_24"
                 android:src="@drawable/outline_add_24"
                 android:visibility="gone" />
 
