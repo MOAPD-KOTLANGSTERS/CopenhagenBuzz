@@ -44,6 +44,7 @@ class TimeLineViewModel : ViewModel() {
                         eventType = event.eventType,
                         eventDate = event.eventDate,
                         eventName = event.eventName,
+                        url = event.eventPhotoURL,
                     )
                 )
             }

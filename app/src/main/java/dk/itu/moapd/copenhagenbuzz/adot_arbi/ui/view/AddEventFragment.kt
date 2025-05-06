@@ -85,10 +85,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         binding.editTextDateRange.setText(CustomDate.getDateFromEpoch(event.eventDate))
         binding.editTextEventType.setText(event.eventType)
         binding.editTextEventDescription.setText(event.eventDescription)
-        event.eventPhotoURL.isBlank().let {
-            if (!it)
-                Picasso.get().load(event.eventPhotoURL).into(binding.eventImage)
-        }
+        event.eventPhotoURL?.let { Picasso.get().load(it).into(binding.eventImage) }
     }
 
     /**

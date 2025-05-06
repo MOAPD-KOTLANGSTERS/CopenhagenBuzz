@@ -20,7 +20,7 @@ data class Event(
     var eventType: String = "",
     var eventDescription: String = "",
     var userId: String = "",
-    var eventPhotoURL : String = "",
+    var eventPhotoURL : String? = null,
 ) {
 
     /**
