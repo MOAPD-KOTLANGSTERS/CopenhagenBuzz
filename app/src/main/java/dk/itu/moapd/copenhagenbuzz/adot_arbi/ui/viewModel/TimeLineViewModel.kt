@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,4 +56,14 @@ class TimeLineViewModel : ViewModel() {
         }
     }
 
+    fun readImage(eventId: String, onSuccess: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ImageService.read(eventId)
+                .onSuccess {
+                    withContext(Dispatchers.Main){
+                        onSuccess(it)
+                    }
+                }
+        }
+    }
 }

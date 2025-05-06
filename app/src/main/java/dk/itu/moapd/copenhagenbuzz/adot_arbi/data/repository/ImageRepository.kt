@@ -45,7 +45,7 @@ object ImageRepository {
      * @return The download URL of the stored image.
      */
     suspend fun read(eventId: String): String {
-        return storage.child(eventId).downloadUrl.await().toString()
+        return storage.child("$eventId/image.jpg").downloadUrl.await().toString()
     }
 
     /**
@@ -66,6 +66,6 @@ object ImageRepository {
      * @param eventId The unique identifier for the event.
      */
     suspend fun delete(eventId: String) {
-        storage.child(eventId).delete().await()
+        storage.child("$eventId/image.jpg").delete().await()
     }
 }

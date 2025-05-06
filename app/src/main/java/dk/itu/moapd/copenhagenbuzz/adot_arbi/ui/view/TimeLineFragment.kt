@@ -44,7 +44,6 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
         val adapter = TimeLineAdapter(
             requireContext(),
             R.layout.item_row,
-            isLoggedIn,
             dataViewModel,
             activity,
             options,

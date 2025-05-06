@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
@@ -34,7 +36,6 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 class TimeLineAdapter(
     private val context: Context,
     private var resource: Int,
-    private val isLoggedIn: Boolean,
     private val timeLineViewModel: TimeLineViewModel,
     private val mainActivity: MainActivity,
     options: FirebaseListOptions<Event>,
@@ -86,8 +87,14 @@ class TimeLineAdapter(
     override fun populateView(v: View, model: Event, position: Int) {
         with(ViewHolder(v)) {
             // Fill out the Material Design card.
-            model.eventPhotoURL?.let {
-                Picasso.get().load(it).into(imageViewPhoto)
+
+            if (model.eventPhotoURL != null && model.eventPhotoURL != "null") {
+                timeLineViewModel.readImage(model.id!!) {
+                    Picasso.get().load(it).into(imageViewPhoto)
+                    imageViewPhoto.visibility = View.VISIBLE
+                }
+            } else {
+                imageViewPhoto.visibility = View.GONE
             }
 
             checkIfFavorite(model, buttonFavorite)
