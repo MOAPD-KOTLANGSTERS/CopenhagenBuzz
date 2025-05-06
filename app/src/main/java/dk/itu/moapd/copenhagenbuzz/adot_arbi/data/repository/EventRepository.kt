@@ -17,11 +17,12 @@ object EventRepository : BaseRepository<Event>(Event::class.java, "event") {
      * @param value The [Event] to be added.
      * @throws IllegalStateException if a Firebase key could not be generated.
      */
-    override suspend fun add(value: Event) {
+    override suspend fun add(value: Event) : Event {
         val ref = db.push()
         val id = ref.key ?: throw IllegalStateException("No key generated")
         val valueWithId = value.copy(id = id)
         ref.setValue(valueWithId).await()
+        return ref.get().await().getValue(Event::class.java)!!
     }
 
     /**

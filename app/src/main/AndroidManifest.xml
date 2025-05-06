@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -14,18 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CopenhagenBuzz"
         tools:targetApi="31">
-
-        <!--
-             TODO: Before you run your application, you need a Google Maps API key.
-
-             To get one, follow the directions here:
-
-                https://developers.google.com/maps/documentation/android-sdk/get-api-key
-
-             Once you have your API key (it starts with "AIza"), define a new property in your
-             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
-             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
-        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value='${GOOGLE_MAPS_API_KEY}' />
@@ -44,10 +35,29 @@
             android:exported="true"
             android:theme="@style/Theme.CopenhagenBuzz"/>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
     </application>
     <uses-permission
         android:name="android.permission.ACCESS_FINE_LOCATION"
         tools:ignore="ManifestOrder" />
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
+    <uses-permission
+        android:name="android.permission.CAMERA"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
 </manifest>

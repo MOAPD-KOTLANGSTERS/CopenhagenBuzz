@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.firebase.ui.database.FirebaseListAdapter
 import com.firebase.ui.database.FirebaseListOptions
 import com.google.android.material.button.MaterialButton
+import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.MainActivity
@@ -91,7 +92,10 @@ class TimeLineAdapter(
     override fun populateView(v: View, model: Event, position: Int) {
         with(ViewHolder(v)) {
             // Fill out the Material Design card.
-            //com.squareup.picasso.Picasso.get().load(dummy.url).into(imageViewPhoto)
+            model.eventPhotoURL?.let {
+                Picasso.get().load(it).into(imageViewPhoto)
+            }
+
             checkIfFavorite(model, buttonFavorite)
 
             textViewTitle.text = model.eventName
@@ -109,6 +113,7 @@ class TimeLineAdapter(
                 timeLineViewModel.selectedEvent.postValue(model)
                 mainActivity.navController.navigate(R.id.action_timeLineFragment_to_addEventFragment)
             }
+
         }
     }
 

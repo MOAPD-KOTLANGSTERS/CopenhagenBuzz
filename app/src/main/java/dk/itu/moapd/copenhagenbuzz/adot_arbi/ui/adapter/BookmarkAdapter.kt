@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
@@ -32,8 +33,9 @@ class BookmarkAdapter(
         bookmarkViewModel.exists(model.eventId)
         holder.titleTextView.text = model.eventName
         holder.typeTextView.text = model.eventType
-
-        // Picasso.get().load(model.imageUrl).into(holder.imageView)
+        model.url?.let {
+            Picasso.get().load(it).into(holder.imageView)
+        }
     }
 }
 

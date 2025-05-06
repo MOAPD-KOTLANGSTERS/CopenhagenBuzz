@@ -15,7 +15,7 @@ interface IEventServices {
      * @param event The [Event] to be created.
      * @param context The [Context] required for operations involving local resources.
      */
-    suspend fun createEvent(event: Event, context: Context)
+    suspend fun createEvent(event: Event, context: Context) : Result<Event>
 
     /**
      * Retrieves all events from the data source.

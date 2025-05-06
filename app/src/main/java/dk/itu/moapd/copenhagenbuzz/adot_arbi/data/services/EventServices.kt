@@ -23,8 +23,8 @@ object EventServices : IEventServices {
      * @param event The [Event] to create.
      * @param context The [Context] used for geocoding services.
      */
-    override suspend fun createEvent(event: Event, context: Context) {
-        try {
+    override suspend fun createEvent(event: Event, context: Context): Result<Event> {
+        return try {
             val address = event.eventLocation.address
             val coordinates = getCoordinatesFromAddress(context, address)
 
@@ -33,10 +33,10 @@ object EventServices : IEventServices {
                 EventLocation(lat, lng, resolvedAddress)
             } ?: EventLocation(0.0, 0.0, address)
 
-            EventRepository.add(event.copy(eventLocation = resolvedLocation))
-
+            Result.success(EventRepository.add(event.copy(eventLocation = resolvedLocation)))
         } catch (e: Exception) {
             Log.e(TAG, "createEvent error: ${e.message}", e)
+            Result.failure(e)
         }
     }
 

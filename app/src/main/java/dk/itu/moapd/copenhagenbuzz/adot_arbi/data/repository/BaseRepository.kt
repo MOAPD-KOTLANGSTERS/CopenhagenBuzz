@@ -42,9 +42,12 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
      *
      * @param value The object to store.
      */
-    open suspend fun add(value: T) {
-        db.push().setValue(value).await()
+    open suspend fun add(value: T): T {
+        val newRef = db.push()
+        newRef.setValue(value).await()
+        return newRef.get().await().getValue(clazz)!!
     }
+
 
     /**
      * Deletes the value with the specified ID from the database.
