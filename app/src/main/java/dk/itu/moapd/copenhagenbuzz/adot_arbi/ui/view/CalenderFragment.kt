@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import EventDecorator
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -49,10 +50,17 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
                 } ?: emptyList()
 
             if (eventsForSelectedDate.isNotEmpty()) {
-                // Show details for the first event (or handle multiple events as needed)
-                val event = eventsForSelectedDate[0]
-                val showEventDetails = ShowEventDetails(requireContext(), event)
-                showEventDetails.show()
+                val eventNames = eventsForSelectedDate.map { it.eventName }.toTypedArray()
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Events on ${date.date}")
+                    .setItems(eventNames) { _, which ->
+                        val selectedEvent = eventsForSelectedDate[which]
+                        val showEventDetails = ShowEventDetails(requireContext(), selectedEvent)
+                        showEventDetails.show()
+                    }
+                    .setPositiveButton("Close", null)
+                    .show()
             } else {
                 Toast.makeText(requireContext(), "No events on this date", Toast.LENGTH_SHORT).show()
             }
