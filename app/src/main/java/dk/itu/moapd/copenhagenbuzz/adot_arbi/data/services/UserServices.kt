@@ -25,7 +25,9 @@ object UserServices : IUserServices {
      */
     override suspend fun readUser(): User {
         try {
-            return UserRepository.readUser(FirebaseAuth.getInstance().currentUser?.uid!!)!!
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            val user = UserRepository.readUser(uid)
+            return user ?: User()
         } catch (e: Exception) {
             Log.e(TAG, "readUser error :: ${e.message}")
             throw e
