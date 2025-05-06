@@ -1,15 +1,18 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.transition.Visibility
 import com.firebase.ui.database.FirebaseListAdapter
 import com.firebase.ui.database.FirebaseListOptions
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
@@ -55,15 +58,6 @@ class TimeLineAdapter(
         val textViewDescription: TextView = view.findViewById(R.id.text_view_description)
         val buttonFavorite: MaterialButton = view.findViewById(R.id.button_favorite)
         val buttonEdit: Button = view.findViewById(R.id.button_edit)
-
-        init {
-            // Check if the userId is 123, then show buttonEdit, else hide it
-            if (isLoggedIn) {
-                buttonEdit.visibility = View.VISIBLE // Show the button
-            } else {
-                buttonEdit.visibility = View.GONE // Hide the button
-            }
-        }
     }
 
     /**
@@ -109,6 +103,12 @@ class TimeLineAdapter(
                     toggleFavorite(buttonFavorite, result)
                 }
             }
+
+            FirebaseAuth.getInstance().currentUser?.let {
+                if(it.uid == model.userId)
+                    buttonEdit.visibility = View.VISIBLE
+            }
+
             buttonEdit.setOnClickListener {
                 timeLineViewModel.selectedEvent.postValue(model)
                 mainActivity.navController.navigate(R.id.action_timeLineFragment_to_addEventFragment)
