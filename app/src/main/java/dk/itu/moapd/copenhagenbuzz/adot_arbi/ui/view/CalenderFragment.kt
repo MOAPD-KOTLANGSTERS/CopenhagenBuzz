@@ -39,7 +39,8 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
                 },
                 { it.eventName }
             )
-            calendarView.addDecorator(EventDecorator(eventsMap))
+            val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary60) // Replace with your color resource
+            calendarView.addDecorator(EventDecorator(eventsMap, color))
         }
 
         calendarView.setOnDateChangedListener { widget, date, selected ->
