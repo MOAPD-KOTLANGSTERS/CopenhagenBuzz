@@ -39,7 +39,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         if (isLoggedIn) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
-            val query = UserRepository().db
+            val query = UserRepository.db
                 .child(userId)
                 .child("favorites")
                 .orderByChild("eventDate")

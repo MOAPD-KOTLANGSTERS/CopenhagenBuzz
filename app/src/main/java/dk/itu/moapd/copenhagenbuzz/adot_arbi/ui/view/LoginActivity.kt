@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (user != null) {
                 lifecycleScope.launch {
-                    UserServices().createUser(user)
+                    UserServices.createUser(user)
                     startMainActivity()
                 }
             }

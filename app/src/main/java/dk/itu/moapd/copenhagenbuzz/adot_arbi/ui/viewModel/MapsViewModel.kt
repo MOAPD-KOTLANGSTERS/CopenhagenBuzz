@@ -13,11 +13,10 @@ import kotlinx.coroutines.launch
 class MapsViewModel() : ViewModel() {
     private val _events = MutableLiveData<List<Event>>()
     val events: LiveData<List<Event>> get() = _events
-    private val eventServices = EventServices()
 
     fun getAllEvents() {
         viewModelScope.launch(Dispatchers.IO) {
-            _events.postValue(eventServices.readAllEvents())
+            _events.postValue(EventServices.readAllEvents())
         }
     }
 }

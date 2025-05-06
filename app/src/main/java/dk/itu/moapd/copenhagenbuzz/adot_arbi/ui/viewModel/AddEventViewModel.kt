@@ -11,18 +11,16 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 
 class AddEventViewModel : ViewModel() {
 
-    private val eventServices = EventServices()
-
     fun updateEvent(event: Event) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventServices.update(event)
+            EventServices.update(event)
         }
     }
 
     fun addEvent(event: Event, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                eventServices.createEvent(event, context)
+                EventServices.createEvent(event, context)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

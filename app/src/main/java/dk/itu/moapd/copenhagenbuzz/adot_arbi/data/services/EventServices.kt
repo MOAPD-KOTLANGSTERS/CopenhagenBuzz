@@ -1,9 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
@@ -11,73 +9,120 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServ
 import getAddressFromCoordinates
 import getCoordinatesFromAddress
 
+/**
+ * Provides an implementation of [IEventServices] for managing [Event] objects.
+ * Handles CRUD operations and resolves geolocation from addresses and vice versa.
+ */
+object EventServices : IEventServices {
 
-class EventServices(
-    private val db: EventRepository = EventRepository()
-) : IEventServices {
+    private val TAG = EventServices::class.qualifiedName
 
-    companion object {
-        private val TAG = EventServices::class.qualifiedName
-    }
-
+    /**
+     * Creates a new event with location data resolved from the provided address.
+     *
+     * @param event The [Event] to create.
+     * @param context The [Context] used for geocoding services.
+     */
     override suspend fun createEvent(event: Event, context: Context) {
         try {
+            val address = event.eventLocation.address
+            val coordinates = getCoordinatesFromAddress(context, address)
 
-            val addressName = event.eventLocation.address
-            val coordinates = getCoordinatesFromAddress(context, addressName)
-            val updatedLocation = coordinates?.let { (lat, lng) ->
-                val resolvedAddress = getAddressFromCoordinates(context, lat, lng) ?: addressName
+            val resolvedLocation = coordinates?.let { (lat, lng) ->
+                val resolvedAddress = getAddressFromCoordinates(context, lat, lng) ?: address
                 EventLocation(lat, lng, resolvedAddress)
-            } ?: EventLocation(0.0, 0.0, addressName)
-            db.add(event.copy(eventLocation = updatedLocation))
+            } ?: EventLocation(0.0, 0.0, address)
+
+            EventRepository.add(event.copy(eventLocation = resolvedLocation))
 
         } catch (e: Exception) {
-            Log.e(TAG,"createEvent error: ${e.message}")
+            Log.e(TAG, "createEvent error: ${e.message}", e)
         }
     }
 
+    /**
+     * Retrieves all events from the repository.
+     *
+     * @return A list of all [Event] objects, or an empty list if retrieval fails.
+     */
     override suspend fun readAllEvents(): List<Event> {
         return try {
-            db.getAll()
+            EventRepository.getAll()
         } catch (e: Exception) {
-            Log.e(TAG, "readAllEvents error: ${e.message}")
+            Log.e(TAG, "readAllEvents error: ${e.message}", e)
             emptyList()
         }
     }
 
+    /**
+     * Deletes the specified event if it exists.
+     *
+     * @param event The [Event] to delete.
+     */
     override suspend fun deleteEvent(event: Event) {
+        val eventId = event.id
+        if (eventId == null) {
+            Log.w(TAG, "deleteEvent failed: event ID is null.")
+            return
+        }
+
         try {
-            if (exists(event.id!!))
-                db.delete(event.id!!)
+            if (exists(eventId)) {
+                EventRepository.delete(eventId)
+            } else {
+                Log.w(TAG, "deleteEvent skipped: event with ID $eventId does not exist.")
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "deleteEvent error: ${e.message}")
+            Log.e(TAG, "deleteEvent error: ${e.message}", e)
         }
     }
 
+    /**
+     * Retrieves a specific event by its ID.
+     *
+     * @param eventId The ID of the event to retrieve.
+     * @return The matching [Event] if found, or `null` if not found or an error occurs.
+     */
     override suspend fun readEventsFromId(eventId: String): Event? {
         return try {
-            db.readEventsFromId(eventId)
-        } catch (e : Exception) {
-            Log.e(TAG, "deleteEvent error :: ${e.message.toString()}")
+            EventRepository.readEventsFromId(eventId)
+        } catch (e: Exception) {
+            Log.e(TAG, "readEventsFromId error: ${e.message}", e)
             null
         }
     }
 
+    /**
+     * Updates an existing event.
+     *
+     * @param event The updated [Event] object.
+     */
     override suspend fun update(event: Event) {
+        val eventId = event.id
+        if (eventId == null) {
+            Log.w(TAG, "update failed: event ID is null.")
+            return
+        }
+
         try {
-            db.update(event.id!!, event)
+            EventRepository.update(eventId, event)
         } catch (e: Exception) {
-            Log.e(TAG, "update error :: ${e.message.toString()}")
+            Log.e(TAG, "update error: ${e.message}", e)
         }
     }
 
-    override suspend fun exists(eventId: String) : Boolean {
+    /**
+     * Checks whether an event with the given ID exists.
+     *
+     * @param eventId The ID to check.
+     * @return `true` if the event exists, `false` otherwise or if an error occurs.
+     */
+    override suspend fun exists(eventId: String): Boolean {
         return try {
-            db.exists(eventId)
+            EventRepository.exists(eventId)
         } catch (e: Exception) {
-            Log.e(TAG, "verifyEvent error :: ${e.message.toString()}")
+            Log.e(TAG, "exists error: ${e.message}", e)
             false
         }
     }
 }
-

@@ -7,20 +7,30 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.DotenvManager
 import kotlinx.coroutines.tasks.await
 
 /**
- * Abstract generic repository with generic methods
+ * An abstract generic repository that provides basic CRUD operations
+ * for Firebase Realtime Database entries of type [T].
+ *
+ * @param T The type of object managed by the repository.
+ * @param clazz The class type of [T] for deserialization.
+ * @param child The child node under the root path where objects are stored.
  */
 abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val child: String) {
+
     companion object {
         private val TAG = BaseRepository::class.qualifiedName
     }
 
-    protected val path : String
+    /**
+     * The root path under which all data is stored.
+     */
+    protected val path: String
         get() = "copenhagen_buzz/"
 
     /**
-     * Thread-safe lazy singleton implementation
+     * Lazily initialized thread-safe reference to the Firebase database path
+     * corresponding to the specified child node.
      */
-    val db : DatabaseReference by lazy {
+    val db: DatabaseReference by lazy {
         Firebase.database(DotenvManager.RT_DATABASE_URL)
             .reference
             .child("$path/$child")
@@ -28,33 +38,59 @@ abstract class BaseRepository<T : Any>(private val clazz: Class<T>, private val 
     }
 
     /**
-     * Add a value
+     * Adds a new value to the database under a generated unique ID.
+     *
+     * @param value The object to store.
      */
-    open suspend fun add(value: T) { db.push().setValue(value).await() }
-
-
-    /**
-     * Delete a value
-     */
-    suspend fun delete(id: String) { db.child(id).removeValue().await() }
+    open suspend fun add(value: T) {
+        db.push().setValue(value).await()
+    }
 
     /**
-     * Update an id with a new value
+     * Deletes the value with the specified ID from the database.
+     *
+     * @param id The ID of the object to delete.
      */
-    suspend fun update(id: String, value: T) { db.child(id).setValue(value).await() }
+    suspend fun delete(id: String) {
+        db.child(id).removeValue().await()
+    }
 
     /**
-     * Get a T
+     * Updates the value at the specified ID with a new object.
+     *
+     * @param id The ID of the object to update.
+     * @param value The new object value.
      */
-    suspend fun getById(id: String) { db.child(id).get().await().getValue(clazz) }
+    suspend fun update(id: String, value: T) {
+        db.child(id).setValue(value).await()
+    }
 
     /**
-     * Get all T as a list
+     * Retrieves a single object by its ID.
+     *
+     * @param id The ID of the object to retrieve.
+     * @return The object if found, or `null` if not present.
      */
-    suspend fun getAll() : List<T> { return db.get().await().children.mapNotNull { it.getValue(clazz) } }
+    suspend fun getById(id: String): T? {
+        return db.child(id).get().await().getValue(clazz)
+    }
 
     /**
-     * Verify if T exists in db
+     * Retrieves all objects of type [T] under the current node.
+     *
+     * @return A list of all objects found, or an empty list if none exist.
      */
-    suspend fun exists(id: String) : Boolean { return db.child(id).get().await().exists() }
+    suspend fun getAll(): List<T> {
+        return db.get().await().children.mapNotNull { it.getValue(clazz) }
+    }
+
+    /**
+     * Checks whether an object with the given ID exists in the database.
+     *
+     * @param id The ID to check for existence.
+     * @return `true` if the object exists, `false` otherwise.
+     */
+    suspend fun exists(id: String): Boolean {
+        return db.child(id).get().await().exists()
+    }
 }

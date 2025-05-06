@@ -34,7 +34,7 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         val options = FirebaseListOptions.Builder<Event>()
-            .setQuery(EventRepository().db, Event::class.java)
+            .setQuery(EventRepository.db, Event::class.java)
             .setLayout(R.layout.item_row)
             .setLifecycleOwner(viewLifecycleOwner)
             .build()

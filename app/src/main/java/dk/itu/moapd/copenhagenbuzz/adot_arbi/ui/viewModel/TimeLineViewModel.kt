@@ -27,7 +27,7 @@ class TimeLineViewModel : ViewModel() {
 
     fun isFavorite(eventId: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = UserServices().isFavorite(eventId)
+            val result = UserServices.isFavorite(eventId)
             withContext(Dispatchers.Main) {
                 onResult(result)
             }
@@ -36,9 +36,9 @@ class TimeLineViewModel : ViewModel() {
 
     fun addFavorite(eventId: String, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val event = EventRepository().readEventsFromId(eventId)
+            val event = EventRepository.readEventsFromId(eventId)
             if (event != null) {
-                UserServices().favorite(
+                UserServices.favorite(
                     BookmarkEvent(
                         eventId = eventId,
                         eventType = event.eventType,
@@ -47,7 +47,7 @@ class TimeLineViewModel : ViewModel() {
                     )
                 )
             }
-            val result = UserServices().isFavorite(eventId)
+            val result = UserServices.isFavorite(eventId)
             withContext(Dispatchers.Main) {
                 onSuccess(result)
             }
