@@ -1,3 +1,5 @@
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,9 +34,13 @@ class BookmarkAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: BookmarkEvent) {
         holder.titleTextView.text = model.eventName
         holder.typeTextView.text = model.eventType
-        model.url?.let {
-            Picasso.get().load(it).into(holder.imageView)
+        if (model.url != null && model.url != "null") {
+            Picasso.get().load(model.url).into(holder.imageView)
+            holder.imageView.visibility = View.VISIBLE
+        } else {
+            holder.imageView.visibility = View.INVISIBLE
         }
+
     }
 }
 

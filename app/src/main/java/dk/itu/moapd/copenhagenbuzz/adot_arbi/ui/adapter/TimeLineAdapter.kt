@@ -1,15 +1,12 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
 
 import android.content.Context
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.transition.Visibility
 import com.firebase.ui.database.FirebaseListAdapter
 import com.firebase.ui.database.FirebaseListOptions
 import com.google.android.material.button.MaterialButton
@@ -17,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate

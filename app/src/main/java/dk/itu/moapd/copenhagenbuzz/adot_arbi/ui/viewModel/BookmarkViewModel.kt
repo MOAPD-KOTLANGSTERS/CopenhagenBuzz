@@ -15,7 +15,8 @@ class BookmarkViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             UserServices.readAllFavoriteEvents().forEach {
                 withContext(Dispatchers.Main) {
-                    Log.d(BookmarkViewModel::class.qualifiedName, it.toString())
+                    if(!EventServices.exists(it.eventId))
+                        UserServices.removeFavorite(it.eventId)
                 }
             }
         }

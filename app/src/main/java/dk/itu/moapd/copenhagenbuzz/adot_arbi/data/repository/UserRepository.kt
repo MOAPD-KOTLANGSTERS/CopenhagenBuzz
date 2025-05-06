@@ -16,7 +16,7 @@ object UserRepository : BaseRepository<User>(User::class.java, "user") {
      * @param user The [User] object to be saved.
      */
     suspend fun createUser(user: User) {
-        if (exists(user.uuid)) {
+        if (!exists(user.uuid)) {
             db.child(user.uuid)
                 .setValue(user)
                 .await()
