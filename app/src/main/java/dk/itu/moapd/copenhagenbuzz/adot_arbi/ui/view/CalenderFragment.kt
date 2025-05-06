@@ -1,14 +1,18 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
+import EventDecorator
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentCalenderBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.CalenderViewModel
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
+import java.time.LocalDate
 
-/**
- *  A subclass of the [BaseFragment],
- *  with purposes of managing the list of interested bookmarks, displayed as a calender.
- */
 class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     FragmentCalenderBinding::inflate,
     R.id.action_calenderFragment_to_timeLineFragment,
@@ -18,9 +22,32 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     R.id.action_calenderFragment_to_addEventFragment,
 ) {
 
+    private val calenderViewModel: CalenderViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO : implement bookmarks
-    }
 
+        val calendarView = view.findViewById<MaterialCalendarView>(R.id.calendarView)
+
+        calenderViewModel.events.observe(viewLifecycleOwner) { eventList ->
+            val eventsMap = eventList.groupBy(
+                {
+                    val dateParts = getDateFromEpoch(it.eventDate).split("/")
+                    CalendarDay.from(dateParts[2].toInt(), dateParts[1].toInt(), dateParts[0].toInt())
+                },
+                { it.eventName }
+            )
+            calendarView.addDecorator(EventDecorator(eventsMap))
+        }
+
+        calendarView.setOnDateChangedListener { widget, date, selected ->
+            val eventNames = calenderViewModel.events.value
+                ?.filter {
+                    val eventDate = LocalDate.ofEpochDay(it.eventDate)
+                    eventDate == LocalDate.of(date.year, date.month, date.day)
+                }
+                ?.joinToString(", ") { it.eventName } ?: "No events"
+            Toast.makeText(requireContext(), "Selected: $eventNames on ${date.date}", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

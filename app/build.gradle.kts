@@ -38,10 +38,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
+
 
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.2.3"))
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
     implementation(libs.firebase.database.ktx)
     implementation(libs.picasso)
     implementation(libs.javafaker)
@@ -65,5 +69,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
     implementation("com.firebaseui:firebase-ui-storage:8.0.0")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.4.4")
 
 }
