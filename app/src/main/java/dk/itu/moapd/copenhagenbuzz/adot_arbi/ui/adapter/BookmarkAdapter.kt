@@ -30,7 +30,6 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: BookmarkEvent) {
-        bookmarkViewModel.exists(model.eventId)
         holder.titleTextView.text = model.eventName
         holder.typeTextView.text = model.eventType
         model.url?.let {

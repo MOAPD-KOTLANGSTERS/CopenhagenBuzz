@@ -21,6 +21,8 @@ data class Event(
     var eventDescription: String = "",
     var userId: String = "",
     var eventPhotoURL : String? = null,
+    var createdAt : Long = 0L,
+    var updatedAt : Long = 0L
 ) {
 
     /**

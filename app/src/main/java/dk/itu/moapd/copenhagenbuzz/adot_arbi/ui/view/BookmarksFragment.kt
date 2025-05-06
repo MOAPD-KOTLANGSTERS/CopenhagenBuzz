@@ -13,7 +13,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
+import kotlinx.coroutines.tasks.await
 
 /**
  *  A subclass of the [BaseFragment],
@@ -33,7 +35,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        bookmarkViewModel.cleanupInvalidEvent()
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
 
         if (isLoggedIn) {

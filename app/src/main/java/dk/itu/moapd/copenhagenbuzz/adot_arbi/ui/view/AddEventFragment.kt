@@ -64,7 +64,8 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                         eventDate = newEvent.eventDate,
                         eventDescription = newEvent.eventDescription,
                         eventType = newEvent.eventType,
-                        eventLocation = newEvent.eventLocation
+                        eventLocation = newEvent.eventLocation,
+                        updatedAt = -newEvent.updatedAt,
                     ))
                     timeLineViewModel.setEvent()
                     showSnackBar("Event edited successfully!", binding.root)
@@ -129,7 +130,9 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                             eventType = editTextEventType.text.toString(),
                             eventDescription = editTextEventDescription.text.toString(),
                             userId = FirebaseAuth.getInstance().currentUser!!.uid,
-                            eventPhotoURL = cameraURI.toString()
+                            eventPhotoURL = cameraURI.toString(),
+                            createdAt = -LocalDate.now().toEpochDay(),
+                            updatedAt = -LocalDate.now().toEpochDay(),
                         )
                     }
                 )

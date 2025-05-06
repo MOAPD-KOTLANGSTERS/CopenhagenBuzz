@@ -32,9 +32,11 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val query = EventRepository.db
+            .orderByChild("createdAt")
 
         val options = FirebaseListOptions.Builder<Event>()
-            .setQuery(EventRepository.db, Event::class.java)
+            .setQuery(query, Event::class.java)
             .setLayout(R.layout.item_row)
             .setLifecycleOwner(viewLifecycleOwner)
             .build()
