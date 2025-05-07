@@ -1,6 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi
 
 import android.app.Application
+import android.util.Log
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.TimeLineAdapter
@@ -20,6 +21,5 @@ class MyApplication : Application() {
 
         // Apply dynamic colors
         DynamicColors.applyToActivitiesIfAvailable(this)
-
     }
 }

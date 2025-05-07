@@ -1,10 +1,12 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -44,7 +46,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
 ) {
     companion object {
         private val TAG = AddEventFragment::class.qualifiedName
-        private val CAMERA_PERMISSION_CODE = 1001
     }
 
     private val timeLineViewModel: TimeLineViewModel by activityViewModels()
@@ -144,21 +145,72 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
 
         binding.eventImage.setOnClickListener {
-            val permission = android.Manifest.permission.CAMERA
-            when {
-                ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
-                    launchCamera()
+            val options = arrayOf("Take a Photo", "Choose from Gallery")
+
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Select Option")
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> {
+                        val permission = android.Manifest.permission.CAMERA
+                        when {
+                            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                                launchCamera()
+                            }
+                            shouldShowRequestPermissionRationale(permission) -> {
+                                showSnackBar("Camera permission is needed to take event photos.", binding.root)
+                                requestCameraPermissionLauncher.launch(permission)
+                            }
+                            else -> {
+                                requestCameraPermissionLauncher.launch(permission)
+                            }
+                        }
+                    }
+                    1 -> {
+                        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            android.Manifest.permission.READ_MEDIA_IMAGES
+                        } else {
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE
+                        }
+
+                        when {
+                            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                                intent.type = "image/*"
+                                pickImageLauncher.launch(intent)
+                            }
+
+                            shouldShowRequestPermissionRationale(permission) -> {
+                                Log.w(TAG, "maybe")
+                                requestCameraPermissionLauncher.launch(permission)
+                            }
+
+                            else -> {
+                                Log.w(TAG, "no")
+                                requestCameraPermissionLauncher.launch(permission)
+                            }
+                        }
+                    }
+
                 }
-                shouldShowRequestPermissionRationale(permission) -> {
-                    showSnackBar("Camera permission is needed to take event photos.", binding.root)
-                    requestCameraPermissionLauncher.launch(permission)
-                }
-                else -> {
-                    requestCameraPermissionLauncher.launch(permission)
+            }
+            builder.show()
+
+
+        }
+    }
+
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                uri?.let {
+                    cameraURI = it // save for Firebase upload
+                    binding.eventImage.setImageURI(it)
+                    Log.d(TAG, "Selected image URI: $it")
                 }
             }
         }
-    }
 
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
