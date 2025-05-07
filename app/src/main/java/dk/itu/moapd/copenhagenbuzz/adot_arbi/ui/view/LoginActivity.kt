@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.firebase.ui.auth.AuthUI
@@ -59,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
-
+            Log.d(TAG, "onSignInResult: $user")
             if (user != null) {
                 lifecycleScope.launch {
                     UserServices.createUser(user)
@@ -67,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         } else {
+            FirebaseAuth.getInstance().signOut()
             startMainActivity()
         }
     }
