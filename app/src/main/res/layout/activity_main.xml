@@ -8,18 +8,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.MainActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_graph">
 
         <Toolbar
             android:id="@+id/toolbar_top"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            app:layout_anchor="@+id/toolbar_top"
-            app:layout_anchorGravity="top|center">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/app_name_text"
@@ -56,6 +55,10 @@
         <include
             android:id="@+id/content_main"
             layout="@layout/content_main"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_top"
+            app:layout_constraintBottom_toTopOf="@+id/shared_bottom_nav_bar"
             />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -64,12 +67,10 @@
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_nav"
             android:layout_gravity="bottom"
-            app:labelVisibilityMode="labeled" />
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

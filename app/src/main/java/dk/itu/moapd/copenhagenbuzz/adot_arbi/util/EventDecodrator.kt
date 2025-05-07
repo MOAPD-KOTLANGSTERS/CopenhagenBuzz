@@ -15,8 +15,10 @@ class EventDecorator(
 
     override fun decorate(view: DayViewFacade) {
         // Highlight the date with a color
-        view.addSpan(ForegroundColorSpan(color))
+        view.addSpan(ForegroundColorSpan(android.graphics.Color.WHITE))
+
         // You can also add other decorations like background color, etc.
+        view.addSpan(android.text.style.BackgroundColorSpan(color))
 
     }
 }

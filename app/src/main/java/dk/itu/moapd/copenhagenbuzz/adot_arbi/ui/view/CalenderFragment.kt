@@ -39,7 +39,7 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
                 },
                 { it.eventName }
             )
-            val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary60) // Replace with your color resource
+            val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary50) // Replace with your color resource
             calendarView.addDecorator(EventDecorator(eventsMap, color))
         }
 
