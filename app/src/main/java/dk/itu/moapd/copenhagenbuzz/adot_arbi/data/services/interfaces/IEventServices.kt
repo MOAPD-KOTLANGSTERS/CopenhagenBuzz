@@ -36,7 +36,7 @@ interface IEventServices {
      *
      * @param event The [Event] to delete.
      */
-    suspend fun deleteEvent(event: Event)
+    suspend fun deleteEvent(event: Event) : Result<Boolean>
 
     /**
      * Retrieves a specific event by its ID.

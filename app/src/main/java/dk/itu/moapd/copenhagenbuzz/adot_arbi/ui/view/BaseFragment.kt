@@ -2,15 +2,19 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.SensorProvider
 
 /**
  * An abstract [BaseFragment] for initializing boilerplate code,
@@ -25,7 +29,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var calenderAction: Int,
     private var mapsAction: Int,
     private var addEventAction: Int,
-) : Fragment() {
+) : Fragment(), SensorProvider.ShakeListener {
 
     private var _binding: VB? = null
     protected val binding
@@ -150,5 +154,24 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Prevent memory leaks
+    }
+
+    override fun onStart() {
+        super.onStart()
+        SensorProvider.init(
+            context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager,
+            this
+        )
+    }
+
+    override fun onShake() {
+        context?.let { context ->
+            AlertDialog.Builder(context)
+                .setTitle("Do you want to create an event?")
+                .setItems(arrayOf("Yes, continue","No, go back")) { _, which ->
+                    if(which == 0)
+                        activity.navController.navigate(addEventAction)
+                }.show()
+        }
     }
 }

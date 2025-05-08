@@ -59,21 +59,24 @@ object EventServices : IEventServices {
      *
      * @param event The [Event] to delete.
      */
-    override suspend fun deleteEvent(event: Event) {
+    override suspend fun deleteEvent(event: Event) : Result<Boolean> {
         val eventId = event.id
         if (eventId == null) {
             Log.w(TAG, "deleteEvent failed: event ID is null.")
-            return
+            return Result.failure(NullPointerException("deleteEvent failed: event ID is null."))
         }
 
-        try {
+        return try {
             if (exists(eventId)) {
                 EventRepository.delete(eventId)
+                Result.success(true)
             } else {
                 Log.w(TAG, "deleteEvent skipped: event with ID $eventId does not exist.")
+                Result.failure(NullPointerException("deleteEvent skipped: event with ID $eventId does not exist."))
             }
         } catch (e: Exception) {
             Log.e(TAG, "deleteEvent error: ${e.message}", e)
+            Result.failure(e)
         }
     }
 

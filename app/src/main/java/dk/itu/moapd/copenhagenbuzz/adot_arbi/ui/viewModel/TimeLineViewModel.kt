@@ -43,7 +43,6 @@ class TimeLineViewModel : ViewModel() {
                     BookmarkEvent(
                         eventId = eventId,
                         eventType = event.eventType,
-                        eventDate = event.eventDate,
                         eventName = event.eventName,
                         url = event.eventPhotoURL,
                     )

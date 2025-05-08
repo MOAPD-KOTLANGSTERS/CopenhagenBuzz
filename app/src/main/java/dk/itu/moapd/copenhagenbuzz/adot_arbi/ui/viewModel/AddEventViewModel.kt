@@ -27,9 +27,6 @@ class AddEventViewModel : ViewModel() {
                 .onSuccess { result ->
                     uri?.let { ImageService.create(result.id!!, it); Log.d("Test", uri.toString()) }
                 }
-                .onFailure {
-                    it.printStackTrace()
-                }
         }
     }
 
@@ -39,6 +36,18 @@ class AddEventViewModel : ViewModel() {
                 .onSuccess {
                     withContext(Dispatchers.Main){
                         onSuccess(it)
+                    }
+                }
+        }
+    }
+
+    fun deleteEvent(event: Event, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            EventServices.deleteEvent(event)
+                .onSuccess {
+                    ImageService.delete(event.id!!)
+                    withContext(Dispatchers.Main){
+                        onSuccess()
                     }
                 }
         }

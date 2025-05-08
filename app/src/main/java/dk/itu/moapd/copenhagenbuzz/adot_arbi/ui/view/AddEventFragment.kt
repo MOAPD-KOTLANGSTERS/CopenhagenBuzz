@@ -71,7 +71,6 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
                     timeLineViewModel.setEvent()
                     showSnackBar("Event edited successfully!", binding.root)
                 }
-                timeLineViewModel.setEvent()
             } ?: run { setupUserInput  {
                     addEventViewModel.addEvent(it, cameraURI, requireContext())
                     showSnackBar("Event added successfully!", binding.root)
@@ -274,5 +273,20 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         Snackbar.make(
             view, message, Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    override fun onShake() {
+        showSnackBar("Successfully deleted your event", binding.root)
+        val event = timeLineViewModel.selectedEvent.value
+        event?.let {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Do you want to delete the event?")
+                .setItems(arrayOf("Yes, continue","No")) { _, which ->
+                    if (which == 0)
+                        addEventViewModel.deleteEvent(event){
+                            activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+                        }
+                }.show()
+        }
     }
 }
