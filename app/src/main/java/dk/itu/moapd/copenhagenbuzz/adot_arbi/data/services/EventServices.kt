@@ -10,18 +10,19 @@ import getAddressFromCoordinates
 import getCoordinatesFromAddress
 
 /**
- * Provides an implementation of [IEventServices] for managing [Event] objects.
- * Handles CRUD operations and resolves geolocation from addresses and vice versa.
+ * Implementation of [IEventServices] for managing [Event] objects.
+ * Supports CRUD operations and geolocation resolution.
  */
 object EventServices : IEventServices {
 
     private val TAG = EventServices::class.qualifiedName
 
     /**
-     * Creates a new event with location data resolved from the provided address.
+     * Creates a new [Event] with resolved geolocation based on the provided address.
      *
      * @param event The [Event] to create.
      * @param context The [Context] used for geocoding services.
+     * @return A [Result] containing the created [Event], or a failure if an error occurs.
      */
     override suspend fun createEvent(event: Event, context: Context): Result<Event> {
         return try {
@@ -35,34 +36,35 @@ object EventServices : IEventServices {
 
             Result.success(EventRepository.add(event.copy(eventLocation = resolvedLocation)))
         } catch (e: Exception) {
-            Log.e(TAG, "createEvent error: ${e.message}", e)
+            Log.e(TAG, "createEvent failed: ${e.message}", e)
             Result.failure(e)
         }
     }
 
     /**
-     * Retrieves all events from the repository.
+     * Retrieves all [Event] objects from the repository.
      *
-     * @return A list of all [Event] objects, or an empty list if retrieval fails.
+     * @return A list of all events, or an empty list if retrieval fails.
      */
     override suspend fun readAllEvents(): List<Event> {
         return try {
             EventRepository.getAll()
         } catch (e: Exception) {
-            Log.e(TAG, "readAllEvents error: ${e.message}", e)
+            Log.e(TAG, "readAllEvents failed: ${e.message}", e)
             emptyList()
         }
     }
 
     /**
-     * Deletes the specified event if it exists.
+     * Deletes the given [Event] if it exists.
      *
      * @param event The [Event] to delete.
+     * @return A [Result] indicating success (`true`) or a failure if not found or deletion fails.
      */
-    override suspend fun deleteEvent(event: Event) : Result<Boolean> {
+    override suspend fun deleteEvent(event: Event): Result<Boolean> {
         val eventId = event.id
         if (eventId == null) {
-            Log.w(TAG, "deleteEvent failed: event ID is null.")
+            Log.w(TAG, "deleteEvent failed: Event ID is null.")
             return Result.failure(NullPointerException("deleteEvent failed: event ID is null."))
         }
 
@@ -71,60 +73,60 @@ object EventServices : IEventServices {
                 EventRepository.delete(eventId)
                 Result.success(true)
             } else {
-                Log.w(TAG, "deleteEvent skipped: event with ID $eventId does not exist.")
-                Result.failure(NullPointerException("deleteEvent skipped: event with ID $eventId does not exist."))
+                Log.w(TAG, "deleteEvent skipped: No event with ID $eventId found.")
+                Result.failure(IllegalStateException("deleteEvent skipped: event with ID $eventId does not exist."))
             }
         } catch (e: Exception) {
-            Log.e(TAG, "deleteEvent error: ${e.message}", e)
+            Log.e(TAG, "deleteEvent failed: ${e.message}", e)
             Result.failure(e)
         }
     }
 
     /**
-     * Retrieves a specific event by its ID.
+     * Retrieves an [Event] by its ID.
      *
-     * @param eventId The ID of the event to retrieve.
-     * @return The matching [Event] if found, or `null` if not found or an error occurs.
+     * @param eventId The unique identifier of the event.
+     * @return The [Event] if found, or `null` if not found or an error occurs.
      */
     override suspend fun readEventsFromId(eventId: String): Event? {
         return try {
             EventRepository.readEventsFromId(eventId)
         } catch (e: Exception) {
-            Log.e(TAG, "readEventsFromId error: ${e.message}", e)
+            Log.e(TAG, "readEventsFromId failed: ${e.message}", e)
             null
         }
     }
 
     /**
-     * Updates an existing event.
+     * Updates the specified [Event] in the repository.
      *
-     * @param event The updated [Event] object.
+     * @param event The [Event] with updated values.
      */
     override suspend fun update(event: Event) {
         val eventId = event.id
         if (eventId == null) {
-            Log.w(TAG, "update failed: event ID is null.")
+            Log.w(TAG, "update failed: Event ID is null.")
             return
         }
 
         try {
             EventRepository.update(eventId, event)
         } catch (e: Exception) {
-            Log.e(TAG, "update error: ${e.message}", e)
+            Log.e(TAG, "update failed: ${e.message}", e)
         }
     }
 
     /**
-     * Checks whether an event with the given ID exists.
+     * Checks if an [Event] with the specified ID exists.
      *
-     * @param eventId The ID to check.
-     * @return `true` if the event exists, `false` otherwise or if an error occurs.
+     * @param eventId The unique identifier to check.
+     * @return `true` if the event exists, or `false` if not found or an error occurs.
      */
     override suspend fun exists(eventId: String): Boolean {
         return try {
             EventRepository.exists(eventId)
         } catch (e: Exception) {
-            Log.e(TAG, "exists error: ${e.message}", e)
+            Log.e(TAG, "exists check failed: ${e.message}", e)
             false
         }
     }

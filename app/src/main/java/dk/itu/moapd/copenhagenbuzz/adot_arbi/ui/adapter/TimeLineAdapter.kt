@@ -19,15 +19,15 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 
 /**
- * A class to customize an adapter with a `ViewHolder` to populate a list of dummy objects in a
- * `ListView`.
- */
-
-/*
- * This code is adapted from moapd2025
- * Original author: Fabricio Batista Narcizo
- * License: MIT
- * Source: https://github.com/fabricionarcizo/moapd2025/blob/main/lecture04/04-4_ListView/app/src/main/java/dk/itu/moapd/listview/CustomAdapter.kt
+ * A [FirebaseListAdapter] for displaying [Event] objects in a `ListView`.
+ * Each item includes the event name, type, date, description, photo, and buttons for
+ * favoriting and editing.
+ *
+ * @param context The [Context] used to inflate views.
+ * @param resource The layout resource ID for an individual event item.
+ * @param timeLineViewModel ViewModel handling event-related operations.
+ * @param mainActivity The activity used for navigation to the edit screen.
+ * @param options The Firebase configuration options for the adapter.
  */
 class TimeLineAdapter(
     private val context: Context,
@@ -37,16 +37,14 @@ class TimeLineAdapter(
     options: FirebaseListOptions<Event>,
 ) : FirebaseListAdapter<Event>(options) {
 
-    /**
-     * A set of private constants used in this class.
-     */
     companion object {
         private val TAG = TimeLineAdapter::class.qualifiedName
     }
 
     /**
-     * An internal view holder class used to represent the layout that shows a single `DummyModel`
-     * instance in the `ListView`.
+     * A view holder to cache views for each event item in the list.
+     *
+     * @param view The view representing the item layout.
      */
     private inner class ViewHolder(view: View) {
         val imageViewPhoto: ImageView = view.findViewById(R.id.image_view_photo)
@@ -58,32 +56,33 @@ class TimeLineAdapter(
     }
 
     /**
-     * Get the `View` instance with information about a selected `DummyModel` from the list.
+     * Returns a view that displays the data at the specified position in the data set.
      *
-     * @param position The position of the specified item.
-     * @param convertView The current view holder.
-     * @param parent The parent view which will group the view holder.
-     *
-     * @return A new view holder populated with the selected `DummyModel` data.
+     * @param position The position of the item.
+     * @param convertView A recycled view for reuse.
+     * @param parent The parent view group.
+     * @return A view corresponding to the data at the specified position.
      */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-
-        // The old view should be reused, if possible. You should check that this view is non-null
-        // and of an appropriate type before using.
         val view = convertView ?: LayoutInflater.from(context).inflate(resource, parent, false)
         val viewHolder = (view.tag as? ViewHolder) ?: ViewHolder(view)
 
         populateView(view, getItem(position), position)
 
-        // Set the new view holder and return the view object.
         view.tag = viewHolder
         return view
     }
 
+    /**
+     * Populates a single event item's view with data and sets up interaction handlers.
+     *
+     * @param v The view to populate.
+     * @param model The [Event] model to bind.
+     * @param position The position in the list.
+     */
     override fun populateView(v: View, model: Event, position: Int) {
         with(ViewHolder(v)) {
-            // Fill out the Material Design card.
-
+            // Load image if valid
             if (model.eventPhotoURL != null && model.eventPhotoURL != "null") {
                 timeLineViewModel.readImage(model.id!!) {
                     Picasso.get().load(it).into(imageViewPhoto)
@@ -93,33 +92,46 @@ class TimeLineAdapter(
                 imageViewPhoto.visibility = View.GONE
             }
 
+            // Update favorite icon
             checkIfFavorite(model, buttonFavorite)
 
+            // Set basic event details
             textViewTitle.text = model.eventName
             textViewSubtitle.text = context.getString(
-                R.string.secondary_text, model.eventType, CustomDate.getDateFromEpoch(model.eventDate)
+                R.string.secondary_text,
+                model.eventType,
+                CustomDate.getDateFromEpoch(model.eventDate)
             )
             textViewDescription.text = model.eventDescription
-            // Set the button click listeners using method references.
+
+            // Handle favorite toggle
             buttonFavorite.setOnClickListener {
                 timeLineViewModel.addFavorite(model.id!!) { result ->
                     toggleFavorite(buttonFavorite, result)
                 }
             }
 
+            // Show edit button if the current user is the creator
             FirebaseAuth.getInstance().currentUser?.let {
-                if(it.uid == model.userId)
+                if (it.uid == model.userId) {
                     buttonEdit.visibility = View.VISIBLE
+                }
             }
 
+            // Navigate to edit screen
             buttonEdit.setOnClickListener {
                 timeLineViewModel.selectedEvent.postValue(model)
                 mainActivity.navController.navigate(R.id.action_timeLineFragment_to_addEventFragment)
             }
-
         }
     }
 
+    /**
+     * Checks if an event is favorited by the current user and updates the button UI accordingly.
+     *
+     * @param model The event to check.
+     * @param buttonFavorite The button to toggle.
+     */
     private fun checkIfFavorite(model: Event, buttonFavorite: MaterialButton) {
         model.id?.let { id ->
             timeLineViewModel.isFavorite(id) { result ->
@@ -128,9 +140,17 @@ class TimeLineAdapter(
         }
     }
 
+    /**
+     * Toggles the favorite icon on the button based on whether the event is favorited.
+     *
+     * @param buttonFavorite The button to update.
+     * @param value `true` if favorited, `false` otherwise.
+     */
     private fun toggleFavorite(buttonFavorite: MaterialButton, value: Boolean) {
-        if (value) { buttonFavorite.setIconResource(R.drawable.baseline_heart_icon_filled) }
-        else { buttonFavorite.setIconResource(R.drawable.baseline_heart_icon) }
+        if (value) {
+            buttonFavorite.setIconResource(R.drawable.baseline_heart_icon_filled)
+        } else {
+            buttonFavorite.setIconResource(R.drawable.baseline_heart_icon)
+        }
     }
-
 }

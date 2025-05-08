@@ -6,6 +6,16 @@ import java.util.Locale
 import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
 
+/**
+ * Converts a human-readable address string into geographic coordinates (latitude and longitude).
+ *
+ * On Android 13+ (TIRAMISU), this uses the asynchronous [Geocoder.GeocodeListener].
+ * For lower versions, it uses a blocking call.
+ *
+ * @param context The Android context used to access the [Geocoder].
+ * @param address The full address to geocode.
+ * @return A [Pair] of (latitude, longitude) or `null` if the address can't be resolved.
+ */
 suspend fun getCoordinatesFromAddress(context: Context, address: String): Pair<Double, Double>? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         suspendCancellableCoroutine { continuation ->
@@ -36,6 +46,17 @@ suspend fun getCoordinatesFromAddress(context: Context, address: String): Pair<D
     }
 }
 
+/**
+ * Converts geographic coordinates (latitude and longitude) into a human-readable address string.
+ *
+ * On Android 13+ (TIRAMISU), this uses the asynchronous [Geocoder.GeocodeListener].
+ * For lower versions, it uses a blocking call.
+ *
+ * @param context The Android context used to access the [Geocoder].
+ * @param latitude The latitude of the location.
+ * @param longitude The longitude of the location.
+ * @return A formatted address string or `null` if no address is found.
+ */
 suspend fun getAddressFromCoordinates(context: Context, latitude: Double, longitude: Double): String? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         suspendCancellableCoroutine { continuation ->

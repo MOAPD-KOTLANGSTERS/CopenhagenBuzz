@@ -14,8 +14,13 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 
 /**
- *  A subclass of the [BaseFragment],
- *  with purposes of managing a list of favorite events of the user.
+ * A subclass of [BaseFragment], responsible for displaying
+ * and managing a list of bookmarked events for the logged-in user.
+ *
+ * This fragment sets up a [RecyclerView] with a [BookmarkAdapter]
+ * and observes Firebase database updates to reflect changes in bookmarks.
+ *
+ * Navigation options to other fragments are defined in the base constructor.
  */
 class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     FragmentBookmarksBinding::inflate,
@@ -25,15 +30,34 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
     R.id.action_bookmarksFragment_to_mapsFragment,
     R.id.action_bookmarksFragment_to_addEventFragment,
 ) {
+
+    /**
+     * The adapter used to display a list of bookmarked events.
+     */
     private var adapter: BookmarkAdapter? = null
 
+    /**
+     * ViewModel for managing bookmark-related data and operations.
+     */
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
+    /**
+     * Called when the fragment becomes visible to the user.
+     * Triggers cleanup of any invalid or deleted bookmarked events.
+     */
     override fun onResume() {
         super.onResume()
         bookmarkViewModel.cleanupInvalidEvent()
     }
 
+    /**
+     * Called after the fragment’s view has been created.
+     * Sets up the [RecyclerView] and populates it with the user's bookmarks
+     * if the user is authenticated. Hides the list otherwise.
+     *
+     * @param view The created view hierarchy associated with the fragment.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
@@ -58,4 +82,3 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
         }
     }
 }
-

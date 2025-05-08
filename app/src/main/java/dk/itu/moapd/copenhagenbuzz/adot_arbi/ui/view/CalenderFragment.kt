@@ -15,6 +15,12 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 import java.time.LocalDate
 
+/**
+ * A fragment subclass of [BaseFragment] responsible for displaying a calendar view
+ * with visual markers for scheduled events and showing event details by date selection.
+ *
+ * It uses a [MaterialCalendarView] with a custom [EventDecorator] to highlight days with events.
+ */
 class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     FragmentCalenderBinding::inflate,
     R.id.action_calenderFragment_to_timeLineFragment,
@@ -24,8 +30,19 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
     R.id.action_calenderFragment_to_addEventFragment,
 ) {
 
+    /**
+     * ViewModel used to observe and manage calendar-based event data.
+     */
     private val calenderViewModel: CalenderViewModel by viewModels()
 
+    /**
+     * Called after the fragment’s view has been created.
+     * Sets up event decorators on the calendar and displays a dialog with event details
+     * when the user selects a specific date.
+     *
+     * @param view The created view hierarchy associated with the fragment.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +56,7 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
                 },
                 { it.eventName }
             )
-            val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary50) // Replace with your color resource
+            val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary50)
             calendarView.addDecorator(EventDecorator(eventsMap, color))
         }
 

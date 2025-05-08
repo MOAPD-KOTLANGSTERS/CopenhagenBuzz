@@ -33,9 +33,17 @@ import java.time.LocalDate
 
 
 /**
- * A simple [BaseFragment] subclass for initializing with options for adding
- * a top-bar and bottom-bar
+ * A fragment for adding or editing [Event] objects.
+ *
+ * This screen allows users to:
+ * - Enter event details such as name, location, date, type, and description.
+ * - Capture a new photo or pick one from the gallery to associate with the event.
+ * - Save a new event or update an existing one (if selected via [TimeLineViewModel]).
+ * - Delete an event by shaking the device (triggering [onShake]).
+ *
+ * Navigation destinations and top/bottom bar visibility are configured via [BaseFragment].
  */
+
 class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     FragmentAddEventBinding::inflate,
     R.id.action_addEventFragment_to_timeLineFragment,
@@ -80,6 +88,11 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
 
     }
 
+    /**
+     * Populates the UI fields with data from an existing [Event] for editing.
+     *
+     * @param event The [Event] to edit.
+     */
     private fun populateUI(event: Event) {
         binding.editTextEventName.setText(event.eventName)
         binding.editTextEventLocation.setText(event.eventLocation.address)
@@ -94,8 +107,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
     }
 
     /**
-     * Sets up event listeners for UI elements.
-     * Includes date range selection and event creation.
+     * Sets up listeners for user inputs such as date picker, image selection,
+     * and the event submission button.
+     *
+     * @param onSuccess Callback triggered with a valid [Event] object on form submission.
      */
     private fun setupUserInput(onSuccess: (event : Event) -> Unit) {
 
@@ -203,6 +218,9 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
     }
 
+    /**
+     * Handles the result of the image picker intent and displays the selected image.
+     */
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -215,6 +233,9 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
             }
         }
 
+    /**
+     * Handles camera permission request result and launches the camera if granted.
+     */
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -225,6 +246,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
 
 
+    /**
+     * Launches the device's camera app to capture a new image for the event.
+     * Saves the URI for later upload.
+     */
     private fun launchCamera() {
         try {
             val photoFile = createImageFile()
@@ -244,13 +269,20 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         }
     }
 
+    /**
+     * Creates a temporary image file to store the captured photo.
+     *
+     * @return A [File] pointing to the created image location.
+     */
     private fun createImageFile(): File {
-        val timeStamp = LocalDate.now()
         val storageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+        // Use a [LocalDate] timestamp to ensure unique name
+        return File.createTempFile("JPEG_${LocalDate.now()}_", ".jpg", storageDir)
     }
 
-
+    /**
+     * Handles the result of the camera intent and displays the captured image.
+     */
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             cameraURI?.let { uri ->
@@ -262,12 +294,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
 
 
     /**
-     * Displays a SnackBar to show a brief message about the clicked button.
+     * Displays a [Snackbar] with a brief message.
      *
-     * The SnackBar is created using the clicked button and is shown at the bottom of the screen.
-     *
-     * @param message The message to be displayed in the SnackBar.
-     * @param view The view to find a parent from.
+     * @param message The message to show.
+     * @param view The anchor view for the [Snackbar].
      */
     private fun showSnackBar(message: String, view: View) {
         Snackbar.make(
@@ -275,6 +305,10 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         ).show()
     }
 
+    /**
+     * Called when the device is shaken. Prompts the user to confirm deletion
+     * of the currently selected event.
+     */
     override fun onShake() {
         showSnackBar("Successfully deleted your event", binding.root)
         val event = timeLineViewModel.selectedEvent.value

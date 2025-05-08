@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -17,11 +15,24 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.SensorProvider
 
 /**
- * An abstract [BaseFragment] for initializing boilerplate code,
- * and with option for building both the top and bottom bar
- * @param bindingInflater a function reference for the fragments layout inflater.
- * @param VB the viewbinding of the subclass.
+ * An abstract base fragment that handles shared setup logic for view binding, navigation,
+ * authentication state handling, and shake detection via [SensorProvider].
+ *
+ * Subclasses must provide their own [ViewBinding] using [bindingInflater].
+ *
+ * Features:
+ * - Automatically sets up top and bottom navigation bars.
+ * - Displays user-specific UI (e.g., logout drawer vs. back button).
+ * - Responds to shake gestures by navigating to the Add Event screen.
+ *
+ * @param bindingInflater A function that inflates the fragment's [ViewBinding].
+ * @param timelineAction Navigation ID for the Timeline screen.
+ * @param bookmarkAction Navigation ID for the Bookmarks screen.
+ * @param calenderAction Navigation ID for the Calendar screen.
+ * @param mapsAction Navigation ID for the Maps screen.
+ * @param addEventAction Navigation ID for the Add Event screen.
  */
+
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private var timelineAction: Int,
@@ -42,6 +53,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
     }
 
+    /**
+     * Called when the fragment is attached to its context.
+     * Stores a reference to the parent [MainActivity] and captures login state.
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = requireActivity() as MainActivity
@@ -49,7 +64,9 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     /**
-     * Entry-point for the abstract class for initializing the viewbinding.
+     * Inflates the fragment's view using the provided [bindingInflater].
+     *
+     * @return The root view of the binding.
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +79,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     /**
-     * Method for after the view has been created will setup the top and bottom nav bar
+     * Sets up UI components after the view is created.
+     * - Configures top bar based on login state (drawer vs. back button).
+     * - Enables "Add Event" button only for logged-in users.
+     * - Initializes drawer actions (logout).
+     * - Sets up bottom navigation bar.
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,8 +107,8 @@ abstract class BaseFragment<VB : ViewBinding>(
                 }
             }
         }
-
-       if(isLoggedIn) {
+        // FAB "Add Event" button visibility and action
+        if(isLoggedIn) {
             activity.binding.imageButtonAddEvent.let { button ->
                 button.setImageResource(R.drawable.outline_add_24)
                 button.setOnClickListener {
@@ -98,7 +119,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             activity.binding.imageButtonAddEvent.visibility = View.GONE
         }
 
-
+        // Drawer item actions
         activity.binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_profile -> {
@@ -120,12 +141,12 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     /**
-     * Function to navigate to the different fragments on the screen,
-     * if more fragments are added, they should be added in the switch case.
-     * @param timelineAction R.id for timeline action
-     * @param bookmarkAction R.id for bookmark action
-     * @param calenderAction R.id for calender action
-     * @param mapsAction R.id for maps action
+     * Configures bottom navigation bar to switch between fragments.
+     *
+     * @param timelineAction Navigation ID for Timeline.
+     * @param bookmarkAction Navigation ID for Bookmarks.
+     * @param calenderAction Navigation ID for Calendar.
+     * @param mapsAction Navigation ID for Maps.
      */
     private fun setupBottomNav(
         timelineAction: Int,
@@ -149,13 +170,16 @@ abstract class BaseFragment<VB : ViewBinding>(
 
 
     /**
-     * A method for destroying the fragment, ending its lifecycle and prevent memory issues
+     * Cleans up the binding reference to prevent memory leaks.
      */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Prevent memory leaks
     }
 
+    /**
+     * Called when the fragment becomes visible. Registers for shake detection via [SensorProvider].
+     */
     override fun onStart() {
         super.onStart()
         SensorProvider.init(
@@ -164,6 +188,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         )
     }
 
+    /**
+     * Called when a shake is detected. Prompts the user to navigate to the Add Event screen.
+     */
     override fun onShake() {
         context?.let { context ->
             AlertDialog.Builder(context)

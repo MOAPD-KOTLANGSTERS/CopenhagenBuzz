@@ -1,11 +1,8 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
-
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
@@ -15,55 +12,60 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.SensorProvider
 
-
 /**
  * MainActivity serves as the entry point of the application.
- * It initializes the UI components, binds views using View Binding,
- * and handles user interactions such as date selection and event creation.
+ *
+ * It sets up the navigation graph, handles authentication-related UI logic,
+ * and connects UI elements like the logout and add event buttons.
+ * Unauthenticated users are redirected to the [LoginActivity].
  */
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        /**
+         * Tag used for logging purposes.
+         */
         private val TAG = MainActivity::class.qualifiedName
     }
 
     /**
-     *  The [ActivityMainBinding] for the parent XML file
+     * View binding for accessing layout views.
      */
-
     lateinit var binding: ActivityMainBinding
 
     /**
-     * The original instance of [NavController]
+     * Navigation controller used to manage app fragment navigation.
      */
     lateinit var navController: NavController
 
+    /**
+     * Property that checks whether the current user is authenticated and not anonymous.
+     */
     val isLoggedIn: Boolean
         get() {
             val user = FirebaseAuth.getInstance().currentUser
-            // check if there exists a user and not anonymous
             return user != null && !user.isAnonymous
         }
 
     /**
-     * Called when the activity is first created.
-     * Initializes the UI, sets up window insets, and attaches event listeners.
+     * Initializes the activity, sets up UI layout, navigation, and user interface logic.
+     *
+     * @param savedInstanceState The previously saved instance state, if any.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
-        // Inflate the layout using View Binding and set the content view.
+        // Inflate layout with view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up NavHostFragment
+        // Set up NavHostFragment and navigation controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Update the logout button dynamically based on authentication status
+        // Configure logout/account button behavior
         binding.imageButtonLogout.let { button ->
-
             button.setImageResource(
                 if (isLoggedIn) R.drawable.outline_account_circle_24
                 else R.drawable.outline_arrow_back_24
@@ -71,15 +73,14 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener {
                 if (isLoggedIn) {
                     FirebaseAuth.getInstance().signOut()
-                    recreate() // Refresh the activity to update UI
+                    recreate() // Restart activity to refresh UI
                 } else {
                     onBackPressedDispatcher.onBackPressed()
                 }
             }
         }
 
-
-        // Update the add event button visibility based on authentication status
+        // Show/hide add event button based on authentication
         binding.imageButtonAddEvent.visibility =
             if (isLoggedIn) View.VISIBLE else View.GONE
         binding.imageButtonAddEvent.setOnClickListener {
@@ -87,6 +88,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks for user authentication status on start.
+     * Redirects to login screen if no user is logged in or if the user is anonymous.
+     */
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
@@ -97,7 +102,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Stops sensor operations and finishes the activity on destruction.
+     */
     override fun onDestroy() {
         super.onDestroy()
         SensorProvider.stop()

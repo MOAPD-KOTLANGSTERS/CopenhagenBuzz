@@ -1,9 +1,7 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import com.firebase.ui.database.FirebaseListOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
@@ -13,10 +11,11 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
 
-
 /**
- *  A subclass of the [BaseFragment],
- *  with purposes of managing a list of all events in ListView with dummy data
+ * A fragment subclass of [BaseFragment] that displays a timeline of events in a [ListView].
+ *
+ * Uses Firebase's real-time database and a [TimeLineAdapter] to populate the view
+ * with events ordered by their creation time. Observes the shared [TimeLineViewModel].
  */
 class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     FragmentTimeLineBinding::inflate,
@@ -27,11 +26,21 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
     R.id.action_timeLineFragment_to_addEventFragment,
 ) {
 
+    /**
+     * Shared ViewModel used to manage and interact with timeline event data.
+     */
     private val dataViewModel: TimeLineViewModel by activityViewModels()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    /**
+     * Initializes the fragment's view and sets up the [TimeLineAdapter]
+     * to display events from Firebase Realtime Database in a list.
+     *
+     * @param view The root view of the fragment.
+     * @param savedInstanceState The previously saved instance state, or null.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val query = EventRepository.db
             .orderByChild("createdAt")
 
@@ -48,6 +57,7 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
             activity,
             options,
         )
+
         binding.timelineListView.adapter = adapter
     }
 }

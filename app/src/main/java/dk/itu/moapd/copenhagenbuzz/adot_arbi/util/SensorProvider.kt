@@ -6,6 +6,12 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import kotlin.math.sqrt
 
+/**
+ * Singleton object that detects shake gestures using the device's accelerometer sensor.
+ *
+ * You can initialize it with a [SensorManager] and a [ShakeListener] to start listening
+ * for shake events, and call [stop] to unregister the sensor listener.
+ */
 object SensorProvider {
 
     private var sensorManager: SensorManager? = null
@@ -15,6 +21,12 @@ object SensorProvider {
     private var currentAcceleration = 0f
     private var lastAcceleration = 0f
 
+    /**
+     * Initializes the shake detection system and registers a sensor listener.
+     *
+     * @param sensorManager The [SensorManager] used to access the accelerometer.
+     * @param shakeListener A callback listener to be invoked when a shake is detected.
+     */
     fun init(sensorManager: SensorManager, shakeListener: ShakeListener) {
         this.sensorManager = sensorManager
         this.listener = shakeListener
@@ -26,11 +38,17 @@ object SensorProvider {
         )
     }
 
+    /**
+     * Stops listening to sensor events and clears the shake listener reference.
+     */
     fun stop() {
         sensorManager?.unregisterListener(sensorEventListener)
         listener = null
     }
 
+    /**
+     * Internal sensor event listener for detecting shake gestures.
+     */
     private val sensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(event: SensorEvent) {
             val x = event.values[0]
@@ -47,10 +65,18 @@ object SensorProvider {
             }
         }
 
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+            // No-op
+        }
     }
 
+    /**
+     * Interface definition for a callback to be invoked when a shake is detected.
+     */
     interface ShakeListener {
+        /**
+         * Called when a shake gesture is detected.
+         */
         fun onShake()
     }
 }
