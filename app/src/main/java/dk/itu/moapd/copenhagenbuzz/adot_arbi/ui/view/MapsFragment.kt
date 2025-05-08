@@ -4,18 +4,15 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentMapsBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.MapsViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 
@@ -32,7 +29,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     R.id.action_mapsFragment_to_calenderFragment,
     R.id.action_mapsFragment_self,
     R.id.action_mapsFragment_to_addEventFragment,
-), OnMapReadyCallback {
+) {
 
     /**
      * The [MapView] used to render the Google Map.
@@ -49,6 +46,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
      */
     private val mapsViewModel: MapsViewModel by activityViewModels()
 
+
     /**
      * Initializes the map view when the fragment’s view is created.
      */
@@ -57,57 +55,41 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
-    }
 
-    /**
-     * Called when the GoogleMap is ready to be used.
-     * Adds markers and observes event data from the ViewModel.
-     */
-    override fun onMapReady(map: GoogleMap) {
-        googleMap = map
-        setupMap()
+        mapView.getMapAsync { map ->
+            googleMap = map
+            setupMap()
 
-        // Observe events and display markers
-        mapsViewModel.getAllEvents()
-        mapsViewModel.events.observe(viewLifecycleOwner) { events ->
-            fetchAndDisplayEvents(events)
-        }
-    }
 
-    /**
-     * Displays event markers on the map and focuses the camera on the first event.
-     *
-     * @param events A list of [Event] objects to display on the map.
-     */
-    private fun fetchAndDisplayEvents(events: List<Event>) {
-        // Add markers for each event
-        events.forEach { event ->
-            val location = LatLng(event.eventLocation.lat, event.eventLocation.long)
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(location)
-                    .title(event.eventName)
-                    .snippet(event.eventDescription)
-            )
-            marker?.tag = event
-        }
+            /**
+             * Observe the events from the ViewModel and set up markers on the map.
+             * Clear existing markers before adding new ones.
+             */
 
-        // Focus camera on the first event
-        if (events.isNotEmpty()) {
-            val firstEvent = events[0]
-            val firstLatLng = LatLng(firstEvent.eventLocation.lat, firstEvent.eventLocation.long)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLatLng, 10f))
-        }
+            mapsViewModel.getAllEvents()
+            mapsViewModel.events.observe(viewLifecycleOwner) { events ->
+                googleMap.clear() // Clear existing markers
+                mapsViewModel.setupMap(googleMap) // Add markers for events
 
-        // Handle marker clicks to show event details
-        googleMap.setOnMarkerClickListener { marker ->
-            val event = marker.tag as? Event
-            event?.let {
-                val showEventDetails = ShowEventDetails(requireContext(), it)
-                showEventDetails.show()
+                // Zoom to the last event if available
+                events.lastOrNull()?.let { lastEvent ->
+                    val lastEventLocation = LatLng(lastEvent.eventLocation.lat, lastEvent.eventLocation.long)
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastEventLocation, 15f))
+                }
             }
-            true
+
+            /**
+             * Set up a click listener for the map to show event details when a marker is clicked.
+             * The event data is stored in the marker's tag.
+             */
+            // Handle marker click to show event details
+            googleMap.setOnMarkerClickListener { marker ->
+                val event = marker.tag as? Event
+                event?.let {
+                    ShowEventDetails(requireContext(), it).show()
+                }
+                true
+            }
         }
     }
 
@@ -152,15 +134,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     override fun onPause() {
         super.onPause()
         mapView.onPause()
-    }
-
-    /**
-     * Displays a long toast message.
-     *
-     * @param message The message to display.
-     */
-    private fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     /**
