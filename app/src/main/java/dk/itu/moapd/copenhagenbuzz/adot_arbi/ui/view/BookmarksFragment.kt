@@ -9,8 +9,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentBookmarksBindin
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.UserRepository
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 
 /**
@@ -77,8 +77,10 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
 
             adapter = BookmarkAdapter(options, bookmarkViewModel)
             binding.bookmarksRecyclerviewView.adapter = adapter
+            binding.textViewGuestMessage.visibility = View.GONE
         } else {
             binding.bookmarksRecyclerviewView.visibility = View.GONE
+            binding.textViewGuestMessage.visibility = View.VISIBLE
         }
     }
 }

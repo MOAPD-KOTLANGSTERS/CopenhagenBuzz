@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.EventServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database

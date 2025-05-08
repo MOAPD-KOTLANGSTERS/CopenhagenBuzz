@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -95,12 +96,14 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
-        if (user == null || user.isAnonymous) {
+        Log.d(TAG, "onStart: $user")
+        if (user == null) {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
         }
     }
+
 
     /**
      * Stops sensor operations and finishes the activity on destruction.

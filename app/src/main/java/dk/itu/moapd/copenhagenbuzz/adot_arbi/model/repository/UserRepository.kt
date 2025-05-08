@@ -1,7 +1,7 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository
 
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.User
 import kotlinx.coroutines.tasks.await
 
 /**

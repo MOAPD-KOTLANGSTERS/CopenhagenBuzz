@@ -1,9 +1,9 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services
 
 import android.net.Uri
 import android.util.Log
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.ImageRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IImageService
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.ImageRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces.IImageService
 
 /**
  * Provides an implementation of [IImageService] for managing image files

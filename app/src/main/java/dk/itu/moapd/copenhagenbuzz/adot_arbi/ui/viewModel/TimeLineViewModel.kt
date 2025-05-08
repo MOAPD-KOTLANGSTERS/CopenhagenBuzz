@@ -3,11 +3,11 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.ImageService
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -2,9 +2,9 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.EventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.ImageService
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -1,6 +1,6 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository
 
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 import kotlinx.coroutines.tasks.await
 
 /**

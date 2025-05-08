@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces
 
 import android.net.Uri
 

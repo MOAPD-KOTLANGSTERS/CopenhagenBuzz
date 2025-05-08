@@ -1,8 +1,8 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces
 
 import com.google.firebase.auth.FirebaseUser
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.User
 
 /**
  * Defines a service interface for managing user accounts and their bookmarked events.

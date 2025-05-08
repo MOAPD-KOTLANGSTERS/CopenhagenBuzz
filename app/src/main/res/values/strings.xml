@@ -23,4 +23,7 @@
     <!-- login activity -->
     <string name="email_login_button">Login with Email</string>
     <string name="google_login_button">Login with Google</string>
+
+    <!-- bookmark fragment -->
+    <string name="guest_login_message">You need to log in to access your bookmarks.</string>
 </resources>

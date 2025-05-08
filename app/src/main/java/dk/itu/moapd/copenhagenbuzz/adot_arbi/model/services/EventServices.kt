@@ -1,11 +1,11 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services
 
 import android.content.Context
 import android.util.Log
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IEventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.EventLocation
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces.IEventServices
 import getAddressFromCoordinates
 import getCoordinatesFromAddress
 

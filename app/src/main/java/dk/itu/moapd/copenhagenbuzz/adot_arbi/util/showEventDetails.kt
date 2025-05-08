@@ -2,7 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.util
 
 import android.app.AlertDialog
 import android.content.Context
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
 
 /**

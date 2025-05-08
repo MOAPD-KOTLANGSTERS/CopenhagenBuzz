@@ -1,7 +1,7 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces
 
 import android.content.Context
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 
 /**
  * Service interface for managing [Event] objects, including creation,

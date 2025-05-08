@@ -20,8 +20,8 @@ import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentAddEventBinding
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.EventLocation
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.EventLocation
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.AddEventViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import java.util.Calendar

@@ -1,8 +1,6 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto
 
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
-import java.time.Instant
-import java.util.Date
 
 /**
  *  A representation of a created event

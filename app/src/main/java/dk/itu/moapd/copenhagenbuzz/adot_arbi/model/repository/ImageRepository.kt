@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository
 
 import android.net.Uri
 import com.google.firebase.ktx.Firebase

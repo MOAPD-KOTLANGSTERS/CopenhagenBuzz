@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.firebase.ui.database.FirebaseListAdapter
 import com.firebase.ui.database.FirebaseListOptions
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.MainActivity
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
@@ -106,8 +107,16 @@ class TimeLineAdapter(
 
             // Handle favorite toggle
             buttonFavorite.setOnClickListener {
-                timeLineViewModel.addFavorite(model.id!!) { result ->
-                    toggleFavorite(buttonFavorite, result)
+                val user = FirebaseAuth.getInstance().currentUser
+                if (user != null) {
+                    if(!user.isAnonymous) {
+                        timeLineViewModel.addFavorite(model.id!!) { result ->
+                            toggleFavorite(buttonFavorite, result)
+                        }
+                    } else {
+                        // Show a message to the user to log in
+                        Toast.makeText(context, "Please login to bookmark events", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -148,9 +157,9 @@ class TimeLineAdapter(
      */
     private fun toggleFavorite(buttonFavorite: MaterialButton, value: Boolean) {
         if (value) {
-            buttonFavorite.setIconResource(R.drawable.baseline_heart_icon_filled)
+            buttonFavorite.setIconResource(R.drawable.baseline_bookmarks_24)
         } else {
-            buttonFavorite.setIconResource(R.drawable.baseline_heart_icon)
+            buttonFavorite.setIconResource(R.drawable.baseline_bookmarks_24_not_filed)
         }
     }
 }

@@ -9,7 +9,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.UserServices
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
 
@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuthUIActivityResultContract()
     ) { result -> onSignInResult(result) }
 
+
     /**
      * Initializes the login screen and sets up login button actions.
      *
@@ -49,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         // Google Login Button
         binding.buttonGoogleLogin.setOnClickListener {
@@ -62,7 +64,14 @@ class LoginActivity : AppCompatActivity() {
 
         // Guest Login Button
         binding.buttonGuest.setOnClickListener {
-            startMainActivity()
+            FirebaseAuth.getInstance().signInAnonymously()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        startMainActivity()
+                    } else {
+                        Log.e(TAG, "Anonymous sign-in failed: ${task.exception?.message}")
+                    }
+                }
         }
     }
 
@@ -75,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(listOf(provider))
-            .setIsSmartLockEnabled(true)
+            .setIsSmartLockEnabled(false)
             .build()
         signInLauncher.launch(signInIntent)
     }

@@ -8,8 +8,8 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentTimeLineBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.TimeLineAdapter
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.Event
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.EventRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.Event
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.EventRepository
 
 /**
  * A fragment subclass of [BaseFragment] that displays a timeline of events in a [ListView].
@@ -60,4 +60,6 @@ class TimeLineFragment : BaseFragment<FragmentTimeLineBinding>(
 
         binding.timelineListView.adapter = adapter
     }
+
+
 }

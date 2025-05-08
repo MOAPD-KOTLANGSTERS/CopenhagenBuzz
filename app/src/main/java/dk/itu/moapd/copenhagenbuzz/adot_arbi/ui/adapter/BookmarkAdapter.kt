@@ -10,7 +10,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.squareup.picasso.Picasso
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BookmarkViewModel
 
 /**

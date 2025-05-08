@@ -1,13 +1,13 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.BookmarkEvent
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model.User
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.BaseRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.repository.UserRepository
-import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.interfaces.IUserServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.BookmarkEvent
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto.User
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.BaseRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.repository.UserRepository
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.model.services.interfaces.IUserServices
 
 /**
  * Provides an implementation of [IUserServices] for managing user accounts

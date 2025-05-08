@@ -1,4 +1,4 @@
-package dk.itu.moapd.copenhagenbuzz.adot_arbi.data.model
+package dk.itu.moapd.copenhagenbuzz.adot_arbi.model.dto
 
 /**
  * Represents a bookmarked event.
