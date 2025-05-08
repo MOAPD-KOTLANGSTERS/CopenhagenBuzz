@@ -2,6 +2,7 @@ package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.View
@@ -91,11 +92,18 @@ class MainActivity : AppCompatActivity(), SensorProvider.ShakeListener {
 
     override fun onStop() {
         super.onStop()
-
+        SensorProvider.stop()
     }
+
     override fun onStart() {
         super.onStart()
-        // TODO("Add a check if there is a user, if not go back to login activity")
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null || user.isAnonymous) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+
         SensorProvider.init(getSystemService(Context.SENSOR_SERVICE) as SensorManager, this)
     }
 
@@ -106,5 +114,6 @@ class MainActivity : AppCompatActivity(), SensorProvider.ShakeListener {
     override fun onDestroy() {
         super.onDestroy()
         SensorProvider.stop()
+        finish()
     }
 }

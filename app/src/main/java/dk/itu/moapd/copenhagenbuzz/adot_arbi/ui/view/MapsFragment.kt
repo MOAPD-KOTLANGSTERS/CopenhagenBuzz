@@ -86,9 +86,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
         }
     }
 
-
-
-
     private fun setupMap() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -101,8 +98,6 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
             requestUserPermissions()
         }
     }
-
-
 
     private fun requestUserPermissions() {
         ActivityCompat.requestPermissions(
