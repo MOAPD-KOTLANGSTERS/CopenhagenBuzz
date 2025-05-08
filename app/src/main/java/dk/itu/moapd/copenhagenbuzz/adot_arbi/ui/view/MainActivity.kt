@@ -104,6 +104,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save UI state, e.g., navigation state or user-specific data
+        outState.putBoolean("isLoggedIn", isLoggedIn)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Restore UI state
+        val restoredIsLoggedIn = savedInstanceState.getBoolean("isLoggedIn", false)
+        if (restoredIsLoggedIn != isLoggedIn) {
+            recreate() // Refresh UI if login state changes
+        }
+    }
 
     /**
      * Stops sensor operations and finishes the activity on destruction.

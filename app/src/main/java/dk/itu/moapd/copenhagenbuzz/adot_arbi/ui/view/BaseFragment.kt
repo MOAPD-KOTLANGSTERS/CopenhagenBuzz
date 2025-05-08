@@ -9,10 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
 import androidx.viewbinding.ViewBinding
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.SensorProvider
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BaseFragmentViewModel
+
+
 
 /**
  * An abstract base fragment that handles shared setup logic for view binding, navigation,
@@ -43,11 +47,13 @@ abstract class BaseFragment<VB : ViewBinding>(
 ) : Fragment(), SensorProvider.ShakeListener {
 
     private var _binding: VB? = null
+    private val dataViewModel: BaseFragmentViewModel by activityViewModels()
     protected val binding
         get() = _binding!!
 
     lateinit var activity : MainActivity
     var isLoggedIn: Boolean = false
+
 
     companion object {
         const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
@@ -192,13 +198,24 @@ abstract class BaseFragment<VB : ViewBinding>(
      * Called when a shake is detected. Prompts the user to navigate to the Add Event screen.
      */
     override fun onShake() {
+        if (isLoggedIn) {
+
+        if (dataViewModel.isDialogShowing.value == true) return
+
         context?.let { context ->
+            dataViewModel.setDialogShowing(true) // Set isDialogShowing to true
             AlertDialog.Builder(context)
                 .setTitle("Do you want to create an event?")
-                .setItems(arrayOf("Yes, continue","No, go back")) { _, which ->
-                    if(which == 0)
+                .setItems(arrayOf("Yes, continue", "No, go back")) { _, which ->
+                    if (which == 0) {
                         activity.navController.navigate(addEventAction)
-                }.show()
+                    }
+                }
+                .setOnDismissListener {
+                    dataViewModel.setDialogShowing(false) // Reset isDialogShowing to false
+                }
+                .show()
         }
+      }
     }
 }

@@ -25,6 +25,7 @@ class TimeLineViewModel : ViewModel() {
     val selectedEvent: MutableLiveData<Event?>
         get() = _selectedEvent
 
+
     /**
      * Initializes the selected event to null.
      */

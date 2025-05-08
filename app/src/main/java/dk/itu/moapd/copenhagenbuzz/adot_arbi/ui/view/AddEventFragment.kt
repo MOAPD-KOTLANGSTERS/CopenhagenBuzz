@@ -27,6 +27,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate
 import java.util.Calendar
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.BaseFragmentViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.TimeLineViewModel
 import java.io.File
 import java.time.LocalDate
@@ -56,6 +57,7 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
         private val TAG = AddEventFragment::class.qualifiedName
     }
 
+    private val dataViewModel: BaseFragmentViewModel by activityViewModels()
     private val timeLineViewModel: TimeLineViewModel by activityViewModels()
     private val addEventViewModel: AddEventViewModel by viewModels()
 
@@ -310,17 +312,27 @@ class AddEventFragment : BaseFragment<FragmentAddEventBinding>(
      * of the currently selected event.
      */
     override fun onShake() {
-        showSnackBar("Successfully deleted your event", binding.root)
-        val event = timeLineViewModel.selectedEvent.value
-        event?.let {
-            AlertDialog.Builder(requireContext())
-                .setTitle("Do you want to delete the event?")
-                .setItems(arrayOf("Yes, continue","No")) { _, which ->
-                    if (which == 0)
-                        addEventViewModel.deleteEvent(event){
-                            activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+        if (isLoggedIn) {
+            if (dataViewModel.isDialogShowing.value == true) return
+
+            val event = timeLineViewModel.selectedEvent.value
+            event?.let {
+                dataViewModel.setDialogShowing(true) // Set isDialogShowing to true
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Do you want to delete the event?")
+                    .setItems(arrayOf("Yes, continue", "No")) { _, which ->
+                        if (which == 0) {
+                            addEventViewModel.deleteEvent(event) {
+                                showSnackBar("Successfully deleted your event", binding.root)
+                                activity.navController.navigate(R.id.action_addEventFragment_to_timeLineFragment)
+                            }
                         }
-                }.show()
+                    }
+                    .setOnDismissListener {
+                        dataViewModel.setDialogShowing(false) // Reset isDialogShowing to false
+                    }
+                    .show()
+            }
         }
     }
 }

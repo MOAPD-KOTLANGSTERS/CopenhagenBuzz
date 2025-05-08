@@ -1,5 +1,4 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
-
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter.BookmarkAdapter
 import android.os.Bundle
 import android.view.View
@@ -58,6 +57,7 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
      * @param view The created view hierarchy associated with the fragment.
      * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
      */
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.bookmarksRecyclerviewView.layoutManager = LinearLayoutManager(requireContext())
@@ -82,5 +82,8 @@ class BookmarksFragment : BaseFragment<FragmentBookmarksBinding>(
             binding.bookmarksRecyclerviewView.visibility = View.GONE
             binding.textViewGuestMessage.visibility = View.VISIBLE
         }
+
     }
+
+
 }

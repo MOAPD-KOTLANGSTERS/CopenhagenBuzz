@@ -60,7 +60,7 @@ object SensorProvider {
             val delta = currentAcceleration - lastAcceleration
             acceleration = acceleration * 0.9f + delta
 
-            if (acceleration > 10F) {
+            if (acceleration > 14F) {
                 listener?.onShake()
             }
         }

@@ -1,7 +1,9 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.util
 
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 /**
  * Utility object for handling date formatting and conversions between
@@ -48,6 +50,6 @@ object CustomDate {
         if (lst.size != 3) throw IllegalArgumentException("Date must consist of dd${DELIMITER}MM${DELIMITER}yyyy")
         val date = LocalDate.of(lst[2], lst[1], lst[0])
         date.format(DateTimeFormatter.ofPattern(dateFormat)) // Ensures parsing succeeds, even if not used
-        return date.toEpochDay()
+        return date.atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
     }
 }
