@@ -1,5 +1,6 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,6 @@ class BookmarkAdapter(
     private val bookmarkViewModel: BookmarkViewModel
 ) : FirebaseRecyclerAdapter<BookmarkEvent, BookmarkAdapter.ViewHolder>(options) {
 
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.image_view_event_photo)
         val titleTextView: TextView = view.findViewById(R.id.text_view_event_name)
@@ -35,12 +35,13 @@ class BookmarkAdapter(
         holder.titleTextView.text = model.eventName
         holder.typeTextView.text = model.eventType
         if (model.url != null && model.url != "null") {
-            Picasso.get().load(model.url).into(holder.imageView)
-            holder.imageView.visibility = View.VISIBLE
+            bookmarkViewModel.readImage(model.eventId) {
+                Picasso.get().load(it).into(holder.imageView)
+                holder.imageView.visibility = View.VISIBLE
+            }
         } else {
-            holder.imageView.visibility = View.INVISIBLE
+            holder.imageView.visibility = View.GONE
         }
-
     }
 }
 

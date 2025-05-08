@@ -1,10 +1,9 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.EventServices
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.ImageService
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.data.services.UserServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +18,17 @@ class BookmarkViewModel : ViewModel() {
                         UserServices.removeFavorite(it.eventId)
                 }
             }
+        }
+    }
+
+    fun readImage(eventId: String, onSuccess: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ImageService.read(eventId)
+                .onSuccess {
+                    withContext(Dispatchers.Main){
+                        onSuccess(it)
+                    }
+                }
         }
     }
 }

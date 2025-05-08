@@ -32,4 +32,15 @@ class AddEventViewModel : ViewModel() {
                 }
         }
     }
+
+    fun readImage(eventId: String, onSuccess: (String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            ImageService.read(eventId)
+                .onSuccess {
+                    withContext(Dispatchers.Main){
+                        onSuccess(it)
+                    }
+                }
+        }
+    }
 }

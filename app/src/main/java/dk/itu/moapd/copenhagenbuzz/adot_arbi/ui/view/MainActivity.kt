@@ -1,7 +1,11 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
+
+import android.content.Context
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -10,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.SensorProvider
 
 
 /**
@@ -17,7 +22,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.ActivityMainBinding
  * It initializes the UI components, binds views using View Binding,
  * and handles user interactions such as date selection and event creation.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorProvider.ShakeListener {
 
     companion object {
         private val TAG = MainActivity::class.qualifiedName
@@ -83,8 +88,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onStop() {
+        super.onStop()
+
+    }
     override fun onStart() {
         super.onStart()
         // TODO("Add a check if there is a user, if not go back to login activity")
+        SensorProvider.init(getSystemService(Context.SENSOR_SERVICE) as SensorManager, this)
+    }
+
+    override fun onShake() {
+        Toast.makeText(this, "Shake detected!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SensorProvider.stop()
     }
 }
