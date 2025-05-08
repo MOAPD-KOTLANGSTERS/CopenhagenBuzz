@@ -1,6 +1,5 @@
 package dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view
 
-import EventDecorator
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
@@ -12,6 +11,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.R
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.databinding.FragmentCalenderBinding
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.viewModel.CalenderViewModel
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.CustomDate.getDateFromEpoch
+import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.EventDecorator
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 import java.time.LocalDate
 
