@@ -52,7 +52,7 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
             calendarView.addDecorator(EventDecorator(eventsMap, color))
         }
 
-        calendarView.setOnDateChangedListener { widget, date, selected ->
+        calendarView.setOnDateChangedListener { _, date, _ ->
             val eventsForSelectedDate = calenderViewModel.events.value
                 ?.filter {
                     val eventDate = LocalDate.ofEpochDay(it.eventDate)
