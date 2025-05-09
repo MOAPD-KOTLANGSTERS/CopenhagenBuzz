@@ -6,38 +6,47 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.view.MainActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_graph">
 
         <Toolbar
+            android:id="@+id/toolbar_top"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:id="@+id/toolbar_top"
-            android:title="@string/app_name">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/app_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:text="@string/app_name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/image_button_logout"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:contentDescription="TODO"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="end|top"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/baseline_circle_24"
+                android:contentDescription="TODO"
                 android:src="@drawable/outline_arrow_back_24" />
 
             <ImageButton
                 android:id="@+id/image_button_add_event"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:contentDescription="TODO"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="end|top"
-                android:background="@android:color/transparent"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/baseline_circle_24"
+                android:contentDescription="TODO"
                 android:src="@drawable/outline_add_24"
                 android:visibility="gone" />
 
@@ -45,7 +54,12 @@
 
         <include
             android:id="@+id/content_main"
-            layout="@layout/content_main" />
+            layout="@layout/content_main"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_top"
+            app:layout_constraintBottom_toTopOf="@+id/shared_bottom_nav_bar"
+            />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/shared_bottom_nav_bar"
@@ -53,12 +67,10 @@
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_nav"
             android:layout_gravity="bottom"
-            app:labelVisibilityMode="labeled" />
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

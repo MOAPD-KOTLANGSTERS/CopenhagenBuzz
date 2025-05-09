@@ -1,9 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     id("com.google.gms.google-services") // Apply the google-services plugin here
-
 }
 
 android {
@@ -16,8 +15,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -39,10 +38,15 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
+
 
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.2.3"))
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation(libs.firebase.database.ktx)
     implementation(libs.picasso)
     implementation(libs.javafaker)
     implementation(libs.androidx.core.ktx)
@@ -61,4 +65,10 @@ dependencies {
     implementation(libs.firebase.auth.ktx.v2310)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.ui.database)
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    implementation("com.firebaseui:firebase-ui-storage:8.0.0")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.4.4")
+
 }

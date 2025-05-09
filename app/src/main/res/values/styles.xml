@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalendarWeekDayText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CalendarDateText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+</resources>

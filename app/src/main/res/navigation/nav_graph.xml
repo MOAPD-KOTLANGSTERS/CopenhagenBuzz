@@ -6,7 +6,7 @@
     app:startDestination="@id/timeLineFragment">
     <fragment
         android:id="@+id/AddEventFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.AddEventFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.AddEventFragment"
         android:label="AddEventFragment"
         tools:layout="@layout/fragment_time_line">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.BookmarksFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.BookmarksFragment"
         android:label="fragment_bookmarks"
         tools:layout="@layout/fragment_bookmarks" >
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/calenderFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.CalenderFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.CalenderFragment"
         android:label="fragment_calender"
         tools:layout="@layout/fragment_calender" >
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/timeLineFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.TimeLineFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.TimeLineFragment"
         android:label="fragment_time_line"
         tools:layout="@layout/fragment_time_line" >
         <action
@@ -90,13 +90,10 @@
         <action
             android:id="@+id/action_timeLineFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
-        <action
-            android:id="@+id/action_timeLineFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.viewModel.MapsFragment"
+        android:name="dk.itu.moapd.copenhagenbuzz.adot_arbi.ui.view.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action

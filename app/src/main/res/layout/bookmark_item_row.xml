@@ -21,16 +21,19 @@
             android:padding="@dimen/margin_medium">
 
             <!-- Event Image -->
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/image_view_event_photo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:background="?colorSurfaceContainerLow"
+                android:contentDescription="@string/content_description_card"
                 android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
-                android:background="?colorSurfaceContainerLow" />
+                app:layout_constraintBottom_toBottomOf="parent" />
+
             <!-- Event Title -->
             <TextView
                 android:id="@+id/text_view_event_name"

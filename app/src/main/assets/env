@@ -1,0 +1,2 @@
+RT_DATABASE_URL=https://moad-2025-default-rtdb.europe-west1.firebasedatabase.app/
+STORAGE_DATABASE_URL=gs://moad-2025.firebasestorage.app
