@@ -48,14 +48,7 @@ class CalenderFragment : BaseFragment<FragmentCalenderBinding>(
 
         val calendarView = view.findViewById<MaterialCalendarView>(R.id.calendarView)
 
-        calenderViewModel.events.observe(viewLifecycleOwner) { eventList ->
-            val eventsMap = eventList.groupBy(
-                {
-                    val dateParts = getDateFromEpoch(it.eventDate).split("/")
-                    CalendarDay.from(dateParts[2].toInt(), dateParts[1].toInt(), dateParts[0].toInt())
-                },
-                { it.eventName }
-            )
+        calenderViewModel.eventsByDate.observe(viewLifecycleOwner) { eventsMap ->
             val color = requireContext().getColor(com.google.android.material.R.color.material_dynamic_primary50)
             calendarView.addDecorator(EventDecorator(eventsMap, color))
         }
