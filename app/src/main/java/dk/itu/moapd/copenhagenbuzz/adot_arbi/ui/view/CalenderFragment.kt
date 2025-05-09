@@ -13,6 +13,7 @@ import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.EventDecorator
 import dk.itu.moapd.copenhagenbuzz.adot_arbi.util.ShowEventDetails
 import java.time.LocalDate
 
+
 /**
  * A fragment subclass of [BaseFragment] responsible for displaying a calendar view
  * with visual markers for scheduled events and showing event details by date selection.
